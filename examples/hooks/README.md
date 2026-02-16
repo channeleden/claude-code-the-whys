@@ -296,6 +296,13 @@ Captures RTK cumulative stats at session start for delta tracking. Paired with `
 
 Full session analytics with 15 configurable sections, CLI config tool, and JSONL logging.
 
+**Plugin Install (Recommended)**:
+```bash
+claude plugin marketplace add FlorianBruniaux/claude-code-plugins
+claude plugin install session-summary@florian-claude-tools
+```
+Hooks are auto-wired, no manual configuration needed. See the [plugin repo](https://github.com/FlorianBruniaux/claude-code-plugins) for details.
+
 **Sections** (all configurable via env vars or config file):
 
 | Section | Default | Description |
@@ -406,7 +413,7 @@ Turns: 12 (8 interactive · 4 auto) · Avg 6.7s/turn
 }
 ```
 
-**Quick Install**: `~/.claude/hooks/session-summary-config.sh install` (copies hooks + updates settings.json)
+**Quick Install**: Plugin system (see above) or manual: `session-summary-config.sh install` (copies hooks + updates settings.json)
 
 **How it compares to tweakcc's `/cost` patch**:
 

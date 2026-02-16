@@ -475,6 +475,17 @@ Same agentic capabilities as Claude Code, but through a visual interface with no
 
 **Status**: Research preview (Pro $20/mo or Max $100-200/mo, macOS only, **VPN incompatible**)
 
+### Claude Code Plugins (Marketplace)
+
+Production-ready plugins from this guide, installable in one command:
+
+```bash
+claude plugin marketplace add FlorianBruniaux/claude-code-plugins
+claude plugin install session-summary@florian-claude-tools
+```
+
+> **[FlorianBruniaux/claude-code-plugins](https://github.com/FlorianBruniaux/claude-code-plugins)** — Session analytics, more plugins coming
+
 ### Complementary Resources
 
 | Project | Focus | Best For |
