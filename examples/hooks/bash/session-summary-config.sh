@@ -3,6 +3,8 @@
 # CLI configuration tool for session-summary.sh hook
 # Manages section toggles, section order, and provides utility commands
 #
+# Compatible with Bash 3.2+ (macOS default) - no associative arrays
+#
 # Usage:
 #   session-summary-config show              # Show current config with section status
 #   session-summary-config set KEY=VALUE     # Set a config value (e.g., git=1, errors=0)
@@ -36,72 +38,169 @@ else
     BOLD='' DIM='' CYAN='' GREEN='' YELLOW='' RED='' RESET=''
 fi
 
-# Defaults (must match session-summary.sh)
-declare -A DEFAULTS=(
-    [LOG_DIR]="$HOME/.claude/logs"
-    [SKIP]=0
-    [FILES]=1
-    [RTK]=auto
-    [GIT]=1
-    [ERRORS]=1
-    [LOC]=1
-    [RATIO]=1
-    [FEATURES]=1
-    [THINKING]=0
-    [CONTEXT]=0
-    [SECTIONS]="meta,duration,tools,errors,files,features,git,loc,models,cache,cost,rtk,ratio,thinking,context"
-)
+# ═══════════════════════════════════════════════════════════════════════════
+# Defaults (must match session-summary.sh) - Bash 3.2 compatible (no declare -A)
+# ═══════════════════════════════════════════════════════════════════════════
 
-# Section descriptions
-declare -A SECTION_DESC=(
-    [meta]="Session ID, name, branch"
-    [duration]="Wall time, active time, turns, exit reason"
-    [tools]="Tool calls breakdown (OK/ERR)"
-    [errors]="Error details by tool"
-    [files]="Files read/edited/created"
-    [features]="MCP servers, agents, skills, teams"
-    [git]="Git diff summary (+/- lines)"
-    [loc]="Lines of code via Edit/Write"
-    [models]="Model usage (reqs, tokens)"
-    [cache]="Cache hit rate"
-    [cost]="Estimated session cost"
-    [rtk]="RTK token savings"
-    [ratio]="Conversation ratio (interactive/auto)"
-    [thinking]="Thinking blocks count"
-    [context]="Context window estimate"
-)
+# Config keys and their defaults
+ALL_KEYS="LOG_DIR SKIP FILES RTK GIT ERRORS LOC RATIO FEATURES THINKING CONTEXT SECTIONS"
 
-# Section toggle keys (maps section name to config key)
-declare -A SECTION_KEYS=(
-    [meta]="" [duration]="" [tools]="" [models]="" [cache]="" [cost]=""
-    [files]="FILES"
-    [git]="GIT"
-    [errors]="ERRORS"
-    [loc]="LOC"
-    [rtk]="RTK"
-    [ratio]="RATIO"
-    [features]="FEATURES"
-    [thinking]="THINKING"
-    [context]="CONTEXT"
-)
+DEFAULT_LOG_DIR="$HOME/.claude/logs"
+DEFAULT_SKIP=0
+DEFAULT_FILES=1
+DEFAULT_RTK=auto
+DEFAULT_GIT=1
+DEFAULT_ERRORS=1
+DEFAULT_LOC=1
+DEFAULT_RATIO=1
+DEFAULT_FEATURES=1
+DEFAULT_THINKING=0
+DEFAULT_CONTEXT=0
+DEFAULT_SECTIONS="meta,duration,tools,errors,files,features,git,loc,models,cache,cost,rtk,ratio,thinking,context"
 
-# Load current config values
+# Current config values (loaded from file, overlaying defaults)
+CFG_LOG_DIR=""
+CFG_SKIP=""
+CFG_FILES=""
+CFG_RTK=""
+CFG_GIT=""
+CFG_ERRORS=""
+CFG_LOC=""
+CFG_RATIO=""
+CFG_FEATURES=""
+CFG_THINKING=""
+CFG_CONTEXT=""
+CFG_SECTIONS=""
+
+get_default() {
+    local key="$1"
+    case "$key" in
+        LOG_DIR)   echo "$DEFAULT_LOG_DIR" ;;
+        SKIP)      echo "$DEFAULT_SKIP" ;;
+        FILES)     echo "$DEFAULT_FILES" ;;
+        RTK)       echo "$DEFAULT_RTK" ;;
+        GIT)       echo "$DEFAULT_GIT" ;;
+        ERRORS)    echo "$DEFAULT_ERRORS" ;;
+        LOC)       echo "$DEFAULT_LOC" ;;
+        RATIO)     echo "$DEFAULT_RATIO" ;;
+        FEATURES)  echo "$DEFAULT_FEATURES" ;;
+        THINKING)  echo "$DEFAULT_THINKING" ;;
+        CONTEXT)   echo "$DEFAULT_CONTEXT" ;;
+        SECTIONS)  echo "$DEFAULT_SECTIONS" ;;
+        *) echo "" ;;
+    esac
+}
+
+get_cfg() {
+    local key="$1"
+    local val=""
+    case "$key" in
+        LOG_DIR)   val="$CFG_LOG_DIR" ;;
+        SKIP)      val="$CFG_SKIP" ;;
+        FILES)     val="$CFG_FILES" ;;
+        RTK)       val="$CFG_RTK" ;;
+        GIT)       val="$CFG_GIT" ;;
+        ERRORS)    val="$CFG_ERRORS" ;;
+        LOC)       val="$CFG_LOC" ;;
+        RATIO)     val="$CFG_RATIO" ;;
+        FEATURES)  val="$CFG_FEATURES" ;;
+        THINKING)  val="$CFG_THINKING" ;;
+        CONTEXT)   val="$CFG_CONTEXT" ;;
+        SECTIONS)  val="$CFG_SECTIONS" ;;
+    esac
+    echo "$val"
+}
+
+set_cfg() {
+    local key="$1"
+    local val="$2"
+    case "$key" in
+        LOG_DIR)   CFG_LOG_DIR="$val" ;;
+        SKIP)      CFG_SKIP="$val" ;;
+        FILES)     CFG_FILES="$val" ;;
+        RTK)       CFG_RTK="$val" ;;
+        GIT)       CFG_GIT="$val" ;;
+        ERRORS)    CFG_ERRORS="$val" ;;
+        LOC)       CFG_LOC="$val" ;;
+        RATIO)     CFG_RATIO="$val" ;;
+        FEATURES)  CFG_FEATURES="$val" ;;
+        THINKING)  CFG_THINKING="$val" ;;
+        CONTEXT)   CFG_CONTEXT="$val" ;;
+        SECTIONS)  CFG_SECTIONS="$val" ;;
+        *) return 1 ;;
+    esac
+}
+
+is_valid_key() {
+    local key="$1"
+    case "$key" in
+        LOG_DIR|SKIP|FILES|RTK|GIT|ERRORS|LOC|RATIO|FEATURES|THINKING|CONTEXT|SECTIONS) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+# Section metadata helpers
+get_section_desc() {
+    case "$1" in
+        meta)     echo "Session ID, name, branch" ;;
+        duration) echo "Wall time, active time, turns, exit reason" ;;
+        tools)    echo "Tool calls breakdown (OK/ERR)" ;;
+        errors)   echo "Error details by tool" ;;
+        files)    echo "Files read/edited/created" ;;
+        features) echo "MCP servers, agents, skills, teams" ;;
+        git)      echo "Git diff summary (+/- lines)" ;;
+        loc)      echo "Lines of code via Edit/Write" ;;
+        models)   echo "Model usage (reqs, tokens)" ;;
+        cache)    echo "Cache hit rate" ;;
+        cost)     echo "Estimated session cost" ;;
+        rtk)      echo "RTK token savings" ;;
+        ratio)    echo "Conversation ratio (interactive/auto)" ;;
+        thinking) echo "Thinking blocks count" ;;
+        context)  echo "Context window estimate" ;;
+        *) echo "" ;;
+    esac
+}
+
+# Maps section name to its config toggle key (empty = always on)
+get_section_key() {
+    case "$1" in
+        meta|duration|tools|models|cache|cost) echo "" ;;
+        files)    echo "FILES" ;;
+        git)      echo "GIT" ;;
+        errors)   echo "ERRORS" ;;
+        loc)      echo "LOC" ;;
+        rtk)      echo "RTK" ;;
+        ratio)    echo "RATIO" ;;
+        features) echo "FEATURES" ;;
+        thinking) echo "THINKING" ;;
+        context)  echo "CONTEXT" ;;
+        *) echo "" ;;
+    esac
+}
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Config loading/saving
+# ═══════════════════════════════════════════════════════════════════════════
+
 load_current_config() {
-    declare -gA CURRENT
-    for key in "${!DEFAULTS[@]}"; do
-        CURRENT[$key]="${DEFAULTS[$key]}"
+    # Start with defaults
+    for key in $ALL_KEYS; do
+        set_cfg "$key" "$(get_default "$key")"
     done
+
+    # Overlay from config file
     if [[ -f "$CONFIG_FILE" ]]; then
         while IFS='=' read -r key value; do
             key=$(echo "$key" | tr -d '[:space:]')
             value=$(echo "$value" | tr -d '[:space:]' | sed 's/^"//;s/"$//')
             [[ -z "$key" || "$key" == \#* ]] && continue
-            CURRENT[$key]="$value"
+            if is_valid_key "$key"; then
+                set_cfg "$key" "$value"
+            fi
         done < "$CONFIG_FILE"
     fi
 }
 
-# Write config file
 write_config() {
     mkdir -p "$CONFIG_DIR"
     {
@@ -109,13 +208,13 @@ write_config() {
         echo "# Generated by session-summary-config.sh"
         echo "# $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
         echo ""
-        for key in LOG_DIR SKIP FILES RTK GIT ERRORS LOC RATIO FEATURES THINKING CONTEXT SECTIONS; do
-            if [[ -n "${CURRENT[$key]+x}" ]]; then
-                if [[ "$key" == "SECTIONS" || "$key" == "LOG_DIR" ]]; then
-                    echo "${key}=\"${CURRENT[$key]}\""
-                else
-                    echo "${key}=${CURRENT[$key]}"
-                fi
+        for key in $ALL_KEYS; do
+            local val
+            val=$(get_cfg "$key")
+            if [[ "$key" == "SECTIONS" || "$key" == "LOG_DIR" ]]; then
+                echo "${key}=\"${val}\""
+            else
+                echo "${key}=${val}"
             fi
         done
     } > "$CONFIG_FILE"
@@ -138,18 +237,20 @@ cmd_show() {
     echo ""
 
     # Parse current section order
-    IFS=',' read -ra ordered_sections <<< "${CURRENT[SECTIONS]}"
+    local sections_str
+    sections_str=$(get_cfg "SECTIONS")
+    IFS=',' read -ra ordered_sections <<< "$sections_str"
     for section in "${ordered_sections[@]}"; do
         section=$(echo "$section" | tr -d ' ')
-        local key="${SECTION_KEYS[$section]:-}"
-        local desc="${SECTION_DESC[$section]:-}"
-        local status
+        local key desc status
+        key=$(get_section_key "$section")
+        desc=$(get_section_desc "$section")
 
         if [[ -z "$key" ]]; then
-            # Always-on section
             status="${GREEN}always on${RESET}"
         else
-            local val="${CURRENT[$key]:-${DEFAULTS[$key]:-0}}"
+            local val
+            val=$(get_cfg "$key")
             if [[ "$val" == "1" ]]; then
                 status="${GREEN}on${RESET}"
             elif [[ "$val" == "auto" ]]; then
@@ -164,8 +265,8 @@ cmd_show() {
 
     echo ""
     echo "${BOLD}Settings:${RESET}"
-    echo "  ${DIM}LOG_DIR:${RESET}  ${CURRENT[LOG_DIR]}"
-    echo "  ${DIM}SKIP:${RESET}     ${CURRENT[SKIP]}"
+    echo "  ${DIM}LOG_DIR:${RESET}  $(get_cfg LOG_DIR)"
+    echo "  ${DIM}SKIP:${RESET}     $(get_cfg SKIP)"
     echo ""
     echo "${DIM}Priority: env vars (SESSION_SUMMARY_*) > config file > defaults${RESET}"
 }
@@ -186,12 +287,12 @@ cmd_set() {
         key=$(echo "$key" | tr '[:lower:]' '[:upper:]')
 
         # Validate key
-        if [[ -z "${DEFAULTS[$key]+x}" ]]; then
-            echo "${RED}Error: Unknown key '$key'. Valid keys: ${!DEFAULTS[*]}${RESET}" >&2
+        if ! is_valid_key "$key"; then
+            echo "${RED}Error: Unknown key '$key'. Valid keys: $ALL_KEYS${RESET}" >&2
             exit 1
         fi
 
-        CURRENT[$key]="$value"
+        set_cfg "$key" "$value"
         echo "${GREEN}Set${RESET} $key=$value"
     done
 
@@ -202,8 +303,8 @@ cmd_set() {
 
 cmd_reset() {
     load_current_config
-    for key in "${!DEFAULTS[@]}"; do
-        CURRENT[$key]="${DEFAULTS[$key]}"
+    for key in $ALL_KEYS; do
+        set_cfg "$key" "$(get_default "$key")"
     done
     write_config
     echo "${GREEN}Config reset to defaults${RESET}"
@@ -216,15 +317,15 @@ cmd_sections() {
     if [[ $# -eq 0 ]]; then
         # Show current order
         echo "${BOLD}Current section order:${RESET}"
-        echo "  ${CURRENT[SECTIONS]}"
+        echo "  $(get_cfg SECTIONS)"
         echo ""
         echo "${DIM}Available sections:${RESET}"
-        echo "  ${!SECTION_DESC[*]}" | tr ' ' '\n' | sort | tr '\n' ',' | sed 's/,$/\n/'
+        echo "  cache,context,cost,duration,errors,features,files,git,loc,meta,models,ratio,rtk,thinking,tools"
         echo ""
         echo "${DIM}Usage: session-summary-config sections \"meta,duration,tools,files,...\"${RESET}"
     else
         # Set new order
-        CURRENT[SECTIONS]="$1"
+        set_cfg "SECTIONS" "$1"
         write_config
         echo "${GREEN}Section order updated:${RESET} $1"
     fi
@@ -236,14 +337,18 @@ cmd_preview() {
     echo ""
     echo "${BOLD}═══ Session Summary (Preview) ═════════${RESET}"
 
-    IFS=',' read -ra sections <<< "${CURRENT[SECTIONS]}"
+    local sections_str
+    sections_str=$(get_cfg "SECTIONS")
+    IFS=',' read -ra sections <<< "$sections_str"
     for section in "${sections[@]}"; do
         section=$(echo "$section" | tr -d ' ')
-        local key="${SECTION_KEYS[$section]:-}"
+        local key
+        key=$(get_section_key "$section")
         local enabled=true
 
         if [[ -n "$key" ]]; then
-            local val="${CURRENT[$key]:-${DEFAULTS[$key]:-0}}"
+            local val
+            val=$(get_cfg "$key")
             [[ "$val" != "1" && "$val" != "auto" ]] && enabled=false
         fi
 
@@ -328,7 +433,7 @@ cmd_install() {
     if [[ -f "$src_summary" ]]; then
         cp "$src_summary" "$HOOKS_DIR/session-summary.sh"
         chmod +x "$HOOKS_DIR/session-summary.sh"
-        echo "  ${GREEN}Copied${RESET} session-summary.sh → $HOOKS_DIR/"
+        echo "  ${GREEN}Copied${RESET} session-summary.sh -> $HOOKS_DIR/"
     else
         echo "  ${YELLOW}Skipped${RESET} session-summary.sh (not found at $src_summary)"
     fi
@@ -336,13 +441,13 @@ cmd_install() {
     if [[ -f "$src_baseline" ]]; then
         cp "$src_baseline" "$HOOKS_DIR/rtk-baseline.sh"
         chmod +x "$HOOKS_DIR/rtk-baseline.sh"
-        echo "  ${GREEN}Copied${RESET} rtk-baseline.sh → $HOOKS_DIR/"
+        echo "  ${GREEN}Copied${RESET} rtk-baseline.sh -> $HOOKS_DIR/"
     fi
 
     if [[ -f "$src_config" ]]; then
         cp "$src_config" "$HOOKS_DIR/session-summary-config.sh"
         chmod +x "$HOOKS_DIR/session-summary-config.sh"
-        echo "  ${GREEN}Copied${RESET} session-summary-config.sh → $HOOKS_DIR/"
+        echo "  ${GREEN}Copied${RESET} session-summary-config.sh -> $HOOKS_DIR/"
     fi
 
     echo ""
@@ -418,7 +523,7 @@ cmd_log() {
     echo ""
 
     tail -n "$count" "$LOG_FILE" | jq -r '
-        "═══ \(.session_name // "Unnamed") ═══",
+        "=== \(.session_name // "Unnamed") ===",
         "  ID: \(.session_id[:16])...  Branch: \(.git_branch)  Exit: \(.exit_reason // "unknown")",
         "  Duration: \((.duration_wall_ms / 1000 / 60) | floor)m  Turns: \(.turns)  Cost: $\(.cost_usd | tostring[:5])",
         "  Tools: \(.tool_calls | to_entries | map("\(.key):\(.value)") | join(", "))",
