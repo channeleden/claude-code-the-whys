@@ -46,18 +46,18 @@ flowchart TD
     end
 
     style CC fill:#E87E2F,color:#fff
-    style O1 fill:#7BC47F
-    style O2 fill:#7BC47F
-    style O3 fill:#7BC47F
+    style O1 fill:#7BC47F,color:#333
+    style O2 fill:#7BC47F,color:#333
+    style O3 fill:#7BC47F,color:#333
     style D1 fill:#6DB3F2,color:#fff
     style D2 fill:#6DB3F2,color:#fff
     style D3 fill:#6DB3F2,color:#fff
     style D4 fill:#6DB3F2,color:#fff
-    style OP1 fill:#F5E6D3
-    style OP2 fill:#F5E6D3
-    style OP3 fill:#F5E6D3
-    style L1 fill:#B8B8B8
-    style L2 fill:#B8B8B8
+    style OP1 fill:#F5E6D3,color:#333
+    style OP2 fill:#F5E6D3,color:#333
+    style OP3 fill:#F5E6D3,color:#333
+    style L1 fill:#B8B8B8,color:#333
+    style L2 fill:#B8B8B8,color:#333
 ```
 
 <details>
@@ -105,16 +105,16 @@ flowchart LR
     CC1 --> P1 --> P2 --> S1 --> S2 --> EXT
     EXT --> S2 --> S3 --> P3 --> CC3
 
-    style CC1 fill:#F5E6D3
-    style CC2 fill:#B8B8B8
-    style CC3 fill:#7BC47F
+    style CC1 fill:#F5E6D3,color:#333
+    style CC2 fill:#B8B8B8,color:#333
+    style CC3 fill:#7BC47F,color:#333
     style P1 fill:#6DB3F2,color:#fff
     style P2 fill:#6DB3F2,color:#fff
     style P3 fill:#6DB3F2,color:#fff
     style S1 fill:#E87E2F,color:#fff
     style S2 fill:#E87E2F,color:#fff
     style S3 fill:#E87E2F,color:#fff
-    style EXT fill:#B8B8B8
+    style EXT fill:#B8B8B8,color:#333
 ```
 
 <details>
@@ -200,11 +200,11 @@ flowchart TD
     style A fill:#E87E2F,color:#fff
     style B fill:#6DB3F2,color:#fff
     style C fill:#6DB3F2,color:#fff
-    style D fill:#F5E6D3
-    style E fill:#B8B8B8
-    style A1 fill:#B8B8B8
-    style B1 fill:#B8B8B8
-    style D1 fill:#B8B8B8
+    style D fill:#F5E6D3,color:#333
+    style E fill:#B8B8B8,color:#333
+    style A1 fill:#B8B8B8,color:#333
+    style B1 fill:#B8B8B8,color:#333
+    style D1 fill:#B8B8B8,color:#333
 ```
 
 <details>

@@ -37,14 +37,14 @@ flowchart TD
     E3 --> E4(Gradual rollout\nwith guardrails)
     E4 --> E5([Team adoption ✓])
 
-    style A fill:#F5E6D3
+    style A fill:#F5E6D3,color:#333
     style B fill:#E87E2F,color:#fff
     style C fill:#6DB3F2,color:#fff
     style D fill:#6DB3F2,color:#fff
     style E fill:#6DB3F2,color:#fff
-    style C4 fill:#7BC47F
-    style D4 fill:#7BC47F
-    style E5 fill:#7BC47F
+    style C4 fill:#7BC47F,color:#333
+    style D4 fill:#7BC47F,color:#333
+    style E5 fill:#7BC47F,color:#333
 ```
 
 <details>
@@ -90,9 +90,9 @@ flowchart LR
     style U fill:#6DB3F2,color:#fff
     style V fill:#E87E2F,color:#fff
     style A fill:#E87E2F,color:#fff
-    style L fill:#7BC47F
+    style L fill:#7BC47F,color:#333
     style NEXT fill:#E87E2F,color:#fff
-    style DONE fill:#7BC47F
+    style DONE fill:#7BC47F,color:#333
     style TRAP fill:#E85D5D,color:#fff
 ```
 
@@ -142,19 +142,19 @@ flowchart TD
     M -->|Yes| I
     M -->|No| N([Pair with domain expert\nor verify by testing])
 
-    style A fill:#F5E6D3
+    style A fill:#F5E6D3,color:#333
     style B fill:#E87E2F,color:#fff
     style C fill:#E87E2F,color:#fff
     style F fill:#E87E2F,color:#fff
     style H fill:#E87E2F,color:#fff
     style K fill:#E87E2F,color:#fff
     style M fill:#E87E2F,color:#fff
-    style D fill:#7BC47F
-    style I fill:#7BC47F
+    style D fill:#7BC47F,color:#333
+    style I fill:#7BC47F,color:#333
     style E fill:#E85D5D,color:#fff
     style L fill:#E85D5D,color:#fff
     style N fill:#6DB3F2,color:#fff
-    style J fill:#F5E6D3
+    style J fill:#F5E6D3,color:#333
 ```
 
 <details>

@@ -28,17 +28,17 @@ flowchart TD
     D1[Glob, Grep, Read,\nBash, Task, MCP tools] --> D
     E1[Previous messages\n+ tool results] --> E
 
-    style A fill:#F5E6D3
+    style A fill:#F5E6D3,color:#333
     style B fill:#6DB3F2,color:#fff
     style C fill:#6DB3F2,color:#fff
     style D fill:#6DB3F2,color:#fff
     style E fill:#6DB3F2,color:#fff
     style F fill:#E87E2F,color:#fff
-    style G fill:#7BC47F
-    style B1 fill:#B8B8B8
-    style C1 fill:#B8B8B8
-    style D1 fill:#B8B8B8
-    style E1 fill:#B8B8B8
+    style G fill:#7BC47F,color:#333
+    style B1 fill:#B8B8B8,color:#333
+    style C1 fill:#B8B8B8,color:#333
+    style D1 fill:#B8B8B8,color:#333
+    style E1 fill:#B8B8B8,color:#333
 ```
 
 <details>
@@ -85,16 +85,16 @@ flowchart LR
     H --> I(Generate Response)
     I --> J([Display to User])
 
-    style A fill:#F5E6D3
+    style A fill:#F5E6D3,color:#333
     style B fill:#6DB3F2,color:#fff
     style C fill:#6DB3F2,color:#fff
     style D fill:#E87E2F,color:#fff
     style E fill:#E87E2F,color:#fff
     style F fill:#E87E2F,color:#fff
-    style G fill:#B8B8B8
-    style H fill:#B8B8B8
+    style G fill:#B8B8B8,color:#333
+    style H fill:#B8B8B8,color:#333
     style I fill:#6DB3F2,color:#fff
-    style J fill:#7BC47F
+    style J fill:#7BC47F,color:#333
 ```
 
 <details>
@@ -141,7 +141,7 @@ flowchart TD
     I -->|No| F
     I -->|Yes| H
 
-    style A fill:#F5E6D3
+    style A fill:#F5E6D3,color:#333
     style B fill:#E87E2F,color:#fff
     style C fill:#E87E2F,color:#fff
     style D fill:#E87E2F,color:#fff
@@ -149,7 +149,7 @@ flowchart TD
     style I fill:#E87E2F,color:#fff
     style E fill:#6DB3F2,color:#fff
     style F fill:#6DB3F2,color:#fff
-    style H fill:#7BC47F
+    style H fill:#7BC47F,color:#333
 ```
 
 <details>
@@ -198,16 +198,16 @@ flowchart TD
         B3["Use only in:\nCI/CD, sandboxed\nenvironments"] --> B2
     end
 
-    style D2 fill:#7BC47F
+    style D2 fill:#7BC47F,color:#333
     style D4 fill:#E87E2F,color:#fff
     style D6 fill:#E87E2F,color:#fff
     style D8 fill:#E87E2F,color:#fff
-    style A2 fill:#7BC47F
-    style A4 fill:#7BC47F
+    style A2 fill:#7BC47F,color:#333
+    style A4 fill:#7BC47F,color:#333
     style A6 fill:#E87E2F,color:#fff
     style A8 fill:#E87E2F,color:#fff
     style B2 fill:#E85D5D,color:#fff
-    style B3 fill:#F5E6D3
+    style B3 fill:#F5E6D3,color:#333
 ```
 
 <details>

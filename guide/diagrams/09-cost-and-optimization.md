@@ -31,16 +31,16 @@ flowchart TD
     G -->|No: just large| J["Large but clear tasks:\nbig refactors,\ndoc generation"]
     J --> F
 
-    style A fill:#F5E6D3
+    style A fill:#F5E6D3,color:#333
     style B fill:#E87E2F,color:#fff
     style G fill:#E87E2F,color:#fff
-    style D fill:#7BC47F
+    style D fill:#7BC47F,color:#333
     style F fill:#6DB3F2,color:#fff
     style I fill:#E87E2F,color:#fff
-    style C fill:#B8B8B8
-    style E fill:#B8B8B8
-    style H fill:#B8B8B8
-    style J fill:#B8B8B8
+    style C fill:#B8B8B8,color:#333
+    style E fill:#B8B8B8,color:#333
+    style H fill:#B8B8B8,color:#333
+    style J fill:#B8B8B8,color:#333
 ```
 
 <details>
@@ -89,18 +89,18 @@ flowchart TD
 
     J -->|No| L([Baseline cost\nacceptable])
 
-    style A fill:#F5E6D3
+    style A fill:#F5E6D3,color:#333
     style B fill:#E87E2F,color:#fff
     style D fill:#E87E2F,color:#fff
     style F fill:#E87E2F,color:#fff
     style H fill:#E87E2F,color:#fff
     style J fill:#E87E2F,color:#fff
-    style Z fill:#7BC47F
-    style Z2 fill:#7BC47F
-    style Z3 fill:#7BC47F
-    style Z4 fill:#7BC47F
-    style Z5 fill:#7BC47F
-    style L fill:#B8B8B8
+    style Z fill:#7BC47F,color:#333
+    style Z2 fill:#7BC47F,color:#333
+    style Z3 fill:#7BC47F,color:#333
+    style Z4 fill:#7BC47F,color:#333
+    style Z5 fill:#7BC47F,color:#333
+    style L fill:#B8B8B8,color:#333
 ```
 
 <details>
@@ -160,11 +160,11 @@ flowchart LR
     style F3 fill:#E85D5D,color:#fff
     style F4 fill:#E85D5D,color:#fff
     style P4 fill:#E87E2F,color:#fff
-    style P1 fill:#7BC47F
-    style M1 fill:#7BC47F
-    style M2 fill:#7BC47F
-    style M3 fill:#7BC47F
-    style M4 fill:#7BC47F
+    style P1 fill:#7BC47F,color:#333
+    style M1 fill:#7BC47F,color:#333
+    style M2 fill:#7BC47F,color:#333
+    style M3 fill:#7BC47F,color:#333
+    style M4 fill:#7BC47F,color:#333
     style T1 fill:#6DB3F2,color:#fff
     style T2 fill:#6DB3F2,color:#fff
     style T3 fill:#6DB3F2,color:#fff
@@ -231,11 +231,11 @@ flowchart LR
     MODEL --> RESULT([Optimized:\n10-20% of baseline\nfor typical usage])
 
     style BASE fill:#E85D5D,color:#fff
-    style R3 fill:#7BC47F
-    style C3 fill:#7BC47F
-    style CM3 fill:#7BC47F
-    style MO3 fill:#7BC47F
-    style RESULT fill:#7BC47F
+    style R3 fill:#7BC47F,color:#333
+    style C3 fill:#7BC47F,color:#333
+    style CM3 fill:#7BC47F,color:#333
+    style MO3 fill:#7BC47F,color:#333
+    style RESULT fill:#7BC47F,color:#333
 ```
 
 <details>

@@ -42,17 +42,17 @@ flowchart LR
     L3 --> BLOCKED([Threat contained])
 
     style THREAT fill:#E85D5D,color:#fff
-    style P1 fill:#7BC47F
-    style P2 fill:#7BC47F
-    style P3 fill:#7BC47F
-    style P4 fill:#7BC47F
+    style P1 fill:#7BC47F,color:#333
+    style P2 fill:#7BC47F,color:#333
+    style P3 fill:#7BC47F,color:#333
+    style P4 fill:#7BC47F,color:#333
     style D1 fill:#6DB3F2,color:#fff
     style D2 fill:#6DB3F2,color:#fff
     style D3 fill:#6DB3F2,color:#fff
     style R1 fill:#E87E2F,color:#fff
     style R2 fill:#E87E2F,color:#fff
     style R3 fill:#E87E2F,color:#fff
-    style BLOCKED fill:#7BC47F
+    style BLOCKED fill:#7BC47F,color:#333
 ```
 
 <details>
@@ -104,10 +104,10 @@ flowchart TD
     NOTE["Rule of thumb:\nIf in doubt → sandbox it\nCost: low. Risk without it: high."] --> A
 
     style C fill:#E85D5D,color:#fff
-    style F fill:#7BC47F
-    style G fill:#7BC47F
-    style H fill:#7BC47F
-    style K fill:#7BC47F
+    style F fill:#7BC47F,color:#333
+    style G fill:#7BC47F,color:#333
+    style H fill:#7BC47F,color:#333
+    style K fill:#7BC47F,color:#333
     style L fill:#6DB3F2,color:#fff
     style M fill:#E87E2F,color:#fff
     style B fill:#E87E2F,color:#fff
@@ -115,7 +115,7 @@ flowchart TD
     style E fill:#E87E2F,color:#fff
     style I fill:#E87E2F,color:#fff
     style J fill:#E87E2F,color:#fff
-    style NOTE fill:#F5E6D3
+    style NOTE fill:#F5E6D3,color:#333
 ```
 
 <details>
@@ -163,11 +163,11 @@ flowchart TD
         GB & GC & GD --> GE{All checks\npass?}
         GE -->|Yes| GF([Safe to deploy])
         GE -->|No| GG([Fix before deploy])
-        style GA fill:#7BC47F
-        style GB fill:#7BC47F
-        style GC fill:#7BC47F
-        style GD fill:#7BC47F
-        style GF fill:#7BC47F
+        style GA fill:#7BC47F,color:#333
+        style GB fill:#7BC47F,color:#333
+        style GC fill:#7BC47F,color:#333
+        style GD fill:#7BC47F,color:#333
+        style GF fill:#7BC47F,color:#333
         style GE fill:#E87E2F,color:#fff
         style GG fill:#6DB3F2,color:#fff
     end
@@ -215,17 +215,17 @@ flowchart LR
     FAIL --> FIX([Developer fixes\nre-trigger CI])
     FIX --> CC
 
-    style PR fill:#F5E6D3
-    style GH fill:#B8B8B8
+    style PR fill:#F5E6D3,color:#333
+    style GH fill:#B8B8B8,color:#333
     style CC fill:#E87E2F,color:#fff
     style T1 fill:#6DB3F2,color:#fff
     style T2 fill:#6DB3F2,color:#fff
     style T3 fill:#6DB3F2,color:#fff
     style T4 fill:#6DB3F2,color:#fff
     style AGG fill:#E87E2F,color:#fff
-    style OK fill:#7BC47F
+    style OK fill:#7BC47F,color:#333
     style FAIL fill:#E85D5D,color:#fff
-    style FIX fill:#F5E6D3
+    style FIX fill:#F5E6D3,color:#333
 ```
 
 <details>

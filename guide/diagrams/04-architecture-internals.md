@@ -29,13 +29,13 @@ flowchart TD
     J -->|Yes| A
     J -->|No| K([Session ends])
 
-    style A fill:#F5E6D3
+    style A fill:#F5E6D3,color:#333
     style C fill:#E87E2F,color:#fff
     style D fill:#E87E2F,color:#fff
     style F fill:#6DB3F2,color:#fff
-    style I fill:#7BC47F
+    style I fill:#7BC47F,color:#333
     style J fill:#E87E2F,color:#fff
-    style K fill:#B8B8B8
+    style K fill:#B8B8B8,color:#333
 ```
 
 <details>
@@ -107,15 +107,15 @@ flowchart TD
     style R2 fill:#6DB3F2,color:#fff
     style R3 fill:#6DB3F2,color:#fff
     style R4 fill:#6DB3F2,color:#fff
-    style W1 fill:#F5E6D3
-    style W2 fill:#F5E6D3
-    style W3 fill:#F5E6D3
+    style W1 fill:#F5E6D3,color:#333
+    style W2 fill:#F5E6D3,color:#333
+    style W3 fill:#F5E6D3,color:#333
     style E1 fill:#E85D5D,color:#fff
     style E2 fill:#E87E2F,color:#fff
-    style WB1 fill:#7BC47F
-    style WB2 fill:#7BC47F
-    style WF1 fill:#B8B8B8
-    style WF2 fill:#B8B8B8
+    style WB1 fill:#7BC47F,color:#333
+    style WB2 fill:#7BC47F,color:#333
+    style WF1 fill:#B8B8B8,color:#333
+    style WF2 fill:#B8B8B8,color:#333
 ```
 
 <details>

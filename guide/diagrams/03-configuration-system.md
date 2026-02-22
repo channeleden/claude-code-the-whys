@@ -27,10 +27,10 @@ flowchart TD
     style A fill:#E87E2F,color:#fff
     style B fill:#6DB3F2,color:#fff
     style C fill:#6DB3F2,color:#fff
-    style D fill:#F5E6D3
-    style E fill:#B8B8B8
-    style A1 fill:#B8B8B8
-    style E1 fill:#B8B8B8
+    style D fill:#F5E6D3,color:#333
+    style E fill:#B8B8B8,color:#333
+    style A1 fill:#B8B8B8,color:#333
+    style E1 fill:#B8B8B8,color:#333
 ```
 
 <details>
@@ -84,11 +84,11 @@ flowchart LR
     Q --> |Complex sub-task| AGENTS
 
     style S1 fill:#6DB3F2,color:#fff
-    style S4 fill:#7BC47F
-    style C1 fill:#F5E6D3
-    style C4 fill:#7BC47F
+    style S4 fill:#7BC47F,color:#333
+    style C1 fill:#F5E6D3,color:#333
+    style C4 fill:#7BC47F,color:#333
     style A1 fill:#E87E2F,color:#fff
-    style A4 fill:#7BC47F
+    style A4 fill:#7BC47F,color:#333
     style Q fill:#E87E2F,color:#fff
 ```
 
@@ -186,8 +186,8 @@ flowchart TD
     style I fill:#E87E2F,color:#fff
     style K fill:#6DB3F2,color:#fff
     style M fill:#6DB3F2,color:#fff
-    style C fill:#7BC47F
-    style J fill:#7BC47F
+    style C fill:#7BC47F,color:#333
+    style J fill:#7BC47F,color:#333
 ```
 
 <details>

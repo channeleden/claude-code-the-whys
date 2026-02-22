@@ -42,9 +42,9 @@ flowchart LR
 
     GREEN --> BLUE --> ORANGE --> RED
 
-    style G1 fill:#7BC47F
-    style G2 fill:#7BC47F
-    style G3 fill:#7BC47F
+    style G1 fill:#7BC47F,color:#333
+    style G2 fill:#7BC47F,color:#333
+    style G3 fill:#7BC47F,color:#333
     style B1 fill:#6DB3F2,color:#fff
     style B2 fill:#6DB3F2,color:#fff
     style B3 fill:#6DB3F2,color:#fff
@@ -94,13 +94,13 @@ flowchart TD
     style A fill:#E87E2F,color:#fff
     style B fill:#6DB3F2,color:#fff
     style C fill:#6DB3F2,color:#fff
-    style D fill:#F5E6D3
-    style E fill:#B8B8B8
-    style A1 fill:#B8B8B8
-    style B1 fill:#B8B8B8
-    style C1 fill:#B8B8B8
-    style D1 fill:#B8B8B8
-    style E1 fill:#B8B8B8
+    style D fill:#F5E6D3,color:#333
+    style E fill:#B8B8B8,color:#333
+    style A1 fill:#B8B8B8,color:#333
+    style B1 fill:#B8B8B8,color:#333
+    style C1 fill:#B8B8B8,color:#333
+    style D1 fill:#B8B8B8,color:#333
+    style E1 fill:#B8B8B8,color:#333
 ```
 
 <details>
@@ -199,9 +199,9 @@ flowchart TD
         G6 -->|Yes| G7(/compact)
         G7 --> G2
         G6 -->|No| G2
-        style G1 fill:#7BC47F
-        style G4 fill:#7BC47F
-        style G5 fill:#7BC47F
+        style G1 fill:#7BC47F,color:#333
+        style G4 fill:#7BC47F,color:#333
+        style G5 fill:#7BC47F,color:#333
         style G3 fill:#E87E2F,color:#fff
         style G6 fill:#E87E2F,color:#fff
         style G7 fill:#6DB3F2,color:#fff

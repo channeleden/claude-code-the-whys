@@ -40,9 +40,9 @@ flowchart TD
     style D fill:#E87E2F,color:#fff
     style H fill:#E87E2F,color:#fff
     style J fill:#E87E2F,color:#fff
-    style G fill:#7BC47F
+    style G fill:#7BC47F,color:#333
     style K fill:#6DB3F2,color:#fff
-    style N fill:#7BC47F
+    style N fill:#7BC47F,color:#333
 ```
 
 <details>
@@ -95,12 +95,12 @@ flowchart LR
     M --> K
     L -->|Yes| N([Merge ✓])
 
-    style A fill:#F5E6D3
+    style A fill:#F5E6D3,color:#333
     style B fill:#6DB3F2,color:#fff
     style D fill:#E87E2F,color:#fff
     style I fill:#E87E2F,color:#fff
     style L fill:#E87E2F,color:#fff
-    style N fill:#7BC47F
+    style N fill:#7BC47F,color:#333
 ```
 
 <details>
@@ -152,13 +152,13 @@ flowchart TD
     N -->|No| J
     N -->|Yes| O([Task done ✓])
 
-    style A fill:#F5E6D3
+    style A fill:#F5E6D3,color:#333
     style B fill:#6DB3F2,color:#fff
     style F fill:#E87E2F,color:#fff
     style L fill:#E87E2F,color:#fff
     style N fill:#E87E2F,color:#fff
-    style G fill:#F5E6D3
-    style O fill:#7BC47F
+    style G fill:#F5E6D3,color:#333
+    style O fill:#7BC47F,color:#333
 ```
 
 <details>
@@ -219,11 +219,11 @@ flowchart TD
     O -->|No| P(Different\napproach needed)
     P --> F
 
-    style A fill:#F5E6D3
+    style A fill:#F5E6D3,color:#333
     style D fill:#E87E2F,color:#fff
     style G fill:#E87E2F,color:#fff
     style O fill:#E87E2F,color:#fff
-    style E fill:#7BC47F
+    style E fill:#7BC47F,color:#333
     style L fill:#6DB3F2,color:#fff
     style P fill:#E85D5D,color:#fff
 ```

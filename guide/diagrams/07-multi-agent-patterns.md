@@ -40,16 +40,16 @@ flowchart TD
     style OW1 fill:#6DB3F2,color:#fff
     style OW2 fill:#6DB3F2,color:#fff
     style OW3 fill:#6DB3F2,color:#fff
-    style OR fill:#7BC47F
-    style PA fill:#F5E6D3
-    style PB fill:#F5E6D3
-    style PC fill:#F5E6D3
-    style PD fill:#7BC47F
+    style OR fill:#7BC47F,color:#333
+    style PA fill:#F5E6D3,color:#333
+    style PB fill:#F5E6D3,color:#333
+    style PC fill:#F5E6D3,color:#333
+    style PD fill:#7BC47F,color:#333
     style RR fill:#E87E2F,color:#fff
     style RC fill:#6DB3F2,color:#fff
     style RT fill:#6DB3F2,color:#fff
     style RD fill:#6DB3F2,color:#fff
-    style RO fill:#7BC47F
+    style RO fill:#7BC47F,color:#333
 ```
 
 <details>
@@ -97,13 +97,13 @@ flowchart LR
     style CA fill:#6DB3F2,color:#fff
     style CB fill:#6DB3F2,color:#fff
     style CC fill:#6DB3F2,color:#fff
-    style CA1 fill:#7BC47F
-    style CB1 fill:#7BC47F
-    style CC1 fill:#7BC47F
-    style MERGE fill:#7BC47F
-    style WA fill:#F5E6D3
-    style WB fill:#F5E6D3
-    style WC fill:#F5E6D3
+    style CA1 fill:#7BC47F,color:#333
+    style CB1 fill:#7BC47F,color:#333
+    style CC1 fill:#7BC47F,color:#333
+    style MERGE fill:#7BC47F,color:#333
+    style WA fill:#F5E6D3,color:#333
+    style WB fill:#F5E6D3,color:#333
+    style WC fill:#F5E6D3,color:#333
 ```
 
 <details>
@@ -196,14 +196,14 @@ flowchart LR
     CI1 & CI2 & CI3 & CIN --> AGG(Aggregate\nresults)
     AGG --> REV([Integration review\n~10x faster than sequential])
 
-    style BT fill:#F5E6D3
+    style BT fill:#F5E6D3,color:#333
     style DEC fill:#E87E2F,color:#fff
     style CI1 fill:#6DB3F2,color:#fff
     style CI2 fill:#6DB3F2,color:#fff
     style CI3 fill:#6DB3F2,color:#fff
     style CIN fill:#6DB3F2,color:#fff
-    style AGG fill:#B8B8B8
-    style REV fill:#7BC47F
+    style AGG fill:#B8B8B8,color:#333
+    style REV fill:#7BC47F,color:#333
 ```
 
 <details>
@@ -251,18 +251,18 @@ flowchart TD
 
     B2{Need planning\nseparation?} --> L([Dual-instance\nPlanner + Executor])
 
-    style A fill:#F5E6D3
+    style A fill:#F5E6D3,color:#333
     style B fill:#E87E2F,color:#fff
     style D fill:#E87E2F,color:#fff
     style E fill:#E87E2F,color:#fff
     style H fill:#E87E2F,color:#fff
     style B2 fill:#E87E2F,color:#fff
-    style C fill:#B8B8B8
-    style F fill:#7BC47F
-    style G fill:#7BC47F
-    style I fill:#7BC47F
-    style J fill:#7BC47F
-    style K fill:#7BC47F
+    style C fill:#B8B8B8,color:#333
+    style F fill:#7BC47F,color:#333
+    style G fill:#7BC47F,color:#333
+    style I fill:#7BC47F,color:#333
+    style J fill:#7BC47F,color:#333
+    style K fill:#7BC47F,color:#333
     style L fill:#6DB3F2,color:#fff
 ```
 
