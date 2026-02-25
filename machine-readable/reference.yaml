@@ -1269,6 +1269,18 @@ ecosystem:
       agents_snapshot: 23  # As of 2026-01-19 (evolves over time)
       positioning: "Discovery tool - Use Matrix to find/compare agents, use this guide to master Claude Code"
       note: "External resource - verify data freshness as agents/criteria evolve"
+    context_evaluator:
+      url: "context-evaluator.ai"
+      github: "github.com/PackmindHub/context-evaluator"
+      maintainer: "Packmind (Cédric Teyton)"
+      license: "Apache-2.0"
+      focus: "Scanner for CLAUDE.md/AGENTS.md/copilot-instructions.md — 17 evaluators (13 error detectors + 4 suggestion generators)"
+      updated: "2026-02-23"
+      tech_stack: "Bun, React, Tailwind CSS, TypeScript"
+      supports: ["Claude Code", "Cursor", "GitHub Copilot", "OpenCode", "OpenAI Codex"]
+      interface: ["CLI", "Web UI"]
+      guide_section: "ai-ecosystem.md#related-resources"
+      note: "v0.3.0, experimental (8 stars as of 2026-02-25) — mention only, no dedicated section"
   practitioner_insights:
     dave_van_veen:
       url: "davevanveen.com/blog/agentic_coding/"

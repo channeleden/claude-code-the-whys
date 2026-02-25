@@ -5171,7 +5171,7 @@ These rules only apply when working with API files:
 - Include rate limiting middleware
 ```
 
-This enables progressive context loading—rules only appear when Claude works with matching files.
+This enables progressive context loading—rules only appear when Claude works with matching files. Real-world example: Avo migrated a 600-line CLAUDE.md to ~15 path-scoped files, reporting sharper responses and easier maintenance across domains. ([Björn Jóhannsson](https://www.linkedin.com/posts/bj%C3%B6rn-j%C3%B3hannsson-72435083_your-claudemd-is-eating-your-context-window-activity-7431750526729338881-ODSs))
 
 **How matching works**:
 - Patterns use glob syntax (same as `.gitignore`)
@@ -10231,6 +10231,50 @@ Device C ──┘
 
 > **Source**: [doobidoo/mcp-memory-service GitHub](https://github.com/doobidoo/mcp-memory-service) (791 stars, v10.0.2)
 
+### Kairn: Knowledge Graph Memory with Biological Decay
+
+> **⚠️ Status: Under Testing** - Evaluated Feb 2026. MIT licensed, Python 100%. Feedback welcome!
+
+**Purpose**: Long-term project memory organized as a knowledge graph with automatic decay — stale information expires on its own, preventing context pollution.
+
+**Key differentiators vs doobidoo/Serena**:
+- **Typed relationships**: `depends-on`, `resolves`, `causes` — captures causality, not just content
+- **Biological decay model**: solutions persist ~200 days, workarounds ~50 days — auto-pruning without `delete_memory` calls
+- **18 MCP tools**: graph ops, project tracking, experience management, intelligence layer (full-text search, confidence routing, cross-workspace patterns)
+
+| Feature | Serena | doobidoo | Kairn |
+|---------|--------|----------|-------|
+| Storage model | Key-value | Semantic embeddings | Knowledge graph |
+| Memory decay / auto-expiry | No | No | Yes (biological) |
+| Typed relationships | No | Tags only | depends-on / resolves / causes |
+| Full-text search | No | Yes | Yes |
+| Auto-pruning stale info | No | No | Yes |
+
+**When Kairn makes sense**:
+- Long-running projects where workarounds from months ago become noise
+- When causality matters: "this breaks *because* of that", "this fix *resolves* that bug"
+- Teams wanting automatic knowledge hygiene without manual cleanup
+
+**MCP Config**:
+
+```json
+"kairn": {
+  "command": "python",
+  "args": ["-m", "kairn", "serve"],
+  "description": "Knowledge graph memory with biological decay"
+}
+```
+
+**Install**:
+
+```bash
+pip install kairn
+# or from source:
+git clone https://github.com/kairn-ai/kairn && cd kairn && pip install -e .
+```
+
+> **Source**: [kairn-ai/kairn GitHub](https://github.com/kairn-ai/kairn) (MIT, Python 100%)
+
 ### MCP Memory Stack: Complementarity Patterns
 
 > **⚠️ Experimental** - These patterns combine multiple MCP servers. Test in your workflow before relying on them.
@@ -10257,14 +10301,15 @@ Device C ──┘
 
 **Comparison Matrix**:
 
-| Capability | Serena | grepai | doobidoo |
-|------------|--------|--------|----------|
-| Cross-session memory | Key-value | No | Semantic |
-| Cross-IDE memory | No | No | Yes |
-| Cross-device sync | No | No | Yes (Cloudflare) |
-| Knowledge Graph | No | Call graph | Decision graph |
-| Fuzzy search | No | Code | Memory |
-| Tags/categories | No | No | Yes |
+| Capability | Serena | grepai | doobidoo | Kairn |
+|------------|--------|--------|----------|-------|
+| Cross-session memory | Key-value | No | Semantic | Knowledge graph |
+| Cross-IDE memory | No | No | Yes | Yes |
+| Cross-device sync | No | No | Yes (Cloudflare) | No |
+| Knowledge Graph | No | Call graph | Decision graph | Typed relationships |
+| Fuzzy search | No | Code | Memory | Full-text + semantic |
+| Tags/categories | No | No | Yes | Yes |
+| Memory decay / auto-expiry | No | No | No | Yes (biological) |
 
 **Usage Patterns**:
 
@@ -10336,6 +10381,8 @@ retrieve_memory("work in progress?")
 | "Share across devices" | doobidoo + Cloudflare | Cloud sync |
 | "Code symbol location" | Serena `find_symbol()` | Code indexation |
 | "Code by intent" | grepai `search()` | Semantic code search |
+| "Long-term project memory, auto-expiry" | Kairn | Biological decay model |
+| "Why did X break / what resolved Y?" | Kairn | Typed relationships (resolves, causes) |
 
 **Current Limitations** (doobidoo):
 
@@ -10344,7 +10391,7 @@ retrieve_memory("work in progress?")
 | No versioning | Can't see decision history | Include dates in content |
 | No permissions | Anyone can modify | Use separate DBs per team |
 | No source linking | No link to file/line | Include file refs in content |
-| No expiration | Stale memories persist | Manual cleanup with `delete_memory` |
+| No expiration | Stale memories persist | Manual cleanup with `delete_memory` OR use Kairn (auto-decay) |
 | No git integration | No branch-aware memory | Tag with branch name |
 
 </details>

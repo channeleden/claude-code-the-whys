@@ -143,4 +143,4 @@ The challenge agent recommended **3/5** (vs initial 4/5) for the following reaso
 - **Final score**: **3/5**
 - **Action**: **Integrate** — `observability.md` + mention in `third-party-tools.md`
 - **Timing**: 2-4 weeks (wait for repo to reach ~200+ stars)
-- **Confidence**: **Medium** — real gap confirmed, tool verified functional, but adoption too recent for high confidence. Wes McKinney's credibility (pandas) is a strong positive signal.
+- **Confidence**: **Medium** — real gap confirmed, tool verified functional, but adoption too recent for high confidence. Wes McKinney's credibility (pandas) is a strong positive signal. 

@@ -127,4 +127,16 @@ Ajouter une mise en garde :
 
 ---
 
+---
+
+## 📣 Réception communautaire
+
+La communauté a simplifié les résultats en "delete your CLAUDE.md" (cf. [Charly Wargnier, LinkedIn](https://www.linkedin.com/posts/charlywargnier_everyone-is-screaming-delete-your-claudemd-activity-7431988275193622528-pfBW)).
+
+**Nuance importante à intégrer dans le guide** : la commande `/init` génère un context file LLM-generated → c'est ce type de fichier qui dégrade les performances (-3%). Les fichiers écrits manuellement restent bénéfiques (+4%).
+
+D'autres posts (ex: [Daniel Vikulov, LinkedIn](https://www.linkedin.com/)) paraphrasent fidèlement l'étude sans valeur ajoutée — ne pas les citer comme sources indépendantes.
+
+---
+
 *Évaluation effectuée le 2026-02-19 | Méthode: WebFetch + Perplexity + grepai_search + agent challenge*
