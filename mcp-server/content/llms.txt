@@ -1,0 +1,166 @@
+# The Ultimate Claude Code Guide
+
+> A comprehensive, self-contained guide to mastering Claude Code - Anthropic's official CLI for AI-assisted development.
+
+## What This Repository Contains
+
+This repository provides everything needed to go from Claude Code beginner to power user:
+
+1. **Complete Guide** (`guide/ultimate-guide.md`) - 9,600+ lines covering all aspects of Claude Code
+2. **Cheatsheet** (`guide/cheatsheet.md`) - 1-page printable daily reference
+3. **Architecture Internals** (`guide/architecture.md`) - How Claude Code works under the hood (master loop, tools, context)
+4. **Audit Prompt** (`tools/audit-prompt.md`) - Self-contained prompt to analyze your Claude Code setup against best practices
+
+## Target Audience
+
+- **Beginners**: Installation, first workflow, essential commands (15 min to productivity)
+- **Intermediate**: Memory files, agents, skills, hooks configuration
+- **Power Users**: MCP servers, Trinity pattern, CI/CD integration, autonomous workflows
+
+## Key Topics Covered
+
+### Core Concepts
+- Context Management (the most critical concept - context windows, compaction, zones)
+- Plan Mode (safe read-only exploration before making changes)
+- Memory Files (CLAUDE.md for persistent context across sessions)
+- Rewind (undo mechanism for file changes)
+
+### Customization
+- **Agents**: Custom AI personas with specific tools and instructions
+- **Skills**: Reusable knowledge modules for complex domains
+- **Commands**: Custom slash commands for frequent workflows
+- **Hooks**: Event-driven automation (PreToolUse, PostToolUse, UserPromptSubmit)
+
+### Advanced Features
+- **MCP Servers**: Model Context Protocol for extended capabilities
+  - Serena (codebase indexation + session memory)
+  - Context7 (library documentation lookup)
+  - Sequential (structured multi-step reasoning)
+  - Playwright (browser automation)
+- **Trinity Pattern**: Combining Plan Mode + Extended Thinking + MCP for complex tasks
+- **CI/CD Integration**: Headless mode, GitHub Actions, Verify Gate pattern
+
+### Best Practices
+- Single Source of Truth pattern for conventions
+- Shell Scripts vs AI Agents decision framework
+- Tight feedback loops for rapid iteration
+- Continuous improvement mindset
+
+## File Structure
+
+```
+claude-code-ultimate-guide/
+├── README.md                           # Overview and quick start
+├── CONTRIBUTING.md                     # Contribution guidelines
+├── CHANGELOG.md                        # Version history
+├── LICENSE                             # CC BY-SA 4.0
+├── guide/                              # Core documentation
+│   ├── ultimate-guide.md               # Complete guide (main content)
+│   ├── cheatsheet.md                   # 1-page reference
+│   ├── architecture.md                 # How Claude Code works internally
+│   └── adoption-approaches.md          # Implementation strategy
+├── tools/                              # Interactive utilities
+│   ├── audit-prompt.md                 # Setup audit tool
+│   ├── onboarding-prompt.md            # Personalized onboarding
+│   └── mobile-access.md                # Mobile access setup
+├── machine-readable/                   # LLM/AI consumption
+│   ├── reference.yaml                  # Machine-optimized index
+│   └── llms.txt                        # This file (for AI indexation)
+├── exports/                            # Generated outputs
+│   ├── notebooklm.pdf                  # Visual overview
+│   └── kimi.pdf                        # Full text export
+├── examples/                           # Ready-to-use templates
+│   ├── agents/                         # Custom AI personas
+│   ├── skills/                         # Knowledge modules
+│   ├── commands/                       # Slash commands
+│   ├── hooks/                          # Event automation (bash + PowerShell)
+│   ├── config/                         # Configuration files
+│   └── memory/                         # CLAUDE.md templates
+└── quiz/                               # Interactive knowledge quiz
+```
+
+## Guide Structure (10 Sections + Architecture)
+
+**Architecture Deep Dive** (`guide/architecture.md`):
+- Master Loop: `while(tool_call)` - no DAGs, no classifiers, no RAG
+- 8 Core Tools: Bash, Read, Edit, Write, Grep, Glob, Task, TodoWrite
+- Context: ~200K tokens, auto-compact at 75-92%
+- Sub-agents: isolated context, max depth=1
+- Philosophy: "less scaffolding, more model"
+
+**Main Guide Sections** (`guide/ultimate-guide.md`):
+1. **Quick Start** - Installation, first workflow, essential commands
+2. **Core Concepts** - Context management, Plan Mode, Rewind, Mental Model
+3. **Memory & Settings** - CLAUDE.md files, .claude/ folder, precedence rules
+4. **Agents** - Custom AI personas, Tool SEO, orchestration patterns
+5. **Skills** - Reusable knowledge modules
+6. **Commands** - Custom slash commands, variable interpolation
+7. **Hooks** - Event-driven automation (security, formatting, logging)
+8. **MCP Servers** - Serena, Context7, Sequential, Playwright, Postgres
+9. **Advanced Patterns** - Trinity, CI/CD, feedback loops, vibe coding
+10. **Reference** - Commands, shortcuts, troubleshooting, checklists
+
+## Key Commands Reference
+
+| Command | Purpose |
+|---------|---------|
+| `/help` | Show all available commands |
+| `/status` | Check context usage and session state |
+| `/compact` | Compress context (use when >70%) |
+| `/clear` | Fresh start (reset conversation) |
+| `/plan` | Enter safe read-only planning mode |
+| `/rewind` | Undo recent changes |
+
+## Context Management Rules
+
+- **Green Zone (0-50%)**: Work freely
+- **Yellow Zone (50-70%)**: Be selective with context loading
+- **Red Zone (70-90%)**: Use `/compact` immediately
+- **Critical (90%+)**: Use `/clear` to reset
+
+## Platform Support
+
+- **macOS/Linux**: Full support with bash/zsh examples
+- **Windows**: PowerShell and batch file alternatives provided (note: Windows commands are AI-generated and not tested by the author)
+
+## Related Resources
+
+- Official: https://docs.anthropic.com/en/docs/claude-code
+- Official llms.txt (index): https://code.claude.com/docs/llms.txt
+- Official llms-full.txt (complete): https://code.claude.com/docs/llms-full.txt
+- DeepWiki: https://deepwiki.com/FlorianBruniaux/claude-code-ultimate-guide
+- Inspiration: https://claudelog.com/
+- Whitepapers (FR + EN): https://www.florian.bruniaux.com/guides — 9 focused whitepapers on Claude Code (foundations, prompting, customization, security, architecture, team, privacy, reference, agent teams)
+
+## Author
+
+Florian BRUNIAUX - Founding Engineer at Méthode Aristote
+- GitHub: https://github.com/FlorianBruniaux
+- LinkedIn: https://www.linkedin.com/in/florian-bruniaux-43408b83/
+
+## License
+
+CC BY-SA 4.0 - Free to share and adapt with attribution.
+
+## How to Use This Guide
+
+1. **New to Claude Code?** Start with README.md Quick Start section
+2. **Choose your path** See Learning Paths in README for audience-specific guides
+3. **Want comprehensive learning?** Read guide/ultimate-guide.md
+4. **Need daily reference?** Print guide/cheatsheet.md
+5. **Want to audit your setup?** Use tools/audit-prompt.md
+6. **Need templates?** Browse examples/ folder for ready-to-use configs
+
+## Machine-Optimized Reference
+
+For fast LLM parsing, see `machine-readable/reference.yaml` (~2K tokens) - structured YAML with:
+- Decision tree for task routing
+- Prompting formula (WHAT/WHERE/HOW/VERIFY)
+- Commands, shortcuts, CLI flags
+- Context management zones and symptoms
+- MCP servers, extended thinking, cost optimization
+- Anti-patterns and troubleshooting
+
+## Keywords
+
+Claude Code, Anthropic, CLI, AI-assisted development, coding assistant, context management, MCP servers, agents, skills, hooks, commands, Plan Mode, CLAUDE.md, memory files, CI/CD integration, autonomous workflows, developer productivity, AI coding tools

@@ -8,6 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- **MCP Server: 3 new tools** — compare_versions, get_threat/list_threats, search_examples
+  - `compare_versions(from, to?)` — diff entre deux versions Claude Code CLI : toutes les releases dans la plage, highlights agrégés, breaking changes agrégés
+  - `get_threat(id)` — lookup CVE (ex: `CVE-2025-53109`) ou technique d'attaque (ex: `T001`) depuis la threat database v2.4.0
+  - `list_threats(category?)` — browse la threat-db : résumé global avec counts (sans catégorie) ou liste détaillée par section (`cves`, `authors`, `skills`, `techniques`, `mitigations`, `sources`)
+  - `search_examples(query, limit?)` — recherche sémantique dans les 175 templates par intention (ex: `"hook lint"`, `"agent code review"`) — complémentaire à `get_example` (nom exact) et `list_examples` (catégorie)
+  - `mcp-server/IDEAS.md` — futures idées documentées : `get_quiz`, `get_methodology`, `get_workflow`, resource `diff`, prompt `security-review`
+  - Total : 8 tools → 12 tools (+ 3 resources + 1 prompt)
+
 - **Terminal Personalization Settings** — documentation `spinnerVerbs` + `spinnerTipsOverride` dans `guide/ultimate-guide.md` §3.3 Settings & Permissions
   - Nouvelle section "Terminal Personalization Settings" (ligne 4978) : exemples JSON pour `spinnerVerbs` (mode replace/add) et `spinnerTipsOverride` (avec `excludeDefault: true`)
   - `settings.json` available keys enrichi : ajout `spinnerVerbs`, `spinnerTipsOverride`, `plansDirectory`, `enableAllProjectMcpServers`

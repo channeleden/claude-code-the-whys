@@ -10,6 +10,7 @@
   <a href="./quiz/"><img src="https://img.shields.io/badge/Quiz-274_questions-orange?style=for-the-badge" alt="Quiz"/></a>
   <a href="./examples/"><img src="https://img.shields.io/badge/Templates-175-green?style=for-the-badge" alt="Templates"/></a>
   <a href="./guide/security-hardening.md"><img src="https://img.shields.io/badge/🛡️_Threat_DB-24_CVEs_·_655_malicious_skills-red?style=for-the-badge" alt="Threat Database"/></a>
+  <a href="./mcp-server/"><img src="https://img.shields.io/badge/MCP_Server-npx_ready-blueviolet?style=for-the-badge" alt="MCP Server"/></a>
 </p>
 
 <p align="center">
@@ -93,40 +94,39 @@ Both guides serve different needs. Choose based on your priority.
 
 **Quickest path**: [Cheat Sheet](./guide/cheatsheet.md) — 1 printable page with daily essentials
 
-**Interactive onboarding** (no clone needed):
+**Interactive onboarding** (no setup needed):
 ```bash
 claude "Fetch and follow the onboarding instructions from: https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/tools/onboarding-prompt.md"
 ```
 
 **Browse directly**: [Full Guide](./guide/ultimate-guide.md) | [Visual Diagrams](./guide/diagrams/) | [Examples](./examples/) | [Quiz](./quiz/)
 
-<details>
-<summary><strong>Prerequisites & Minimal CLAUDE.md Template</strong></summary>
+---
 
-**Prerequisites**: Node.js 18+ | [Anthropic API key](https://console.anthropic.com/)
+## 🔌 MCP Server — Use the guide from any Claude Code session
 
-```markdown
-# Project: [NAME]
+No cloning needed. Add to `~/.claude.json` and ask questions directly from any session:
 
-## Tech Stack
-- Language: [e.g., TypeScript]
-- Framework: [e.g., Next.js 14]
-- Testing: [e.g., Vitest]
-
-## Commands
-- Build: `npm run build`
-- Test: `npm test`
-- Lint: `npm run lint`
-
-## Rules
-- Run tests before marking tasks complete
-- Follow existing code patterns
-- Keep commits atomic and conventional
+```json
+{
+  "mcpServers": {
+    "claude-code-guide": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "claude-code-ultimate-guide-mcp"]
+    }
+  }
+}
 ```
 
-Save as `CLAUDE.md` in your project root. Claude reads it automatically.
+12 tools: `search_guide`, `read_section`, `get_cheatsheet`, `get_digest`, `get_example`, `list_examples`, `get_release`, `get_changelog`, `list_topics`, `compare_versions`, `get_threat`, `list_threats`, `search_examples` — plus 8 slash commands `/ccguide:*` and a Haiku agent.
 
-</details>
+**Onboarding one-liner** (once MCP is configured):
+```bash
+claude "Use the claude-code-guide MCP server. Activate the claude-code-expert prompt, then run a personalized onboarding: ask me 3 questions about my goal, experience level, and preferred tone — then build a custom learning path using search_guide and read_section to navigate the guide with live source links."
+```
+
+→ [MCP Server README](./mcp-server/README.md)
 
 ---
 

@@ -277,6 +277,7 @@ Beyond the 8 core tools, Claude Code can leverage:
 - **Context7**: Official library documentation lookup
 - **Sequential**: Structured multi-step reasoning
 - **Playwright**: Browser automation and E2E testing
+- **claude-code-ultimate-guide**: 12 tools — guide search, release tracking, `compare_versions`, security threat lookup (`get_threat`, `list_threats` with 28 CVEs + 655 malicious skills), template search (`search_examples`) — `npx -y claude-code-ultimate-guide-mcp`
 
 **Community Plugins**:
 - **ast-grep**: AST-based structural code search (explicit invocation)
