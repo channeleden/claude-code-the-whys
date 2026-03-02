@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.59"
-updated: "2026-02-26"
+latest: "2.1.63"
+updated: "2026-02-27"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,31 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-February 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.63"
+    date: "2026-02-27"
+    highlights:
+      - "⭐ HTTP hooks: POST JSON to a URL and receive JSON response (alternative to shell command hooks)"
+      - "⭐ Project configs & auto-memory now shared across all git worktrees of the same repository"
+      - "/simplify and /batch bundled slash commands added"
+      - "`ENABLE_CLAUDEAI_MCP_SERVERS=false` env var to opt out of claude.ai MCP servers"
+      - "/model command now shows currently active model in the picker"
+      - "Major memory leak fixes: WebSocket, MCP caches, git root detection, JSON parsing cache, bash prefix cache, subagent AppState"
+      - "VSCode: remote sessions now appear in conversation history; session rename/remove actions"
+      - "Fixed /clear not resetting cached skills (stale skill content issue)"
+    breaking: []
+
+  - version: "2.1.62"
+    date: "2026-02-27"
+    highlights:
+      - "Fixed prompt suggestion cache regression that reduced cache hit rates"
+    breaking: []
+
+  - version: "2.1.61"
+    date: "2026-02-27"
+    highlights:
+      - "Fixed concurrent writes corrupting config file on Windows"
+    breaking: []
 
   - version: "2.1.59"
     date: "2026-02-26"
@@ -685,6 +710,7 @@ breaking_summary:
 # MILESTONE FEATURES (quick reference)
 # ════════════════════════════════════════════════════════════════
 milestones:
+  "2.1.63": "HTTP hooks, worktree config sharing, /simplify + /batch bundled commands"
   "2.1.36": "Fast mode for Opus 4.6"
   "2.1.32": "Opus 4.6, Agent teams preview, Automatic memory"
   "2.1.18": "Customizable keyboard shortcuts with /keybindings"

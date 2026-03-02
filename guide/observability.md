@@ -398,6 +398,46 @@ Projects
   other-project: 38
 ```
 
+### Reading for Quality, Not Just Quantity
+
+Token counts tell you how much you used Claude Code. JSONL logs can also tell you **how well your configuration is working** — if you know what to look for.
+
+Beyond cost metrics, three patterns reliably signal that a skill, rule, or CLAUDE.md section needs updating:
+
+**Repeated reads of the same file**
+
+If Claude reads the same file 3+ times in one session, the content it needs probably isn't where it expects to find it. Consider moving the relevant context into a skill or CLAUDE.md section.
+
+```bash
+# Files read more than 3x in recent sessions
+jq -r 'select(.tool == "Read") | .file' ~/.claude/logs/activity-*.jsonl \
+  | sort | uniq -c | sort -rn | awk '$1 > 3'
+```
+
+**Tool failures on the same command**
+
+A Bash command that fails repeatedly across sessions usually means a skill has an outdated path, renamed binary, or command that no longer works with your current stack.
+
+```bash
+# Failing commands
+jq -r 'select(.tool == "Bash" and (.exit_code // 0) != 0) | .command' \
+  ~/.claude/logs/activity-*.jsonl | sort | uniq -c | sort -rn | head -10
+```
+
+**High edit frequency on the same file**
+
+Files edited heavily across sessions often indicate missing context — the file's purpose isn't clear to the agent, or conventions around it aren't documented.
+
+```bash
+# Most-edited files (proxy for context gaps)
+jq -r 'select(.tool == "Edit") | .file' ~/.claude/logs/activity-*.jsonl \
+  | sort | uniq -c | sort -rn | head -10
+```
+
+For each pattern you surface, ask: is there a skill, rule, or CLAUDE.md section that should cover this? See [§9.23 Configuration Lifecycle & The Update Loop](./ultimate-guide.md#923-configuration-lifecycle--the-update-loop) for the full workflow.
+
+---
+
 ### Log Format
 
 Each log entry is a JSON object:

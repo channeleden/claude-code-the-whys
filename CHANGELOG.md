@@ -6,7 +6,45 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [3.29.1] - 2026-03-02
+
 ### Added
+
+- **Git MCP Server + GitHub MCP Server** (`guide/ultimate-guide.md` §8.2 MCP Server Catalog) — Git MCP Server (official Anthropic) : 12 tools pour opérations Git locales (git_status, git_diff, git_commit, git_log, git_create_branch…), setup `uvx`, config multi-repo, comparatif vs Bash, workflows typiques. GitHub MCP Server (official GitHub) : Issues, PRs, Projects, Code search, Enterprise — remote mode via `api.githubcopilot.com/mcp/` (Copilot requis) + self-hosted PAT-only. Fix documenté pour l'erreur `Incompatible auth server: does not support dynamic client registration` : `gh auth token` + header `Authorization: Bearer` dans `~/.claude.json`, note maintenance token expiré.
+- **Resource evaluation: MCP servers veille** (`docs/resource-evaluations/2026-03-02-mcp-servers-veille.md`) — 3 serveurs évalués post-challenge + fact-check : GitHub MCP 4/5 (intégré), Exa 2/5 (rejeté, stars non vérifiables), Graphiti 2/5 (rejeté, Kairn couvre déjà le besoin).
+- **Tool comparison table extended to 5 tools** (`guide/ultimate-guide.md` §Migration from Other Tools) — ajout Windsurf et Zed, fix pricing Cursor.
+- **Quotas subscriptions : colonne "prompts Claude Code / 5h"** (`guide/ultimate-guide.md` §Subscription Plans & Limits) — Pro ~10-40, Max 5x ~50-200, Max 20x ~200-800.
+- **Resource evaluation: benchmark AI coding tools Feb 2026** (`docs/resource-evaluations/benchmark-ai-coding-tools-feb2026.md`) — score 3/5, 2 apports intégrés.
+- **Claude Code v2.1.63 release tracking** — `machine-readable/claude-code-releases.yaml` + `guide/claude-code-releases.md` : v2.1.61–v2.1.63 (HTTP hooks, worktree config sharing, `/simplify` + `/batch`, `ENABLE_CLAUDEAI_MCP_SERVERS`).
+- **HTTP hooks documentation** (`guide/ultimate-guide.md` §7.2) — type `"http"` (v2.1.63+) : POST JSON → réponse JSON, exemple config avec `allowedEnvVars`.
+- **Resource evaluation W09-2026** (`docs/resource-evaluations/weekly-intel-2026-W09.md`) — score 4/5, 3 items intégrés.
+- **Section 9.23 — Configuration Lifecycle & The Update Loop** (`guide/ultimate-guide.md`) — boucle d'amélioration continue, script `detect-friction.sh`, lifecycle skills, pattern "The Update Loop".
+- **Observability: Reading for Quality, Not Just Quantity** (`guide/observability.md`) — 3 patterns qualitatifs avec commandes `jq`.
+- **MCP Server: 3 new tools** — `compare_versions`, `get_threat`/`list_threats`, `search_examples` (8 → 12 tools total).
+- **Terminal Personalization Settings** (`guide/ultimate-guide.md` §3.3) — `spinnerVerbs`, `spinnerTipsOverride`, exemple complet `examples/config/settings-personalization.json`.
+
+### Added
+
+- **Tool comparison table extended to 5 tools** (`guide/ultimate-guide.md` §Migration from Other Tools) — tableau comparatif étendu de 3 à 5 outils : ajout Windsurf (Cascade multi-agents, Wave 13, credit-based $15/mo) et Zed (Rust natif, Ollama offline, token-based $10/mo + list price +10%). Nouvelles lignes : inline autocomplete, offline/local models, best for. Fix erreur factuelle : pricing Cursor corrigé de "$20/month flat" → crédit-based (depuis juin 2025, $20 inclus + overages).
+
+- **Quotas subscriptions : colonne "prompts Claude Code / 5h"** (`guide/ultimate-guide.md` §Subscription Plans & Limits) — tableau token budgets enrichi d'une colonne pratique "Claude Code prompts/5h" : Pro ~10-40, Max 5x ~50-200, Max 20x ~200-800. Note warning complétée : cap mensuel ~50 fenêtres actives + impact sub-agents/1M context sur consommation.
+
+- **Resource evaluation: benchmark AI coding tools Feb 2026** (`docs/resource-evaluations/benchmark-ai-coding-tools-feb2026.md`) — évaluation d'un benchmark comparatif 5 outils (Claude Code, Cursor, Windsurf, Zed, Copilot Workspace), texte copié sans URL source. Score 3/5 (pertinent, intégration sélective). 2 apports nets intégrés : quotas prompts/5h + extension tableau comparatif. 4 recommandations rejetées (déjà couvertes).
+
+- **Claude Code v2.1.63 release tracking** — `machine-readable/claude-code-releases.yaml` + `guide/claude-code-releases.md` mis à jour avec v2.1.61, v2.1.62, v2.1.63 (HTTP hooks, worktree config sharing, `/simplify` + `/batch` bundled commands, `ENABLE_CLAUDEAI_MCP_SERVERS` env var, vague de memory leak fixes)
+
+- **HTTP hooks documentation** (`guide/ultimate-guide.md` §7.2 Creating Hooks) — nouveau type de hook `"http"` (v2.1.63+) : POST JSON vers une URL, reçoit JSON en retour. Ajout dans la table Configuration Fields, bullet point descriptif, et exemple de config complet avec `allowedEnvVars`
+
+- **Resource evaluation W09-2026** (`docs/resource-evaluations/weekly-intel-2026-W09.md`) — évaluation du rapport de veille hebdomadaire Anthropic/Claude Code (24 fév – 1er mars 2026) : score 4/5, 3 items intégrés (v2.1.63 releases, HTTP hooks, note Haiku 3 deadline déjà présente), 3 items rejetés (Cowork, DoW, Vercept)
+
+- **Section 9.23 — Configuration Lifecycle & The Update Loop** (`guide/ultimate-guide.md`) — boucle d'amélioration continue des configurations Claude Code : détection friction depuis logs JSONL (script `detect-friction.sh`), lifecycle management des skills (semantic versioning, dépréciation, CI staleness check GitHub Actions), pattern "The Update Loop" (observer → analyser → delta update → canary test), intégration handoff, mentions DSPy/TextGrad
+- **Observability: Reading for Quality, Not Just Quantity** (`guide/observability.md`) — nouvelle sous-section dans "Analyzing Session Data" : 3 patterns qualitatifs (repeated reads, tool failures, high edit frequency) avec commandes `jq` prêtes à l'emploi, liée à §9.23
+
+- **Git MCP Server + GitHub MCP Server** (`guide/ultimate-guide.md` §8.2 MCP Server Catalog) — deux nouveaux serveurs documentés dans le catalogue MCP :
+  - **Git MCP Server** (official Anthropic, `mcp-server-git`): 12 tools pour les opérations Git locales (git_status, git_diff, git_commit, git_log, git_create_branch, etc.), setup `uvx`, config multi-repo, comparatif Git MCP vs Bash, workflows typiques. Statut: early dev.
+  - **GitHub MCP Server** (official GitHub, `github/github-mcp-server`): accès plateforme GitHub complète (Issues, PRs, Projects, Code search, Enterprise), remote MCP via `api.githubcopilot.com/mcp/` (Copilot requis) + self-hosted PAT-only. Fix documenté pour l'erreur `Incompatible auth server: does not support dynamic client registration` : inject token via `gh auth token` + header manuel dans `~/.claude.json`. Note maintenance token expiré incluse.
+
+- **Resource evaluation: MCP servers veille** (`docs/resource-evaluations/2026-03-02-mcp-servers-veille.md`) — évaluation d'une veille sur 3 serveurs MCP (GitHub MCP, Exa, Graphiti). Scores finaux post-challenge : GitHub MCP 4/5 (intégré), Exa 2/5 (rejeté, stars non vérifiables 220 vs claim 3.1k), Graphiti 2/5 (rejeté, stack lourde, Kairn couvre déjà le besoin). Git MCP 5/5 (CRITICAL, évaluation précédente) intégré simultanément.
 
 - **MCP Server: 3 new tools** — compare_versions, get_threat/list_threats, search_examples
   - `compare_versions(from, to?)` — diff entre deux versions Claude Code CLI : toutes les releases dans la plage, highlights agrégés, breaking changes agrégés

@@ -10,13 +10,13 @@ tags: [reference, release]
 > **Full details**: [github.com/anthropics/claude-code/CHANGELOG.md](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)
 > **Machine-readable**: [claude-code-releases.yaml](../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.59 | **Updated**: 2026-02-26
+**Latest**: v2.1.63 | **Updated**: 2026-02-27
 
 ---
 
 ## Quick Jump
 
-- [2.1.x Series (January-February 2026)](#21x-series-january-february-2026) — Worktree isolation, background agents, ConfigChange hook, Fast mode Opus 4.6, 1M context, claude.ai MCP connectors, remote-control, auto-memory, /copy command
+- [2.1.x Series (January-February 2026)](#21x-series-january-february-2026) — Worktree isolation, background agents, ConfigChange hook, Fast mode Opus 4.6, 1M context, claude.ai MCP connectors, remote-control, auto-memory, /copy command, HTTP hooks, worktree config sharing
 - [2.0.x Series (Nov 2025 - Jan 2026)](#20x-series-november-2025---january-2026) — Opus 4.5, Claude in Chrome, Background agents
 - [Breaking Changes Summary](#breaking-changes-summary)
 - [Milestone Features](#milestone-features)
@@ -24,6 +24,26 @@ tags: [reference, release]
 ---
 
 ## 2.1.x Series (January-February 2026)
+
+### v2.1.63 (2026-02-27)
+
+- **New**: HTTP hooks — hooks can now `POST` JSON to a URL and receive JSON back, instead of running a shell command. Useful for CI/CD integrations and stateless backend endpoints (v2.1.63+)
+- **New**: Project configs & auto-memory now shared across all git worktrees of the same repository
+- **New**: `/simplify` and `/batch` bundled slash commands
+- **New**: `ENABLE_CLAUDEAI_MCP_SERVERS=false` env var to opt out of claude.ai MCP server exposure
+- **Improved**: `/model` command shows currently active model in picker
+- **Fixed**: Major wave of memory leaks — WebSocket listeners, MCP caches, git root detection cache, JSON parsing cache, bash prefix cache, subagent AppState after compaction, MCP server fetch caches on reconnect
+- **Fixed**: VSCode remote sessions not appearing in conversation history
+- **Fixed**: `/clear` not resetting cached skills (stale skill content persisted to new conversation)
+- **Fixed**: Local slash command output (e.g. `/cost`) appearing as user messages in UI
+
+### v2.1.62 (2026-02-27)
+
+- **Fixed**: Prompt suggestion cache regression that reduced cache hit rates
+
+### v2.1.61 (2026-02-27)
+
+- **Fixed**: Concurrent writes corrupting config file on Windows
 
 ### v2.1.59 (2026-02-26)
 

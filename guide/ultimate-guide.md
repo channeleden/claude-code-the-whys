@@ -16,7 +16,7 @@ tags: [guide, reference, workflows, agents, hooks, mcp, security]
 
 **Last updated**: January 2026
 
-**Version**: 3.29.0
+**Version**: 3.29.1
 
 ---
 
@@ -882,13 +882,16 @@ Switching from GitHub Copilot, Cursor, or other AI assistants? Here's what you n
 
 ### Why Claude Code is Different
 
-| Feature | GitHub Copilot | Cursor | Claude Code |
-|---------|---------------|--------|-------------|
-| **Interaction** | Inline autocomplete | Chat + autocomplete | CLI + conversation |
-| **Context** | Current file | Open files | Entire project |
-| **Autonomy** | Suggestions only | Edit + chat | Full task execution |
-| **Customization** | Limited | Extensions | Agents, skills, hooks, MCP |
-| **Cost Model** | $10-20/month flat | $20/month flat | Pay-per-use ($0.10-$0.50/hour) |
+| Feature | GitHub Copilot | Cursor | Windsurf | Zed | Claude Code |
+|---------|---------------|--------|----------|-----|-------------|
+| **Interaction** | Inline autocomplete | Chat + autocomplete | Cascade agent | Agent panel + inline | CLI + conversation |
+| **Context** | Current file | Open files | ~200K tokens (IDE) | 200-400K tokens | Entire project (agentic search) |
+| **Autonomy** | Suggestions only | Edit + chat | Multi-agent (Wave 13) | Agent panel | Full task execution |
+| **Customization** | Limited | Extensions | Hooks Cascade | BYO providers + Ollama | Agents, skills, hooks, MCP |
+| **Cost Model** | $10-20/month flat | Credit-based ($20 Pro incl. + overages) | Credit-based ($15/mo Pro, 500 credits) | Token-based ($10/mo + list price +10%) | Subscription (Pro $20, Max 5x $100, Max 20x $200) |
+| **Inline autocomplete** | ✅ Native | ✅ Tab | ✅ Supercomplete | ✅ Zeta | ❌ Use Copilot/Cursor alongside |
+| **Offline/local models** | ❌ | ❌ (via LiteLLM) | ❌ | ✅ Ollama | ❌ |
+| **Best for** | Quick suggestions | IDE-native AI UX | Multi-agent IDE | Speed + local models | Terminal/CLI workflows, large refactors |
 
 **Key mindset shift**: Claude Code is a **structured context system**, not a chatbot or autocomplete tool. You build persistent context (CLAUDE.md, skills, hooks) that compounds over time — see [§2.5](#from-chatbot-to-context-system).
 
@@ -2127,14 +2130,14 @@ Unlike API usage (pay-per-token), subscriptions use a hybrid model that's delibe
 
 **Approximate Token Budgets by Plan** (Jan 2026, community-verified)
 
-| Plan | 5-Hour Token Budget | Weekly Sonnet Hours | Weekly Opus Hours | Claude Code Access |
-|------|---------------------|---------------------|-------------------|-------------------|
-| **Free** | 0 | 0 | 0 | ❌ None |
-| **Pro** ($20/mo) | ~44,000 tokens | 40-80 hours | N/A (Sonnet only) | ✅ Limited |
-| **Max 5x** ($100/mo) | ~88,000-220,000 tokens | 140-280 hours | 15-35 hours | ✅ Full |
-| **Max 20x** ($200/mo) | ~220,000+ tokens | 240-480 hours | 24-40 hours | ✅ Full |
+| Plan | 5-Hour Token Budget | Claude Code prompts/5h | Weekly Sonnet Hours | Weekly Opus Hours | Claude Code Access |
+|------|---------------------|------------------------|---------------------|-------------------|-------------------|
+| **Free** | 0 | 0 | 0 | 0 | ❌ None |
+| **Pro** ($20/mo) | ~44,000 tokens | ~10-40 prompts | 40-80 hours | N/A (Sonnet only) | ✅ Limited |
+| **Max 5x** ($100/mo) | ~88,000-220,000 tokens | ~50-200 prompts | 140-280 hours | 15-35 hours | ✅ Full |
+| **Max 20x** ($200/mo) | ~220,000+ tokens | ~200-800 prompts | 240-480 hours | 24-40 hours | ✅ Full |
 
-> **Warning**: These are community-measured estimates. Anthropic does not publish exact token limits, and limits have been reduced without announcement (notably Oct 2025). The 8-10× Opus/Sonnet ratio means Max 20x users get only ~24-40 Opus hours weekly despite paying $200/month.
+> **Warning**: These are community-measured estimates. Anthropic does not publish exact token limits, and limits have been reduced without announcement (notably Oct 2025). The 8-10× Opus/Sonnet ratio means Max 20x users get only ~24-40 Opus hours weekly despite paying $200/month. "Prompts/5h" is a rough practical translation of the token budget — actual capacity varies significantly with task complexity, context size, and sub-agent usage. Monthly cap: ~50 active 5-hour windows across all plans.
 
 **Why "Hours" Are Misleading**
 
@@ -4664,7 +4667,7 @@ The `.claude/` folder is your project's Claude Code directory for memory, settin
 | Personal preferences | `CLAUDE.md` | ❌ Gitignore |
 | Personal permissions | `settings.local.json` | ❌ Gitignore |
 
-### 3.29.0 Version Control & Backup
+### 3.29.1 Version Control & Backup
 
 **Problem**: Without version control, losing your Claude Code configuration means hours of manual reconfiguration across agents, skills, hooks, and MCP servers.
 
@@ -8228,7 +8231,7 @@ gh pr create --title "..." --body "..."
 | Field | Description |
 |-------|-------------|
 | `matcher` | Regex pattern filtering when hooks fire (tool name, session start reason, etc.) |
-| `type` | Hook type: `"command"`, `"prompt"`, or `"agent"` |
+| `type` | Hook type: `"command"`, `"http"`, `"prompt"`, or `"agent"` |
 | `command` | Shell command to run (for `command` type) |
 | `prompt` | Prompt text for LLM evaluation (for `prompt`/`agent` types). Use `$ARGUMENTS` as placeholder for hook input JSON |
 | `timeout` | Max execution time in seconds (default: 600s command, 30s prompt, 60s agent) |
@@ -8240,8 +8243,32 @@ gh pr create --title "..." --body "..."
 **Hook types:**
 
 - **`command`**: Runs a shell command. Receives JSON on stdin, returns JSON on stdout. Most common type.
+- **`http`** *(v2.1.63+)*: POSTs JSON to a URL and reads JSON response. Useful for CI/CD webhooks and stateless backend integrations without shell dependencies. Configure with `url` and optional `allowedEnvVars` for header interpolation.
 - **`prompt`**: Sends prompt + hook input to a Claude model (Haiku by default) for single-turn evaluation. Returns `{ok: true/false, reason: "..."}`. Configure model via `model` field.
 - **`agent`**: Spawns a subagent with tool access (Read, Grep, Glob, etc.) for multi-turn verification. Returns same `{ok: true/false}` format. Up to 50 tool-use turns.
+
+**HTTP hook example** (v2.1.63+):
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "http",
+            "url": "https://ci.example.com/webhook/claude-hook",
+            "allowedEnvVars": ["CI_TOKEN"]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+HTTP hooks receive the same JSON payload as `command` hooks and must return valid JSON. The `allowedEnvVars` field lists environment variables that can be referenced in headers (e.g., for Bearer token authentication).
 
 ### Hook Input (stdin JSON)
 
@@ -10594,6 +10621,183 @@ retrieve_memory("work in progress?")
 | No source linking | No link to file/line | Include file refs in content |
 | No expiration | Stale memories persist | Manual cleanup with `delete_memory` OR use Kairn (auto-decay) |
 | No git integration | No branch-aware memory | Tag with branch name |
+
+---
+
+### Git MCP Server (Official Anthropic)
+
+**Purpose**: Programmatic Git access via 12 structured tools for commit, diff, log, and branch management.
+
+**Why Git MCP vs Bash `git`**: The Bash tool can run `git` commands but returns raw terminal output that requires parsing and consumes tokens. Git MCP returns structured data directly usable by Claude, with built-in filters (date, author, branch) and token-efficient diffs via the `context_lines` parameter.
+
+> **⚠️ Status**: Early development — API subject to change. Suitable for local workflows; test before adopting in production pipelines.
+
+**Tools (12)**:
+
+| Tool | Description |
+|------|-------------|
+| `git_status` | Working tree status (staged, unstaged, untracked) |
+| `git_diff_unstaged` | Unstaged changes |
+| `git_diff_staged` | Staged changes ready to commit |
+| `git_diff` | Compare any two branches, commits, or refs |
+| `git_commit` | Create a commit with message |
+| `git_add` | Stage one or more files |
+| `git_reset` | Unstage files |
+| `git_log` | Commit history with date, author, and branch filters |
+| `git_create_branch` | Create a new branch |
+| `git_checkout` | Switch branches |
+| `git_show` | Show details for a commit or tag |
+| `git_branch` | List all local branches |
+
+**Setup**:
+
+```bash
+# No install required — uvx pulls it on first run
+uvx mcp-server-git --repository /path/to/repo
+```
+
+**Claude Code configuration** (`~/.claude.json`):
+
+```json
+{
+  "mcpServers": {
+    "git": {
+      "command": "uvx",
+      "args": ["mcp-server-git", "--repository", "/absolute/path/to/repo"]
+    }
+  }
+}
+```
+
+**Multi-repo configuration** (different server per project):
+
+```json
+{
+  "mcpServers": {
+    "git-frontend": {
+      "command": "uvx",
+      "args": ["mcp-server-git", "--repository", "/projects/frontend"]
+    },
+    "git-backend": {
+      "command": "uvx",
+      "args": ["mcp-server-git", "--repository", "/projects/backend"]
+    }
+  }
+}
+```
+
+**Comparison: Git MCP vs Bash**:
+
+| Use case | Bash `git` | Git MCP |
+|----------|-----------|---------|
+| Simple status check | Fine | Overkill |
+| Filtered log (date + author) | Long command | Native filter params |
+| Diff with context control | Possible | `context_lines` param |
+| Scripting / automation | Good | Better (structured output) |
+| CI / production pipelines | Tested, stable | Early dev, use with care |
+
+**Typical workflows**:
+- "Show me all commits by Alice in the last 7 days on the `main` branch"
+- "What files changed in the last 3 commits? Summarize the changes."
+- "Stage `src/auth.ts` and create a commit with an appropriate message"
+
+> **Source**: `modelcontextprotocol/servers/src/git` — MIT license, part of the Anthropic-maintained monorepo (77k+ stars).
+
+---
+
+### GitHub MCP Server (Official GitHub)
+
+**Purpose**: Full GitHub platform access — Issues, Pull Requests, Projects, Code search, repository management, and GitHub Enterprise.
+
+**Git MCP vs GitHub MCP** (two distinct layers):
+
+| Layer | Tool | Scope |
+|-------|------|-------|
+| Local Git operations | Git MCP Server | Commits, diffs, branches, staging |
+| GitHub cloud platform | GitHub MCP Server | Issues, PRs, Projects, Reviews, Search |
+
+Both can be active simultaneously. They complement each other: Git MCP handles local work, GitHub MCP handles collaboration and cloud state.
+
+**Two setup modes**:
+
+| Mode | Requires | When to use |
+|------|----------|-------------|
+| Remote (`api.githubcopilot.com`) | GitHub Copilot subscription | Already a Copilot subscriber |
+| Self-hosted binary | GitHub PAT only | No Copilot, proprietary code, or privacy requirements |
+
+**Remote MCP** (requires a GitHub Copilot subscription):
+
+> **⚠️ Known issue**: `claude mcp add --transport http` attempts OAuth dynamic client registration by default, which the Copilot endpoint does not support. You'll get: `Incompatible auth server: does not support dynamic client registration`. The fix is to inject the token manually (see below).
+
+Step 1 — Add the server:
+
+```bash
+claude mcp add --transport http github https://api.githubcopilot.com/mcp/
+```
+
+Step 2 — Get your active GitHub CLI token:
+
+```bash
+gh auth token
+# → gho_xxxxxxxxxxxx
+```
+
+Step 3 — Edit `~/.claude.json` to add the `Authorization` header:
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer gho_xxxxxxxxxxxx"
+      }
+    }
+  }
+}
+```
+
+> If the token expires: `gh auth refresh` then update the value in `~/.claude.json`.
+
+**Self-hosted setup** (GitHub PAT only, no Copilot required):
+
+```bash
+# Download binary from github.com/github/github-mcp-server/releases
+export GITHUB_PERSONAL_ACCESS_TOKEN=ghp_xxx
+./github-mcp-server stdio
+```
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "command": "/path/to/github-mcp-server",
+      "args": ["stdio"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "ghp_xxx"
+      }
+    }
+  }
+}
+```
+
+**Key capabilities**:
+- Issues: create, list, filter, assign, close
+- Pull Requests: create, review, merge, list by assignee/label
+- Projects: read and update GitHub Projects v2
+- Code search: search across all repos in an org
+- GitHub Enterprise: same API, different base URL
+
+**Typical workflows with Claude Code**:
+- "List all open PRs assigned to me on `org/repo`, sorted by last activity"
+- "For PR #456, summarize the changes, flag breaking changes, and draft a review comment"
+- "Create an issue for bug X with a checklist, then open a branch and push a fix commit"
+- "Search all repos in the org for usages of deprecated `fetchUser()` and list files to migrate"
+
+**Differentiator vs `@modelcontextprotocol/server-github`**: The official GitHub MCP server adds Projects support, OAuth 2.1 auth, GitHub Enterprise, and the remote hosted endpoint. The npm reference server is lighter but covers fewer features.
+
+> **Source**: `github/github-mcp-server` — Go, MIT license, 20k+ stars, actively maintained with regular releases.
 
 </details>
 
@@ -19286,6 +19490,236 @@ You've mastered the concepts and patterns. Now Section 10 gives you the technica
 
 ---
 
+## 9.23 Configuration Lifecycle & The Update Loop
+
+**Reading time**: 8 minutes
+**Skill level**: Month 1+
+
+> **See also**: [§9.10 Continuous Improvement Mindset](#910-continuous-improvement-mindset) — the conceptual foundation for this section. §9.23 is the operational layer: detecting when to act, and how.
+
+As your Claude Code setup matures — skills, agents, rules, CLAUDE.md — a silent failure mode emerges: **your configuration drifts away from how you actually work**. Skills accumulate assumptions that no longer hold. CLAUDE.md describes a codebase that has evolved. Rules cover edge cases that became the norm. The agent keeps making the same correctable mistakes because nothing captures what you learned last week.
+
+This section covers how to detect that drift early and close the loop — turning session observations into concrete config improvements.
+
+---
+
+### Why Configurations Go Stale
+
+Staleness doesn't happen in one go. It accumulates from small gaps:
+
+- A skill was written for a v1 API that's now v2 — the skill still "works" but generates code that needs manual fixing every time
+- CLAUDE.md has context that's 6 months old — the agent reasons from a mental model of the codebase that no longer exists
+- A rule was added for an edge case that's now the default pattern — it fires constantly and you've stopped reading its output
+- You've corrected the same mistake across 5 sessions — but nothing ever captured that correction as a rule
+
+The signal is always there: you keep doing the same manual fixes. The work is identifying which fixes are worth encoding.
+
+---
+
+### Detecting Friction from Your JSONL Logs
+
+Your sessions are already logged (see [§Observability: Setting Up Session Logging](#setting-up-session-logging)). What's missing is reading them for **quality signals**, not just cost metrics.
+
+Three patterns that reliably indicate a skill or rule needs updating:
+
+| Pattern | Signal | Likely Cause |
+|---------|--------|--------------|
+| Same file read multiple times per session | Missing context | Content should move to CLAUDE.md or a skill |
+| Tool failure followed immediately by retry | Wrong assumption | A skill has an outdated command or path |
+| User correction immediately after assistant turn | Prompt gap | A skill or rule doesn't cover this case |
+
+Run this script weekly against your session logs to surface these patterns:
+
+```bash
+#!/bin/bash
+# scripts/detect-friction.sh
+# Usage: ./scripts/detect-friction.sh [days-back]
+# Requires: jq
+
+DAYS=${1:-7}
+LOG_DIR="${CLAUDE_LOG_DIR:-$HOME/.claude/logs}"
+SINCE=$(date -v-${DAYS}d +%Y-%m-%d 2>/dev/null || date -d "-${DAYS} days" +%Y-%m-%d)
+
+echo "=== Friction Report — last ${DAYS} days ==="
+echo
+
+# 1. Files read more than 3x in any single session
+echo "## Repeated Reads (same file >3x in one session)"
+for f in "$LOG_DIR"/activity-*.jsonl; do
+  [[ "$(basename "$f" .jsonl | cut -d- -f2-)" < "$SINCE" ]] && continue
+  jq -r 'select(.tool == "Read") | .file' "$f" 2>/dev/null
+done | sort | uniq -c | sort -rn | awk '$1 > 3 {print "  " $1 "x  " $2}'
+
+echo
+
+# 2. Tool failures (Bash exit non-zero)
+echo "## Tool Failures (potential stale commands in skills)"
+for f in "$LOG_DIR"/activity-*.jsonl; do
+  [[ "$(basename "$f" .jsonl | cut -d- -f2-)" < "$SINCE" ]] && continue
+  jq -r 'select(.tool == "Bash" and (.exit_code // 0) != 0) | .command' "$f" 2>/dev/null
+done | sort | uniq -c | sort -rn | head -10 | awk '{print "  " $0}'
+
+echo
+
+# 3. Most-edited files (proxy for agent missing context)
+echo "## Most Edited Files (context gap candidates)"
+for f in "$LOG_DIR"/activity-*.jsonl; do
+  [[ "$(basename "$f" .jsonl | cut -d- -f2-)" < "$SINCE" ]] && continue
+  jq -r 'select(.tool == "Edit") | .file' "$f" 2>/dev/null
+done | sort | uniq -c | sort -rn | head -10 | awk '{print "  " $1 "x  " $2}'
+
+echo
+echo "→ For each friction point, ask: is there a skill, rule, or CLAUDE.md section that should cover this?"
+```
+
+---
+
+### Skills Lifecycle Management
+
+Skills accumulate. Without a lifecycle policy, you end up with 20+ skills where half are unused, two contradict each other, and none have version history.
+
+**When to create a skill:**
+
+A task is worth encoding as a skill when you've done it manually 3+ times and the steps are stable enough to write down. If you're still figuring out the right approach, don't encode it yet — premature skills crystallize bad patterns.
+
+**When to update a skill (patch):**
+
+- A command in the skill fails because an API or path changed
+- The output needs a small clarification you keep adding manually
+- You added a convention and the skill doesn't reflect it yet
+
+**When to version a skill (minor/major):**
+
+Add a `version` field and `updated` date to your skill frontmatter:
+
+```yaml
+---
+version: 1.2.0
+updated: 2026-03-02
+breaking_since: null
+---
+```
+
+Use a simple policy:
+- **patch** (`x.x.Z`): rewording, clarification, examples added — no behavior change
+- **minor** (`x.Y.z`): new instructions, extended scope, new behavior opt-in
+- **major** (`X.y.z`): default behavior changes — annotate what broke and when in your CHANGELOG
+
+**When to deprecate a skill:**
+
+Add a `deprecated: true` flag and a note explaining what replaced it. Don't delete immediately — other skills or commands may reference it.
+
+**CI staleness check — CLAUDE.md vs source modules:**
+
+If your CLAUDE.md is assembled from source modules (e.g., via a `pnpm ai:configure` pipeline), add a CI job to catch divergence before it causes silent failures:
+
+```yaml
+# .github/workflows/ai-config-check.yml
+name: AI Config Staleness Check
+on:
+  push:
+    paths:
+      - '.claude/rules/**'
+      - '.claude/skills/**'
+      - '.claude/agents/**'
+      - 'CLAUDE.md.src/**'   # adjust to your source dir
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify CLAUDE.md is up to date
+        run: |
+          # Regenerate and compare
+          pnpm ai:configure --dry-run > /tmp/expected-claude.md
+          if ! diff -q CLAUDE.md /tmp/expected-claude.md > /dev/null; then
+            echo "❌ CLAUDE.md is stale. Run: pnpm ai:configure"
+            diff CLAUDE.md /tmp/expected-claude.md
+            exit 1
+          fi
+          echo "✅ CLAUDE.md is up to date"
+```
+
+---
+
+### The Update Loop
+
+The update loop formalizes what you already do informally: something doesn't work well → you notice → you fix it. The difference is making the "notice" step systematic rather than accidental.
+
+```
+┌──────────────────────────────────────────────┐
+│              THE UPDATE LOOP                  │
+│                                              │
+│  Session  →  Observe friction               │
+│               (repeated fixes, tool fails)   │
+│                    ↓                         │
+│             Analyze root cause               │
+│               (which skill/rule is missing?) │
+│                    ↓                         │
+│             Delta update                     │
+│               (targeted edit, not rewrite)   │
+│                    ↓                         │
+│             Canary test                      │
+│               (verify the fix holds)         │
+│                    ↓                         │
+│           Next session → repeat              │
+└──────────────────────────────────────────────┘
+```
+
+**The delta update principle:** when updating a skill or rule, make the smallest targeted edit that fixes the observed problem. Don't rewrite the whole skill — you'll lose what was working. One problem, one edit, one test.
+
+**Integrating into `/tech:handoff`:**
+
+If you use a handoff command to persist session context, add a mandatory retrospective step before saving:
+
+```markdown
+# Append to your handoff command prompt
+
+Before saving context, answer:
+- Which rules or skills were missing for today's work?
+- Which corrections did you make more than once?
+- What's the smallest edit that would prevent the most repeated friction?
+
+Save conclusions via: write_memory("retro_[date]", your answers)
+```
+
+**Canary testing a skill after update:**
+
+Before committing a skill change, verify it still produces the expected output on a known input:
+
+```bash
+# Example: test that typescript-aristote skill generates Zod validation
+claude -p "Using the typescript-aristote skill: create a basic user tRPC router" \
+  --output-format text | grep -qE "(z\.object|publicProcedure)" \
+  && echo "✅ Canary passed" \
+  || echo "❌ Canary failed — skill may have regressed"
+```
+
+Run canary tests before merging skill changes, especially for skills that other agents depend on.
+
+---
+
+### Going Further
+
+If you want to automate prompt optimization beyond the manual update loop, two frameworks are worth knowing:
+
+**DSPy** (Stanford, open-source) — optimizes prompts programmatically given a metric and a set of examples. Requires 20+ labeled examples per skill for reliable results. Useful when you have a well-defined task and enough session history to build a dataset. [dspy.ai](https://dspy.ai)
+
+**TextGrad** — treats prompts as differentiable parameters and iterates using LLM-generated feedback as "gradients". Better for creative or domain-specific tasks where the evaluation is qualitative. [github.com/zou-group/textgrad](https://github.com/zou-group/textgrad)
+
+Both require more setup than the manual loop above, and neither eliminates the need for human judgment on what to optimize. Start with the update loop and canary tests — they'll surface most of the value with a fraction of the overhead.
+
+---
+
+**What's Next?**
+
+- [§9.10 Continuous Improvement Mindset](#910-continuous-improvement-mindset) — the decision framework for when to encode vs. accept as an edge case
+- [§Observability: Reading for Quality](#reading-for-quality-not-just-quantity) — qualitative JSONL analysis patterns
+- [§9.12 Git Best Practices](#912-git-best-practices--workflows) — version control for your config alongside your code
+
+---
+
 # 10. Reference
 
 _Quick jump:_ [Commands Table](#101-commands-table) · [Keyboard Shortcuts](#102-keyboard-shortcuts) · [Configuration Reference](#103-configuration-reference) · [Troubleshooting](#104-troubleshooting) · [Cheatsheet](#105-cheatsheet) · [Daily Workflow](#106-daily-workflow--checklists)
@@ -21386,4 +21820,4 @@ We'll evaluate and add it to this section if it meets quality criteria.
 
 **Contributions**: Issues and PRs welcome.
 
-**Last updated**: January 2026 | **Version**: 3.29.0
+**Last updated**: January 2026 | **Version**: 3.29.1
