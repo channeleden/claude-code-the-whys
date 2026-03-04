@@ -768,7 +768,7 @@ Claude: [Continues with full context of Day 1 work]
   - **70%**: Warning - Start planning cleanup or handoff
   - **85%**: Manual handoff recommended - Prevent auto-compact degradation ([research-backed](../architecture.md#auto-compaction))
   - **95%**: Force handoff - Severe quality degradation
-- **Session naming**: Use meaningful session IDs when available to identify different work streams
+- **Session naming**: Use `/rename` to give sessions descriptive names — critical when running multiple sessions in parallel (see [Auto-Rename Pattern](#session-auto-rename) below)
 
 **Resume vs. fresh start**:
 
@@ -815,6 +815,45 @@ Claude: [Resumes with Serena's persistent project understanding]
 > **💡 Pro tip**: Use `claude -c` as your default way to start Claude Code in active projects. This ensures you never lose context from previous sessions unless you explicitly want a fresh start with `claude` (no flags).
 
 > **Source**: [DeepTo Claude Code Guide - Context Resume Functions](https://cc.deeptoai.com/docs/en/best-practices/claude-code-comprehensive-guide)
+
+### Session Auto-Rename
+
+When running multiple Claude Code sessions in parallel (split terminals, WebStorm tabs, parallel workstreams), the `/resume` picker shows sessions by timestamp or truncated first prompt — impossible to distinguish.
+
+**Solution**: A behavioral instruction in `~/.claude/CLAUDE.md` that makes Claude rename sessions automatically after 2-3 exchanges, with no tooling required.
+
+```markdown
+# Session Naming (auto-rename)
+
+## Expected behavior
+
+1. **Early rename**: Once the session's main subject is clear (after 2-3 exchanges),
+   run `/rename` with a short, descriptive title (max 50 chars)
+2. **End-of-session update**: If scope shifted significantly, propose a re-rename before closing
+
+## Title format
+
+`[action] [subject]` — examples:
+- "fix whitepaper PDF build"
+- "add auth middleware + tests"
+- "refactor hook system"
+- "update CC releases v2.2.0"
+
+## Rules
+
+- Max 50 characters, no "Session:" prefix, no date
+- Action verb first (fix, add, refactor, update, research, debug...)
+- Multi-topic: dominant subject only, not an exhaustive list
+- Do NOT ask for confirmation on early rename (just do it)
+```
+
+**Why not a hook?** The `Stop` event hook has no access to conversation context — it can't infer a meaningful title. The behavioral instruction approach costs zero tooling and works across all IDEs and terminals.
+
+**Limitation**: Terminal tab names (WebStorm, iTerm2) are not affected. JetBrains filters ANSI escape sequences. The Claude session is renamed, not the OS tab.
+
+After a session, the `/resume` picker shows `"fix auth middleware"` instead of `"2026-03-04T14:23..."`.
+
+> See full template: [examples/claude-md/session-naming.md](../examples/claude-md/session-naming.md)
 
 ## 1.4 Permission Modes
 
@@ -4357,6 +4396,63 @@ docs/solutions/
 ```
 
 Each file documents: the problem, the solution, why it works, and edge cases. Claude reads these files when similar patterns appear — the third time a related issue surfaces, the fix is already there. The distinction with CLAUDE.md is intentional: CLAUDE.md contains rules, `docs/solutions/` contains solved problems with their full context.
+
+#### The Compound Engineering philosophy (Every.to)
+
+The full Compound Engineering approach formalizes this intuition into a four-step loop and a broader philosophy for AI-native teams.
+
+**The main loop: Plan → Work → Review → Compound**
+
+Most teams skip the fourth step, which is where the real gains accumulate.
+
+| Step | What happens | Time allocation |
+|------|-------------|----------------|
+| **Plan** | Understand the requirement, research the codebase and docs, design the solution | ~40% |
+| **Work** | Agent implements in an isolated branch/worktree, validations run automatically | ~10% |
+| **Review** | Multiple specialized agents review in parallel (security, performance, architecture, etc.), findings are prioritized P1/P2/P3 | ~40% |
+| **Compound** | Document what worked, update CLAUDE.md with new patterns, create agents for recurring review tasks | ~10% |
+
+The critical insight: 80% of engineer time should be planning and reviewing, 20% implementing and compounding. Writing code is not the job — shipping value is.
+
+**The 50/50 rule**
+
+Allocate 50% of engineering time to building features, 50% to improving the system (review agents, documented patterns, test generators). In traditional engineering, teams put 90/10 on features and end up with a codebase that gets harder to work with each year. The 50/50 split makes each iteration faster than the last.
+
+**The adoption ladder**
+
+Where you are determines what you should focus on next, not what someone else is doing at stage five.
+
+| Stage | Description | Key unlock |
+|-------|-------------|-----------|
+| 0 | Manual development | — |
+| 1 | Chat-based assistance (ChatGPT, copy-paste) | Good prompts, reuse them |
+| 2 | Agentic tools with line-by-line review | CLAUDE.md, learn what to trust |
+| 3 | Plan-first, PR-only review | Step away during implementation, review the diff |
+| 4 | Idea to PR (single machine) | Full delegation, minimal touch points |
+| 5 | Parallel cloud execution | Fleet of agents, you review PRs as they arrive |
+
+Most developers plateau at stage 2 (approving every action) because they don't trust the output. The answer isn't more review, it's better safety nets: tests, automated review agents, git worktrees for isolation.
+
+**Key beliefs to adopt**
+
+- Every unit of work should make subsequent work easier, not harder
+- Taste belongs in systems (CLAUDE.md, agents, skills), not in manual review
+- Build safety nets, not review processes — trust comes from verification infrastructure, not gatekeeping
+- Plans are the new code — a well-written plan is the most valuable artifact you produce
+- Parallelization is the new bottleneck — compute, not attention, is the constraint now
+
+**The plugin (optional)**
+
+Every shipped a Claude Code plugin that bundles this entire system: 26 specialized review agents, 23 workflow commands, and 13 domain skills.
+
+```bash
+claude /plugin marketplace add https://github.com/EveryInc/every-marketplace
+claude /plugin install compound-engineering
+```
+
+This drops the full `docs/brainstorms/`, `docs/solutions/`, `docs/plans/`, and `todos/` structure into your project, along with commands like `/workflows:plan`, `/workflows:work`, `/workflows:review`, and `/workflows:compound`.
+
+Installing the plugin is not required to apply the philosophy. The `docs/solutions/` pattern and the loop work with your existing Claude Code setup.
 
 ### Build for the Model 6 Months Out
 
@@ -10524,6 +10620,75 @@ ast-grep is a **community extension** for specialized structural searches where 
 - E2E testing
 - Visual validation
 - Browser debugging
+
+### agent-browser (Vercel Labs) — AI-Native Browser Automation
+
+> **Status**: Active development — v0.15.0 (Feb 2026). 12,100+ stars. Rapid release cycle.
+
+**Purpose**: Headless browser CLI built for AI agents. Uses Playwright/CDP under the hood but optimizes all output for LLM consumption. Written in Rust for sub-millisecond startup.
+
+**Why it matters for agentic workflows**: Playwright MCP is verbose — every DOM snapshot adds tokens. agent-browser returns only actionable elements via stable short references (`@e1`, `@e2`), cutting token usage by ~82.5% on identical scenarios (Pulumi benchmark, 2026-03-03).
+
+**Install**:
+
+```bash
+# Homebrew
+brew install vercel-labs/tap/agent-browser
+
+# Or npm
+npm install -g @vercel-labs/agent-browser
+```
+
+**Capabilities**:
+
+| Feature | Details |
+|---------|---------|
+| Navigation + interaction | Click, type, scroll, fill forms |
+| Accessibility tree | LLM-optimized snapshots (actionable elements only) |
+| Visual diffs | Pixel-level comparison against baselines |
+| Session persistence | Save/restore auth state (AES-256-GCM) |
+| Multi-session | Isolated instances, separate cookies/storage |
+| Security (v0.15.0) | Auth vaults, domain allowlists, action policies |
+| Browser streaming | Live WebSocket preview for human+agent "pair browsing" |
+
+**agent-browser vs Playwright MCP**:
+
+| Dimension | Playwright MCP | agent-browser |
+|-----------|---------------|---------------|
+| Primary audience | Developers (test suites) | AI agents |
+| Token usage | Baseline | **-82.5%** |
+| Element references | XPath/CSS selectors | `@e1`, `@e2` (stable, compact) |
+| Implementation | Node.js | Rust (sub-ms startup) |
+| Session persistence | No | Yes |
+| Security controls | None | Auth vaults, domain allowlists |
+| Self-verifying agents | Awkward | Native pattern |
+
+**The Ralph Wiggum Loop** — self-verifying agent pattern:
+
+```
+1. Agent codes the feature
+2. Deploys (Vercel, any target)
+3. agent-browser navigates to deployed URL autonomously
+4. Tests scenarios, reads accessibility snapshots
+5. On failure: agent reads output, fixes code, re-deploys
+6. Loop until all scenarios pass — no human in the loop
+```
+
+Documented in production at Pulumi (2026-03-03) across 6 test scenarios on a real app.
+
+**Use when**:
+- Agent must verify its own deployed output (self-verifying loops)
+- Token cost of browser context is a constraint
+- Multi-session testing (parallel isolated browser instances)
+- Visual regression in agentic CI/CD pipelines
+
+**Don't use when**:
+- You have existing Playwright test suites — not a drop-in replacement for test runners
+- Scraping anti-bot protected sites — IP/behavior detection unchanged (Browserbase-type services still needed)
+
+**Resources**:
+- [GitHub: vercel-labs/agent-browser](https://github.com/vercel-labs/agent-browser)
+- [Case study: Ralph Wiggum Loop at Pulumi](https://www.pulumi.com/blog/self-verifying-ai-agents-vercels-agent-browser-in-the-ralph-wiggum-loop/)
 
 ### doobidoo Memory Service (Semantic Memory)
 
