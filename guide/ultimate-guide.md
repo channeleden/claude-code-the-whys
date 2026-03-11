@@ -11586,16 +11586,35 @@ Install the companion slash commands for one-keystroke access (stored in `~/.cla
 # Copy or symlink to ~/.claude/commands/ccguide/ to install globally
 ```
 
+**Guide commands:**
+
 | Command | Example | Description |
 |---------|---------|-------------|
 | `/ccguide:search` | `/ccguide:search hooks` | Search by keyword |
 | `/ccguide:cheatsheet` | `/ccguide:cheatsheet hooks` | Cheatsheet (full or section) |
-| `/ccguide:digest` | `/ccguide:digest week` | What changed this week |
+| `/ccguide:digest` | `/ccguide:digest week` | What changed this week (guide + CC releases) |
 | `/ccguide:example` | `/ccguide:example code-reviewer` | Fetch a template |
 | `/ccguide:examples` | `/ccguide:examples agents` | List templates by category |
 | `/ccguide:release` | `/ccguide:release 2.1.59` | Release details |
 | `/ccguide:changelog` | `/ccguide:changelog 10` | Recent guide CHANGELOG |
 | `/ccguide:topics` | `/ccguide:topics` | Browse all categories |
+
+**Official Anthropic docs tracker** (MCP v1.1.0+):
+
+| Command | Description |
+|---------|-------------|
+| `/ccguide:init-docs` | Fetch official docs + store as local baseline (run once) |
+| `/ccguide:refresh-docs` | Re-fetch latest docs, update current snapshot (baseline unchanged) |
+| `/ccguide:diff-docs` | Compare baseline vs current — added/removed/modified pages, 0 network |
+| `/ccguide:search-docs <query>` | Search official Anthropic docs from local cache |
+| `/ccguide:daily` | **Daily briefing**: refresh + diff official docs + guide/CC digest |
+
+Typical workflow:
+```bash
+/ccguide:init-docs          # once — stores baseline + current in ~/.cache/claude-code-guide/
+# days later...
+/ccguide:daily              # every day — refresh + diff + digest in one shot
+```
 
 #### Custom agent
 
