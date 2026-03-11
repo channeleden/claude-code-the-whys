@@ -12,7 +12,7 @@ tags: [cheatsheet, reference]
 
 **Written with**: Claude (Anthropic)
 
-**Version**: 3.34.1 | **Last Updated**: February 2026
+**Version**: 3.34.2 | **Last Updated**: February 2026
 
 ---
 
@@ -639,4 +639,4 @@ Speed: `rg` (~20ms) → Serena (~100ms) → ast-grep (~200ms) → grepai (~500ms
 
 **Author**: Florian BRUNIAUX | [@Méthode Aristote](https://methode-aristote.fr) | Written with Claude
 
-*Last updated: February 2026 | Version 3.34.1*
+*Last updated: February 2026 | Version 3.34.2*

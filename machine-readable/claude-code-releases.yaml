@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.71"
-updated: "2026-03-08"
+latest: "2.1.72"
+updated: "2026-03-11"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,16 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-March 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.72"
+    date: "2026-03-09"
+    highlights:
+      - "⭐ Restored `model` parameter on Agent tool for per-invocation model overrides"
+      - "⭐ Fixed SDK `query()` prompt cache invalidation — up to 12x input token cost reduction"
+      - "CLAUDE.md HTML comments now hidden from Claude when auto-injected; `/plan` accepts optional description"
+      - "Simplified effort levels: low/medium/high (removed max), symbols ○ ◐ ●; `ExitWorktree` tool added"
+      - "Added `CLAUDE_CODE_DISABLE_CRON` env var; `lsof`, `pgrep`, `fd` added to bash auto-approval allowlist"
+    breaking: []
 
   - version: "2.1.71"
     date: "2026-03-06"

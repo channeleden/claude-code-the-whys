@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [3.34.2] - 2026-03-11
+
+### Documentation
+
+- **Claude Code Releases**: Updated tracking to v2.1.72 (2026-03-09)
+  - Restored `model` parameter on Agent tool for per-invocation model overrides
+  - Fixed SDK `query()` prompt cache invalidation — up to 12x input token cost reduction
+  - CLAUDE.md HTML comments now hidden from Claude when auto-injected
+  - Simplified effort levels: low/medium/high (removed max), new symbols ○ ◐ ●
+  - `ExitWorktree` tool added; `CLAUDE_CODE_DISABLE_CRON` env var; `/plan` optional description
+
 ## [3.34.1] - 2026-03-11
 
 ### Added

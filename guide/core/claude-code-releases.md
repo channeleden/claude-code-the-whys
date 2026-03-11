@@ -10,13 +10,13 @@ tags: [reference, release]
 > **Full details**: [github.com/anthropics/claude-code/CHANGELOG.md](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)
 > **Machine-readable**: [claude-code-releases.yaml](../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.69 | **Updated**: 2026-03-05
+**Latest**: v2.1.72 | **Updated**: 2026-03-11
 
 ---
 
 ## Quick Jump
 
-- [2.1.x Series (January-March 2026)](#21x-series-january-march-2026) — Worktree isolation, background agents, ConfigChange hook, Fast mode Opus 4.6, 1M context, claude.ai MCP connectors, remote-control, auto-memory, /copy command, HTTP hooks, worktree config sharing, ultrathink re-introduced, InstructionsLoaded hook, 4 security fixes
+- [2.1.x Series (January-March 2026)](#21x-series-january-march-2026) — Worktree isolation, background agents, ConfigChange hook, Fast mode Opus 4.6, 1M context, claude.ai MCP connectors, remote-control, auto-memory, /copy command, HTTP hooks, worktree config sharing, ultrathink re-introduced, InstructionsLoaded hook, 4 security fixes, Agent model override restored, 12x SDK token cost reduction
 - [2.0.x Series (Nov 2025 - Jan 2026)](#20x-series-november-2025---january-2026) — Opus 4.5, Claude in Chrome, Background agents
 - [Breaking Changes Summary](#breaking-changes-summary)
 - [Milestone Features](#milestone-features)
@@ -24,6 +24,29 @@ tags: [reference, release]
 ---
 
 ## 2.1.x Series (January-March 2026)
+
+### v2.1.72 (2026-03-09)
+
+- **New**: Restored `model` parameter on Agent tool — per-invocation model overrides are back
+- **New**: `/plan` accepts optional description (e.g., `/plan fix the auth bug`) to enter plan mode and start immediately
+- **New**: `ExitWorktree` tool to leave an `EnterWorktree` session
+- **New**: `CLAUDE_CODE_DISABLE_CRON` env var to stop scheduled cron jobs mid-session
+- **New**: `lsof`, `pgrep`, `tput`, `ss`, `fd`, `fdfind` added to bash auto-approval allowlist
+- **New**: `/copy` `w` key writes selection directly to file, bypassing clipboard (useful over SSH)
+- **Changed**: Simplified effort levels to low/medium/high (removed max), new symbols ○ ◐ ●; use `/effort auto` to reset
+- **Changed**: CLAUDE.md HTML comments (`<!-- ... -->`) now hidden from Claude when auto-injected (visible via Read tool)
+- **Changed**: `/config` — Escape cancels changes, Enter saves and closes, Space toggles settings
+- **Fixed**: SDK `query()` prompt cache invalidation — up to 12x input token cost reduction
+- **Fixed**: Tool search now activates with `ANTHROPIC_BASE_URL` when `ENABLE_TOOL_SEARCH` is set
+- **Fixed**: Skill hooks firing twice per event when a hooks-enabled skill is invoked by the model
+- **Fixed**: `/clear` killing background agent/bash tasks — only foreground tasks now cleared
+- **Fixed**: Worktree isolation: Task tool resume not restoring cwd, background task notifications missing `worktreePath`/`worktreeBranch`
+- **Fixed**: `--continue` not resuming from most recent point after `--compact`
+- **Fixed**: Team agents now inherit the leader's model
+- **Fixed**: Parallel tool calls — only Bash errors cascade to siblings (Read/WebFetch/Glob failures no longer cancel siblings)
+- **Fixed**: Multiple hooks issues: `transcript_path` wrong for resumed/forked sessions, async hooks not receiving stdin, PostToolUse block reason displaying twice
+- **Fixed**: Several sandbox permission, plugin installation (Windows/OneDrive), and voice mode issues
+- **Perf**: Reduced bundle size by ~510 KB; improved CPU utilization in long sessions; faster bash init via native module
 
 ### v2.1.69 (2026-03-04)
 
