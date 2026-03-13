@@ -111,7 +111,9 @@ deep_dive:
   # Session management
   session_search: "guide/ops/observability.md:38"
   session_search_script: "examples/scripts/session-search.sh"
-  cc_sessions_script: "examples/scripts/cc-sessions.py"
+  cc_sessions_script: "examples/scripts/cc-sessions.py"  # 1225-line full version with discover subcommand
+  cc_sessions_github: "https://github.com/FlorianBruniaux/cc-sessions"
+  cc_sessions_discover: "guide/ultimate-guide.md#session-pattern-discovery"  # n-gram + --llm pattern analysis
   session_resume_limitations: "guide/ops/observability.md:126"
   session_cross_folder_migration: "guide/ops/observability.md:126"
   session_migration_manual: "guide/ops/observability.md:126"

@@ -271,9 +271,11 @@ Search across all Claude Code session histories.
 
 ## Session Manager (Advanced)
 
-Advanced CLI for session search, browse & resume with incremental indexing.
+Advanced CLI for session search, browse, resume & pattern discovery with incremental indexing.
 
-**vs session-search.sh**: Faster search (~200ms vs ~400ms), partial ID resume, branch filter, worktree support, incremental JSONL index.
+**vs session-search.sh**: Faster search (~200ms vs ~400ms), partial ID resume, branch filter, worktree support, incremental JSONL index, and `discover` subcommand for automated config optimization.
+
+**GitHub**: [FlorianBruniaux/cc-sessions](https://github.com/FlorianBruniaux/cc-sessions)
 
 ```bash
 # Search in current project
@@ -293,11 +295,26 @@ cc-sessions resume 8d472d
 
 # JSON output for scripting
 cc-sessions --json search "prisma" | jq -r '.[].id'
+
+# Discover recurring patterns (n-gram, local, free)
+cc-sessions --all discover
+
+# Discover with semantic analysis via claude --print
+cc-sessions --all discover --llm
+
+# JSON output for scripting
+cc-sessions --all discover --json | jq '.[] | select(.category == "skill")'
 ```
 
-**Installation**: `cp cc-sessions.py ~/bin/cc-sessions && chmod +x ~/bin/cc-sessions`
+**Install from GitHub**:
+```bash
+curl -sL https://raw.githubusercontent.com/FlorianBruniaux/cc-sessions/main/cc-sessions \
+  -o ~/.local/bin/cc-sessions && chmod +x ~/.local/bin/cc-sessions
+```
 
-> [Gist source](https://gist.github.com/FlorianBruniaux/992d4d1107592d9e98ca9d89838871c6)
+**Or copy locally**: `cp cc-sessions.py ~/bin/cc-sessions && chmod +x ~/bin/cc-sessions`
+
+> [GitHub repo](https://github.com/FlorianBruniaux/cc-sessions) · [Gist](https://gist.github.com/FlorianBruniaux/992d4d1107592d9e98ca9d89838871c6)
 
 ---
 

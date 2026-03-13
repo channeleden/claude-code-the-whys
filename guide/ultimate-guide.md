@@ -796,7 +796,7 @@ You: /exit
 Session ID: abc123def (saved for resume)
 ```
 
-> **Session Search Tools**: For fast session search, see [session-search.sh](../examples/scripts/session-search.sh) (bash, lightweight) and [cc-sessions.py](../examples/scripts/cc-sessions.py) (Python, advanced features: incremental index, partial ID resume, branch filter). Also: [Observability Guide](./ops/observability.md#session-search--resume).
+> **Session Search Tools**: For fast session search, see [session-search.sh](../examples/scripts/session-search.sh) (bash, lightweight) and [cc-sessions.py](../examples/scripts/cc-sessions.py) (Python, advanced features: incremental index, partial ID resume, branch filter, and `discover` for automated pattern analysis — [GitHub](https://github.com/FlorianBruniaux/cc-sessions)). Also: [Observability Guide](./ops/observability.md#session-search--resume).
 
 **Common use cases**:
 
@@ -883,6 +883,70 @@ Claude: [Resumes with Serena's persistent project understanding]
 > **💡 Pro tip**: Use `claude -c` as your default way to start Claude Code in active projects. This ensures you never lose context from previous sessions unless you explicitly want a fresh start with `claude` (no flags).
 
 > **Source**: [DeepTo Claude Code Guide - Context Resume Functions](https://cc.deeptoai.com/docs/en/best-practices/claude-code-comprehensive-guide)
+
+### Session Pattern Discovery (cc-sessions discover) {#session-pattern-discovery}
+
+Your session history is a data source. Every time you ask Claude to do the same kind of thing across multiple sessions, that's a signal: extract it as a skill, command, or CLAUDE.md rule and stop paying the context tax on every request.
+
+`cc-sessions discover` automates this analysis. It reads your session history, finds recurring patterns in user messages, and tells you what to extract.
+
+**Install**:
+
+```bash
+curl -sL https://raw.githubusercontent.com/FlorianBruniaux/cc-sessions/main/cc-sessions \
+  -o ~/.local/bin/cc-sessions && chmod +x ~/.local/bin/cc-sessions
+```
+
+**Two modes**:
+
+| Mode | How | Cost | Speed |
+|------|-----|------|-------|
+| N-gram (default) | Tokenizes messages, builds frequency index of 3-6 word phrases | Free, local | ~3s for 12 projects |
+| `--llm` | Deduplicates messages, sends batch to `claude --print` | Uses your subscription | ~15s |
+
+```bash
+# N-gram mode: all projects, last 90 days
+cc-sessions --all discover
+
+# Lower threshold, narrower window
+cc-sessions --all discover --since 60d --min-count 2 --top 15
+
+# Semantic analysis via claude --print
+cc-sessions --all discover --llm
+
+# JSON output for scripting
+cc-sessions --all discover --json | jq '.[] | select(.category == "skill")'
+```
+
+**Example output**:
+
+```
+  cc-sessions discover — 847 sessions · 12 project(s) · since 90d
+
+  📋  CLAUDE.md RULE
+  ────────────────────────────────────────────────────────────
+  write tests before implementation
+    234 sessions (28%) · 891 occurrences · score 0.416
+    → 3a72f1c4-...
+
+  🧩  SKILL
+  ────────────────────────────────────────────────────────────
+  security review authentication flow
+    71 sessions (8%) · 203 occurrences · score 0.084
+    → 9f1c3a22-...
+
+  ⚡  COMMAND
+  ────────────────────────────────────────────────────────────
+  generate prisma migration rollback script
+    18 sessions (2%) · 44 occurrences · score 0.021
+    → 44aab71c-...
+```
+
+**The 20% rule built into scoring**: patterns above 20% of sessions become `CLAUDE.md rule` suggestions (always load), 5-20% become `skill` suggestions (load on demand), below 5% become `command` suggestions (explicit invocation). The cross-project bonus (1.5×) prioritizes patterns that recur across different codebases — those are worth extracting even at lower frequency.
+
+See also: [§5.1 Understanding Skills](#51-understanding-skills) for the distinction between CLAUDE.md rules, skills, and commands, and the [20% rule](#the-20-rule) for the decision framework.
+
+**GitHub**: [FlorianBruniaux/cc-sessions](https://github.com/FlorianBruniaux/cc-sessions)
 
 ### Session Auto-Rename
 
@@ -1666,6 +1730,8 @@ When context gets high:
 - Loses all context
 - Use when changing topics
 
+> **"One Task, One Chat"** — mixing unrelated topics across turns degrades model accuracy by ~39%. Context accumulates noise ("context rot") that distorts judgment even when total token usage stays low. Use `/clear` aggressively between distinct tasks, not just when the context bar turns red.
+
 **Option 3: Summarize from here** (v2.1.32+)
 - Use `/rewind` (or `Esc + Esc`) to open the checkpoint list
 - Select a checkpoint and choose "Summarize from here"
@@ -2136,6 +2202,62 @@ response = client.messages.create(
 - Cache key = exact prefix match (single character change = cache miss)
 - Place breakpoints after large stable sections: system prompt, tool definitions, codebase context
 - For Claude Code itself: caching is handled automatically by the CLI — this applies to API-based workflows you build on top of Claude
+
+> Docs: [prompt caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)
+
+#### How Claude Code Handles Caching Automatically
+
+Claude Code manages prompt caching without any configuration on your part. Understanding the mechanics helps you make decisions that keep cache hit rates high and costs low.
+
+**Cache prefix hierarchy**
+
+Every API call Claude Code makes structures content in this fixed order: `tools → system → messages`. Cache matching always starts from the beginning of this prefix. A stable tool list + stable CLAUDE.md + growing conversation history means the first two layers are almost always cache hits, while only new message turns require fresh computation.
+
+**The 20-block lookback — the long-session trap**
+
+Cache matching uses a bounded lookback of approximately 20 blocks. In a long session with many tool calls and exchanges, blocks from early in the conversation fall outside this window and become cache misses. Practical consequence: very long sessions gradually lose cache efficiency at the message layer. The fix is `/compact` — it compresses the conversation history into a single summary block, resetting the lookback window and restoring high hit rates.
+
+**Minimum token thresholds by model**
+
+A block must meet a minimum size to be eligible for caching. Blocks smaller than the threshold are never cached, regardless of how stable they are:
+
+| Model family | Minimum tokens |
+|---|---|
+| Claude Opus 4.6, Opus 4.5, Haiku 4.5 | 4,096 |
+| Claude Sonnet 4.6 | 2,048 |
+| Claude Sonnet 4.5, Sonnet 4, Sonnet 3.7, Opus 4.1, Opus 4 | 1,024 |
+| Claude Haiku 3.5, Haiku 3 | 2,048 |
+
+Short CLAUDE.md files (under ~1,000 tokens) may not be cached at all on Sonnet models. If cost optimization matters, make sure your system prompt crosses the threshold for your target model.
+
+**Tool result size and cache economics**
+
+Tool results land in the message history and stay there for the rest of the session. Every subsequent API call re-reads that history — at cache read price (0.1x), but still proportional to size. A `git status` output of 500 tokens costs 500 × 0.1x to read on every turn that follows. The same output at 50 tokens (filtered by a tool like RTK) costs 50 × 0.1x — 90% less, compounding across every turn in the session. Compact tool outputs are not just faster to process; they make the entire cached prefix cheaper to maintain.
+
+The same logic applies to cache writes: a smaller history prefix means cheaper initial writes (1.25x × fewer tokens).
+
+**Monitoring cache performance in your own pipelines**
+
+When building agents or pipelines on top of the Anthropic API, the response `usage` object exposes cache metrics directly:
+
+```python
+response = client.messages.create(...)
+
+print(response.usage.cache_creation_input_tokens)  # Tokens written to cache this request
+print(response.usage.cache_read_input_tokens)       # Tokens read from cache (hits)
+print(response.usage.input_tokens)                  # Non-cached input tokens
+```
+
+Calculate your hit rate as `cache_read / (cache_read + cache_creation)` across requests. A ratio above 0.8 means your prompt structure is working well. Low ratios usually mean content in the stable prefix is changing between requests — check for timestamps, random IDs, or dynamic content embedded in your system prompt.
+
+No dedicated monitoring tool exists specifically for Claude Code session cache metrics. Cost tracking via `ccusage` covers overall spend but does not break out cache hit rates. For cache-specific visibility in custom pipelines, parse the response fields above.
+
+**Practical rules**
+
+- Keep CLAUDE.md stable between sessions — edits invalidate the system cache one-shot, then it re-warms on the next request
+- Run `/compact` before the conversation gets very long, not after performance degrades
+- Avoid dynamic content in stable sections (dates, random values, per-request context)
+- Larger CLAUDE.md = more expensive cache write, but also more tokens saved per read — profitable after ~2 hits
 
 > Docs: [prompt caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)
 
@@ -6820,7 +6942,9 @@ Is this a repeatable workflow with steps?
                 └─ No → Just write it in CLAUDE.md as instructions
 ```
 
-> **See also**: [§2.7 Configuration Decision Guide](#27-configuration-decision-guide) for a broader decision tree covering all seven mechanisms (including Hooks, MCP, and CLAUDE.md vs rules).
+> **The 20% rule**: if an instruction applies to more than 20% of your conversations, put it in `CLAUDE.md` (always loaded). If it applies to fewer than 20%, make it a skill (loaded on demand). The difference matters for token efficiency: a skill's system prompt is injected only when Claude invokes it, while CLAUDE.md content counts against every request's context window.
+
+> **See also**: [§2.7 Configuration Decision Guide](#27-configuration-decision-guide) for a broader decision tree covering all seven mechanisms (including Hooks, MCP, and CLAUDE.md vs rules). To automate detection of what belongs in each category, use [`cc-sessions discover`](#session-pattern-discovery) — it applies this 20% threshold to your actual session history.
 
 #### Common Patterns
 
@@ -10385,6 +10509,25 @@ grepai search "session creation logic"
 
 > **Source**: [grepai GitHub](https://github.com/yoanbernabeu/grepai)
 
+**Blast-Radius Pattern (pre-refactoring workflow):**
+
+Before modifying any widely-used function, run a dependency query to enumerate all affected call sites — then decide whether to proceed. This named workflow prevents cascading breakage in large codebases.
+
+```bash
+# Step 1: Map all callers before touching a function
+grepai trace callers "processPayment"
+# → Returns: 14 call sites across 7 files
+
+# Step 2: Check callees (what it depends on)
+grepai trace callees "processPayment"
+# → Returns: 3 downstream dependencies
+
+# Step 3: Decide scope before writing a single line
+# 14 callers + 3 deps = significant blast radius → plan the refactor first
+```
+
+Run this before starting any refactor touching a function used in 3+ places — not after hitting compile errors.
+
 ---
 
 ### claude-mem (Automatic Session Memory)
@@ -11745,6 +11888,22 @@ serena          # large codebase
 ```
 
 Community tools (e.g. [cc-setup](https://github.com/rhuss/cc-setup)) are emerging to provide a TUI registry with per-project toggling and health checks — useful if you manage 8+ servers regularly.
+
+#### MCP Tool Search — Lazy-Loading at Scale
+
+Claude Code v4 introduced **MCP Tool Search**: instead of loading all MCP tool definitions at startup, tool schemas are fetched on-demand when Claude needs them.
+
+**Why it matters**: each MCP server injects its full tool schema into the context window. With a dozen servers, that's ~77,000 tokens consumed before you've written a single prompt.
+
+| Setup | Context used by tools |
+|-------|----------------------|
+| All tools loaded upfront | ~77,000 tokens |
+| MCP Tool Search enabled | ~8,700 tokens |
+| **Reduction** | **~85%** |
+
+Model accuracy on tool-selection tasks (measured on Opus 4): 49% → 74% (+25 points) when switching from full preload to lazy-loading. Auto-enables when MCP tools would consume >10% of the context window.
+
+**Practical implication**: you can now connect dozens of MCP servers without the "too many tools" accuracy penalty. The advice to keep global config minimal still applies for unrelated tools, but MCP Tool Search changes the calculus for large project-specific sets.
 
 ### CLI-Based MCP Configuration
 
@@ -13827,6 +13986,63 @@ We've made your experience faster and more personal:
 **"Commits are messy/unclear"**
 - Solution: Clean up commit history before generation (interactive rebase)
 - Better: Enforce commit message format with git hooks
+
+### Changelog Fragments: Per-PR Enforcement Pattern
+
+An alternative to generating release notes from commits is to capture the context _while implementing_, not at release time. The "changelog fragments" pattern replaces a shared `CHANGELOG.md` with one YAML file per PR, accumulated in `changelog/fragments/`, assembled automatically at release.
+
+**The core problem with commit-based approaches**: by the time you run `git log` to generate release notes, context is gone. The developer who fixed a race condition three weeks ago is the only one who understood the impact. The commit message says `fix SSE handling`.
+
+The fragments pattern solves this with 3 enforcement layers:
+
+**Layer 1 — CLAUDE.md rule**: Load a `git-workflow.md` rule that encodes the full fragment workflow. When a developer asks Claude Code to "create the PR," it reads the diff, infers type/scope/title, generates the YAML, validates it, and commits it as part of the branch. Claude handles it autonomously.
+
+```yaml
+# changelog/fragments/886-fix-visiochat-sse-race-condition.yml
+pr: 886
+type: fix
+scope: "visiochat"
+title: "Fix empty chat after starting activity due to SSE race condition"
+description: |
+  SSE workplan fires before AI stream completes, causing ChatWrapper to mount
+  with 0 messages. Added isStartingActivityRef guard and await response.text().
+breaking: false
+migration: false
+```
+
+**Layer 2 — `UserPromptSubmit` hook**: Detects PR creation intent and checks whether the fragment was already mentioned.
+
+```bash
+# Tier 0 enforcement in smart-suggest.sh
+if echo "$PROMPT_LC" | grep -qE '(create.*pr|make.*pr|pull.?request)'; then
+    if ! echo "$PROMPT_LC" | grep -qE '(changelog|fragment|skip-changelog)'; then
+        suggest "pnpm changelog:add" "REQUIRED before merge — fragment missing"
+    else
+        suggest "/pr" "PR creation with structured description"
+    fi
+fi
+```
+
+The hook is non-blocking and shows one suggestion inline, before Claude processes the prompt. If the fragment is already mentioned, the hook stays silent and suggests the normal PR command.
+
+**Layer 3 — CI gate**: Two independent GitHub Actions jobs. The first validates fragment existence and structure. The second checks that `migration: true` is set if the PR adds SQL migration files — this job runs regardless of bypass labels, because a "skip-changelog" PR can still add a migration that the deployment team needs to know about.
+
+**Assembly at release:**
+
+```bash
+pnpm changelog:assemble --version 1.8.0 [--dry-run]
+```
+
+Reads all fragments, groups by type, inserts a versioned section into `CHANGELOG.md` replacing a `## [Next Release]` placeholder, archives fragments to `changelog/fragments/released/{version}/`.
+
+**Benefits over commit-based generation:**
+- Zero merge conflicts (each fragment is a unique file per PR)
+- Context written at implementation time, not reconstructed later
+- DB migrations surfaced explicitly in every fragment
+- Bypass is auditable (closed label list visible in PR history)
+
+Full workflow documentation: [Changelog Fragments](./workflows/changelog-fragments.md)
+Hook reference implementation: [`examples/hooks/bash/smart-suggest.sh`](../examples/hooks/bash/smart-suggest.sh)
 
 ### Deployment Automation
 
@@ -15999,6 +16215,39 @@ You: "Fix typos in auth.ts, user.ts, and api.ts"
 # Single context load, multiple fixes
 ```
 
+**6. Pre-structural indexing:**
+
+Instead of letting Claude read files on demand throughout a session, pre-build a structural index of your codebase before starting. Claude queries the index (1 call) rather than reading files sequentially (5-10 reads per task).
+
+```bash
+# With CodeXRay (npx setup, SQLite-backed, 15 languages):
+npx codexray        # Interactive setup + first index build
+cxr watch &         # Background sync on file changes
+
+# Claude Code then queries the graph instead of reading files:
+# "find the payment module" → 1 graph query vs 5-10 file reads
+```
+
+Tools built on this pattern replace 5-10 file reads with 1 structured query — roughly 75% fewer tool calls for discovery tasks.
+
+**Dead code and circular dependency detection:**
+
+A structural index also enables analysis that file-by-file reading cannot surface efficiently:
+
+- **Dead code**: Functions defined but never called — safe to delete, reducing future context noise
+- **Circular dependencies**: Module A imports B imports A — architectural debt that silently inflates Claude's reasoning overhead
+- **Hotspots**: Files with the highest dependency count — prioritize for documentation or refactoring first
+
+```bash
+# With grepai (zero callers = dead code candidate):
+grepai trace callers "MyFunction"  # Empty result → safe to investigate for deletion
+
+# With a structural MCP tool (if available):
+# Tools like CodeXRay expose: codexray_deadcode, codexray_circular, codexray_hotspots
+```
+
+> **Community tools**: [CodeXRay](https://github.com/NeuralRays/codexray) (Tree-sitter + SQLite, 16 MCP tools, 15 languages) and [Claudette](https://github.com/nicmarti/Claudette) (Go binary, 4 languages) are early implementations of this approach. Both are alpha-stage as of March 2026 — use grepai for production workflows.
+
 ### Command Output Optimization with RTK
 
 **RTK (Rust Token Killer)** filters bash command outputs **before** they reach Claude's context, achieving 60-90% token reduction across git, testing, and development workflows. 446 stars, 38 forks, 700+ upvotes on r/ClaudeAI.
@@ -16459,6 +16708,7 @@ Time savings from effective Claude Code usage typically far outweigh API costs f
 ├─ "I want to spec before code" ─────→ workflows/spec-first.md
 ├─ "I need to plan architecture" ────→ workflows/plan-driven.md
 ├─ "I'm iterating on something" ─────→ workflows/iterative-refinement.md
+├─ "Feasibility is unknown" ─────────→ workflows/rpi.md
 └─ "I need methodology theory" ──────→ methodologies.md
 ```
 

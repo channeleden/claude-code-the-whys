@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **`cc-sessions discover` documentation** — New subsection "Session Pattern Discovery" in §2.x (Session Management) covering the `discover` subcommand: n-gram mode (local, free, ~3s for 12 projects) vs `--llm` mode (semantic analysis via `claude --print`). Includes example output, the 20% rule decision framework (CLAUDE.md rule / skill / command categorization), and install instructions. Cross-reference added after the 20% rule callout in §5.1.
+
+- **`examples/scripts/cc-sessions.py` synced** — Updated from 498-line stale copy to the full 1225-line version from `~/bin/cc-sessions`. Includes the complete `discover` subcommand (n-gram analysis + `--llm` mode), incremental discover cache, Jaccard deduplication, and all filtering logic. GitHub source header added.
+
+- **`examples/scripts/README.md`** — Updated cc-sessions entry: added `discover` subcommand examples (n-gram and `--llm`), GitHub repo link ([FlorianBruniaux/cc-sessions](https://github.com/FlorianBruniaux/cc-sessions)), and curl install instructions.
+
+- **`machine-readable/reference.yaml`** — Added `cc_sessions_github` and `cc_sessions_discover` entries alongside the updated `cc_sessions_script` comment.
+
+- **GitHub repo created**: [FlorianBruniaux/cc-sessions](https://github.com/FlorianBruniaux/cc-sessions) — v1.0.0 release tagged and published.
+
+## [3.34.11] - 2026-03-13
+
+### Updated
+
+- **`guide/ultimate-guide.md`** (§ Cost Optimization → Strategy 6): Added `#### How Claude Code Handles Caching Automatically` subsection (~75 lines) covering the mechanics that were previously a single undocumented footnote. New content: (1) **Cache prefix hierarchy** — `tools → system → messages` ordering and why the first two layers almost always hit; (2) **20-block lookback** — the long-session cache degradation trap and why `/compact` restores hit rates; (3) **Minimum token thresholds by model** — eligibility table for Opus/Sonnet/Haiku families (1,024–4,096 tokens), correcting the previously circulating false "32,000 token maximum" claim; (4) **Tool result size and cache economics** — why compact tool outputs reduce both cache write and read costs proportionally across the entire session; (5) **Monitoring in custom pipelines** — `cache_creation_input_tokens` / `cache_read_input_tokens` response fields, hit rate calculation formula, and why no dedicated CC cache monitoring tool currently exists; (6) **Practical rules** — CLAUDE.md stability, pre-emptive `/compact` timing, avoiding dynamic content in stable sections.
+
 ## [3.34.10] - 2026-03-13
 
 ### Added
