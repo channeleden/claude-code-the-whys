@@ -33,7 +33,11 @@ agent: specialist
 5. JSON Report Generation
 ```
 
-**Example**: `/design-patterns detect src/`
+**Example invocation**:
+```
+/design-patterns detect src/
+/design-patterns analyze --format=json
+```
 
 ### Mode 2: Suggestion
 
@@ -49,7 +53,11 @@ agent: specialist
 5. Markdown Report with Code Examples
 ```
 
-**Example**: `/design-patterns suggest src/payment/`
+**Example invocation**:
+```
+/design-patterns suggest src/payment/
+/design-patterns refactor --focus=creational
+```
 
 ### Mode 3: Evaluation
 
@@ -65,7 +73,11 @@ agent: specialist
 5. JSON Report with Recommendations
 ```
 
-**Example**: `/design-patterns evaluate src/services/singleton.ts`
+**Example invocation**:
+```
+/design-patterns evaluate src/services/singleton.ts
+/design-patterns quality --pattern=observer
+```
 
 ## Methodology
 
@@ -274,6 +286,134 @@ ELSE IF pattern_implemented_incorrectly:
 }
 ```
 
+### Suggestion Mode (Markdown)
+
+```markdown
+# Design Pattern Suggestions
+
+**Scope**: `src/payment/`
+**Stack**: React 18 + TypeScript + Stripe
+**Date**: 2026-01-21
+
+---
+
+## High Priority
+
+### 1. Strategy Pattern → `src/payment/processor.ts:45-89`
+
+**Code Smell**: Switch statement on payment type (4 cases, 78 lines)
+
+**Current Implementation** (lines 52-87):
+```typescript
+switch (paymentType) {
+  case 'credit':
+    // 20 lines of credit card logic
+    break;
+  case 'paypal':
+    // 15 lines of PayPal logic
+    break;
+  case 'crypto':
+    // 18 lines of crypto logic
+    break;
+  case 'bank':
+    // 12 lines of bank transfer logic
+    break;
+}
+```
+
+**Recommended (React-adapted Strategy)**:
+```typescript
+// Define strategy interface
+interface PaymentStrategy {
+  process: (amount: number) => Promise<PaymentResult>;
+}
+
+// Custom hooks as strategies
+const useCreditPayment = (): PaymentStrategy => ({
+  process: async (amount) => { /* credit logic */ }
+});
+
+const usePaypalPayment = (): PaymentStrategy => ({
+  process: async (amount) => { /* PayPal logic */ }
+});
+
+// Strategy selection hook
+const usePaymentStrategy = (type: PaymentType): PaymentStrategy => {
+  const strategies = {
+    credit: useCreditPayment(),
+    paypal: usePaypalPayment(),
+    crypto: useCryptoPayment(),
+    bank: useBankPayment(),
+  };
+  return strategies[type];
+};
+
+// Usage in component
+const PaymentForm = ({ type }: Props) => {
+  const strategy = usePaymentStrategy(type);
+  const handlePay = () => strategy.process(amount);
+  // ...
+};
+```
+
+**Impact**:
+- **Complexity**: Reduces cyclomatic complexity from 12 to 2
+- **Extensibility**: New payment methods = new hook, no modification to existing code
+- **Testability**: Each strategy hook can be tested in isolation
+- **Effort**: ~2 hours (extract logic into hooks, add tests)
+
+---
+
+## Medium Priority
+
+### 2. Observer Pattern → `src/cart/CartManager.ts:23-156`
+
+**Code Smell**: Manual notification logic scattered across 8 methods
+
+**Current**: Manual loops calling update functions
+**Recommended**: Use Zustand store (already in dependencies)
+
+```typescript
+// Instead of custom observer:
+import create from 'zustand';
+
+interface CartStore {
+  items: CartItem[];
+  addItem: (item: CartItem) => void;
+  removeItem: (id: string) => void;
+  // Zustand automatically notifies subscribers
+}
+
+export const useCartStore = create<CartStore>((set) => ({
+  items: [],
+  addItem: (item) => set((state) => ({ items: [...state.items, item] })),
+  removeItem: (id) => set((state) => ({ items: state.items.filter(i => i.id !== id) })),
+}));
+
+// Components auto-subscribe:
+const CartDisplay = () => {
+  const items = useCartStore((state) => state.items);
+  // Re-renders automatically on cart changes
+};
+```
+
+**Impact**:
+- **LOC**: Reduces from 156 to ~25 lines
+- **Stack-native**: Uses existing Zustand dependency
+- **Testability**: Zustand stores are easily tested
+- **Effort**: ~1.5 hours
+
+---
+
+## Summary
+
+- **Total suggestions**: 4
+- **High priority**: 2 (Strategy, Observer)
+- **Medium priority**: 2 (Builder, Facade)
+- **Estimated total effort**: ~6 hours
+- **Primary benefits**: Reduced complexity, improved testability, stack-native idioms
+```
+
 ### Evaluation Mode (JSON)
 
 ```json
@@ -363,11 +503,40 @@ ELSE IF pattern_implemented_incorrectly:
 
 ## Usage Examples
 
+### Basic Detection
 ```bash
-/design-patterns detect src/                          # Detect all patterns
-/design-patterns detect src/ --category=creational    # Creational only
-/design-patterns suggest src/payment/                 # Suggestions for module
-/design-patterns evaluate src/services/api-client.ts  # Evaluate specific file
+# Detect all patterns in src/
+/design-patterns detect src/
+
+# Detect only creational patterns
+/design-patterns detect src/ --category=creational
+
+# Focus on specific pattern
+/design-patterns detect src/ --pattern=singleton
+```
+
+### Targeted Suggestions
+```bash
+# Get suggestions for payment module
+/design-patterns suggest src/payment/
+
+# Focus on specific smell
+/design-patterns suggest src/ --smell=switch-on-type
+
+# High priority only
+/design-patterns suggest src/ --priority=high
+```
+
+### Quality Evaluation
+```bash
+# Evaluate specific file
+/design-patterns evaluate src/services/api-client.ts
+
+# Evaluate all singletons
+/design-patterns evaluate src/ --pattern=singleton
+
+# Full quality report
+/design-patterns evaluate src/ --detailed
 ```
 
 ## Integration with Other Skills

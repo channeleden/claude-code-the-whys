@@ -10,6 +10,8 @@ tags: [mcp, reference, integration]
 
 This guide covers validated community MCP servers beyond the official Anthropic servers. All servers listed have been evaluated for production readiness, maintenance activity, and security.
 
+> **Not sure whether to use an MCP server or a CLI tool?** See the [MCP vs CLI Decision Guide](./mcp-vs-cli.md) for a full breakdown of tradeoffs, a decision matrix, and guidance by situation.
+
 ## Table of Contents
 
 - [Official vs Community Servers](#official-vs-community-servers)
@@ -907,6 +909,8 @@ Result: Official Python SDK docs + example code for streaming
 - **GitHub**: https://github.com/upstash/context7
 - **Official Site**: https://context7.com
 - **LobeHub Registry**: https://lobehub.com/mcp/upstash-context7
+
+**ctx7 CLI companion**: Context7 also ships a CLI (`npx ctx7`) that handles skill discovery and MCP setup from the terminal. `ctx7 skills suggest` auto-detects project dependencies and recommends matching skills; `ctx7 setup --claude` runs a wizard that configures MCP or CLI+Skills mode automatically. See §5.5 of the ultimate guide for the full workflow.
 
 ---
 

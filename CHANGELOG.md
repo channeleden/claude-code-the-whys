@@ -6,7 +6,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **New guide section §5.5 — Registry-based Discovery: ctx7 CLI** (`guide/ultimate-guide.md`): Context7's CLI companion (`npx ctx7`) for automated skill discovery and MCP setup. Documents `ctx7 skills suggest` (dependency-aware skill recommendations), `ctx7 skills install owner/repo`, `ctx7 setup --claude` wizard, and `ctx7 docs` terminal lookup. Clarifies agentskills.io (open spec) vs context7.com/skills (registry) relationship. Cross-reference note added to `guide/ecosystem/mcp-servers-ecosystem.md` Context7 section. Resource evaluation: `docs/resource-evaluations/2026-03-17-context7-cli.md` (score 4/5).
+
+- **Doc audit — stats sync**: corrected stale counts across guide + landing. Templates: 204/216/217/218/222/232 → unified to 217 (per `check-landing-sync.sh` logic). Guide lines: "22K" → "23K+" (actual: 23,422). Quiz: reference.yaml `quiz_count` and llms*.txt had 311 → corrected to 271 (actual count). Version in llms.txt / llms-full.txt / machine-readable/llms.txt bumped 3.36.0 → 3.37.0. Landing updated: FeaturesGrid, GuideComparison, WhyGuide, McpDemo, cheatsheet page, index.astro, compare page, and guide content files (00-introduction, index, 09-advanced-patterns, 12-appendices).
+
+## [3.37.0] - 2026-03-17
+
+- **ICM v0.5.0 — setup guide + session starter template**: corrected `icm init` documentation (3 explicit modes: `--mode mcp`, `--mode hook`, `--mode skill` — not a single interactive command); fixed CLI syntax (`--importance` is an enum `critical|high|medium|low`, not a float; no `memory` subcommand); added `examples/memory/icm-session-starter.md` ready-to-use onboarding prompt to paste at the start of any session.
+
+- **New guide section — MCP vs CLI Decision Guide** (`guide/ecosystem/mcp-vs-cli.md`): full comparison of MCP servers vs CLI tools across 4 decision dimensions (user type, model capability, observability needs, schema stability), decision matrix by situation, token cost analysis, tooling overview (RTK, MCPorter, mcp2cli), and practitioner quotes. Cross-linked from `mcp-servers-ecosystem.md`. Landing page published at `cc.bruniaux.com/ecosystem/mcp-vs-cli/` with 4 decision cards, 15-row collapsible guidance table, practitioner quotes section, and tooling micro-section. `check-landing-sync.sh` extended with section 7 for MCP vs CLI sync tracking.
+
+- **Resource evaluations (3)**: mcp2cli (3/5, MCP/OpenAPI/GraphQL to runtime CLI, 96-99% token savings claim, 8-day-old tool with structural mismatch against Claude Code native MCP architecture — watch list + document schema overhead insight); MCPorter by Steinberger (3/5, TypeScript MCP toolkit with auto-discovery, CLI generation and TS codegen — useful companion for testing MCP servers and hook scripts); CircleCI MCP vs CLI blog (3/5, inner loop / outer loop decision framework, 6-question guide, directional browser automation benchmark — worth borrowing the vocabulary, not the benchmark numbers).
+
+- **WP10 v1.2.0 — Marc Sélince feedback (DAF/finance)**: 6 corrections FR+EN on `10-budget-ia.qmd` / `10-ai-budget.qmd`. New `## Pour le DAF/CFO` section (ROI + OpEx/CapEx framing, replaces placeholder callout). New `## Freins COMEX au-delà du coût` Q&A section (vendor dependency, IP risk, lock-in pricing). §3.1 reframed "Attraction et rétention des top performers" (market tight for seniors/experts, not all profiles). §3.2 CTO: new "ROI des heures d'ingénieur" sub-point (LLMs on mechanical code free engineering time for architecture). §4.1 Budget: option 4 added (replace paid tool with OS equivalent for net-zero pilot), "200-500$/mois" figure removed from discretionary budget.
+
+- **Recap cards — EN translations created + FR fixes**: 57 EN recap cards created from scratch (`whitepapers/recap-cards/en/`) by translating all FR cards. FR cards batch-updated: `guide-version` and `version` fields bumped `3.32.1` → `3.36.0` across all 57 FR cards. Factual fixes: T19 (context window) corrected "1M beta, API only" → "1M GA for Max/Team/Enterprise CC plans (v2.1.75, no header needed)"; T01 (essential commands) updated with `/plan`, `/effort`, `/branch`, `/rename`, `/loop`, `/voice`, `/fast`, removed non-existent `/cost`, corrected keyboard shortcuts. `docs/for-cto.md` updated: "whitepapers coming soon" → links to `florian.bruniaux.com/guides` in all 4 occurrences.
+
 - **Fix dead link** (`guide/ultimate-guide.md` §3.5): Packmind anchor `../ecosystem/third-party-tools.md#packmind` corrected to `ecosystem/third-party-tools.md#packmind` (wrong `../` prefix was resolving outside `guide/`).
+
+- **Whitepapers v2.2 — Guide content sync (7 WPs updated)**: synced WP content with guide v3.27.6 → v3.36.0 delta.
+  - **WP00** (v1.2.0): 1M context corrected "beta" → GA (v2.1.75); 7 major features table added (Tasks API, Auto-memories, Agent Teams, LSP Tool, Remote Control, MCP Elicitation)
+  - **WP03** (v1.1.0): PreToolUse security fix callout (v2.1.77 — `"allow"` bypassed enterprise `deny`); `allowRead` sandbox parameter added
+  - **WP05** (v1.2.0): Native Code Review section (Research Preview, Teams/Enterprise) — multi-agent, 3 trigger modes, `REVIEW.md`, ~$15-25/PR pricing
+  - **WP07** (v1.1.0): 12 new slash commands, 7 new hook events, extended CLI flags, Remote Control section, 1M GA correction
+  - **WP08** (v1.2.0): Identity drift after compaction pattern added (UserPromptSubmit hook + agent-identity.txt re-injection)
+  - **WP09** (v1.1.0): Review bottleneck inversion section; Regulatory Exposure section (EU AI Act GPAI/high-risk, FDA AI/ML Guidance)
+  - WP02: no hook events section in scope; WP01/WP04/WP06/WP10: no gaps identified
 
 - **Cheatsheet + reference.yaml maintenance**: date updated February → March 2026 in `guide/cheatsheet.md`; "Command not found" fix updated to use native installer (`curl | sh`); `machine-readable/reference.yaml` `updated` field bumped to 2026-03-17.
 

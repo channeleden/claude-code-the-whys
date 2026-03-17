@@ -12,7 +12,7 @@ tags: [cheatsheet, reference]
 
 **Written with**: Claude (Anthropic)
 
-**Version**: 3.36.0 | **Last Updated**: February 2026
+**Version**: 3.37.0 | **Last Updated**: March 2026
 
 ---
 
@@ -564,7 +564,7 @@ Deep analysis     → Use Opus (thinking on by default)
 
 | Problem | Solution |
 |---------|----------|
-| "Command not found" | Check PATH, reinstall npm global |
+| "Command not found" | Check PATH, reinstall: `curl -fsSL https://claude.ai/install.sh \| sh` |
 | Context too high (>70%) | `/compact` immediately |
 | Slow responses | `/compact` or `/clear` |
 | MCP not working | `claude mcp list`, check config |
@@ -639,4 +639,4 @@ Speed: `rg` (~20ms) → Serena (~100ms) → ast-grep (~200ms) → grepai (~500ms
 
 **Author**: Florian BRUNIAUX | [@Méthode Aristote](https://methode-aristote.fr) | Written with Claude
 
-*Last updated: February 2026 | Version 3.36.0*
+*Last updated: March 2026 | Version 3.37.0*

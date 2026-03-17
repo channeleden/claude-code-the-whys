@@ -115,11 +115,33 @@ Scan each open PR body for references to the issue number:
 
 #### 3. Duplicate Detection via Jaccard Similarity
 
-Compare each open issue against all other open issues AND the 20 most recent closed issues using Jaccard similarity (self-contained, no external library).
+**Algorithm (self-contained — no external library)**:
 
-**Steps**: Normalize text (lowercase, strip prefixes like "feat:"/"fix:", remove punctuation) → Tokenize (split on whitespace, remove stop words and tokens <3 chars) → Compute `|A ∩ B| / |A ∪ B|` on token sets from title + first 300 chars of body.
+For each open issue, compute Jaccard similarity against all other open issues AND the 20 most recent closed issues.
 
-**Threshold**: Jaccard >= 0.60 → flag as potential duplicate. Keep the older issue as canonical. Report: "Similar to #N (Jaccard: 0.72)". Computed at runtime on fetched data — no additional API calls.
+```
+Step 1 — Normalize title + first 300 chars of body:
+  - Lowercase the full text
+  - Strip category prefixes: "feat:", "fix:", "bug:", "chore:", "docs:", "test:", "refactor:"
+  - Remove punctuation: .,!?;:'"()[]{}-_/\@#
+
+Step 2 — Tokenize:
+  - Split on whitespace
+  - Remove stop words: the a an is in on to for of and or with this that it can not no be
+  - Remove tokens shorter than 3 characters
+
+Step 3 — Compute Jaccard:
+  tokens_A = set of tokens from issue A
+  tokens_B = set of tokens from issue B
+  jaccard = |tokens_A ∩ tokens_B| / |tokens_A ∪ tokens_B|
+
+Step 4 — Flag:
+  - If jaccard >= 0.60: mark as potential duplicate
+  - Report: "Similar to #N (Jaccard: 0.72)"
+  - Keep the OLDER issue as canonical; newer = duplicate candidate
+```
+
+Jaccard is computed at runtime using the fetched data — no API calls beyond Phase 1 gather.
 
 #### 4. Risk Classification
 
@@ -383,14 +405,18 @@ If "None" → `No actions executed. Workflow complete.`
 
 ## Edge Cases
 
-- **0 open issues**: Display `No open issues.` and stop
-- **Empty body**: Category = Unclear, always request details first
-- **Collaborator reporter**: Protect from auto-close, flag in table
-- **Jaccard 0.55–0.65**: Flag as "possible duplicate — verify manually"
-- **Label not in repo**: Skip label action, notify user to create it
-- **Collaborators API 403/404**: Fallback to last 10 merged PR authors
-- **Large body (>5000 chars)**: Truncate with `[truncated]` note
-- **Milestoned issues**: Never close without explicit confirmation
+| Situation | Behavior |
+|-----------|----------|
+| 0 open issues | Display `No open issues.` + stop |
+| Body empty | Category = Unclear, action = request details, never assume |
+| Collaborator as reporter | Protect from auto-close, flag explicitly in table |
+| Jaccard inconclusive (0.55–0.65) | Flag as "possible duplicate — verify manually" |
+| Label not in repo | Skip label action, notify user to create the label first |
+| Issue already closed during workflow | Skip silently, note in summary |
+| `gh api .../collaborators` 403/404 | Fallback to last 10 merged PR authors |
+| Parallel agents unavailable | Run sequential analysis, notify user |
+| Very large body (>5000 chars) | Truncate to 5000 chars with `[truncated]` note |
+| Milestone assigned | Include in table, never close milestoned issues without confirmation |
 
 ---
 

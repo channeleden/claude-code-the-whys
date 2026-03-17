@@ -16,7 +16,7 @@ tags: [guide, reference, workflows, agents, hooks, mcp, security]
 
 **Last updated**: January 2026
 
-**Version**: 3.36.0
+**Version**: 3.37.0
 
 ---
 
@@ -5166,7 +5166,7 @@ The `.claude/` folder is your project's Claude Code directory for memory, settin
 | Personal preferences | `CLAUDE.md` | ❌ Gitignore |
 | Personal permissions | `settings.local.json` | ❌ Gitignore |
 
-### 3.36.0 Version Control & Backup
+### 3.37.0 Version Control & Backup
 
 **Problem**: Without version control, losing your Claude Code configuration means hours of manual reconfiguration across agents, skills, hooks, and MCP servers.
 
@@ -7575,6 +7575,69 @@ This skill is now installed in the Méthode Aristote repository at:
 - Detection rules: `examples/skills/design-patterns/signatures/*.yaml`
 
 ## 5.5 Community Skill Repositories
+
+### Registry-based Discovery: ctx7 CLI
+
+Before diving into specific repositories, Context7 provides a CLI companion (`ctx7`) that automates skill discovery and installation. Instead of manually cloning repos, `ctx7 skills suggest` analyzes your project's dependencies and recommends matching skills from the [context7.com/skills](https://context7.com/skills) registry — with trust scores to help evaluate quality.
+
+**Install**:
+
+```bash
+npx ctx7 --help          # No install required (npx)
+npm install -g ctx7       # Global install
+```
+
+**Discovery workflow**:
+
+```bash
+# Auto-detect project deps and suggest matching skills
+npx ctx7 skills suggest
+
+# Search by keyword
+npx ctx7 skills search terraform
+
+# Install from any GitHub repository
+npx ctx7 skills install antonbabenko/terraform-skill
+npx ctx7 skills install owner/repo
+
+# List / remove installed skills
+npx ctx7 skills list
+npx ctx7 skills remove skill-name
+```
+
+**Setup wizard** (replaces manual `claude mcp add`):
+
+```bash
+# Configure Context7 for Claude Code — detects editor, picks MCP or CLI+Skills mode
+npx ctx7 setup --claude
+```
+
+`ctx7 setup` runs a wizard that configures Context7 in the right mode for your editor. Use it when setting up Context7 for the first time instead of writing `claude mcp add` manually. The `--claude` flag targets Claude Code specifically; `--cursor` and `--universal` are available for other editors.
+
+**Registry vs. agentskills.io**: The [agentskills.io](https://agentskills.io) specification is the open standard defining the skill format (supported by 30+ platforms — see §5.1). The [context7.com/skills](https://context7.com/skills) registry is a hosted directory of skills conforming to that standard. The two are complementary: agentskills.io defines the format, context7.com/skills is one place to discover and share conforming skills. Skills installed via `ctx7` land in `~/.claude/skills/` and work identically to manually installed ones.
+
+**Skill generation** (authenticated, rate-limited):
+
+```bash
+npx ctx7 skills generate    # AI-generated custom skill
+                             # Free: 6 generations/week — Pro: 10/week
+```
+
+Generation is best reserved for skills with no equivalent in the registry. For team onboarding at scale, the `suggest` + `install` workflow is more practical than generation.
+
+**CLI doc lookup** (alternative to MCP):
+
+```bash
+# Search available libraries
+npx ctx7 library react
+
+# Fetch docs for a specific library + query
+npx ctx7 docs /facebook/react "useEffect cleanup"
+```
+
+This is the terminal equivalent of what the Context7 MCP server does. Useful when you want to look something up yourself without invoking Claude, or in environments where MCP is not configured. Claude Code users who already have the MCP server active don't need this — Claude handles it automatically.
+
+---
 
 ### Cybersecurity Skills Repository
 
@@ -11531,26 +11594,43 @@ curl -fsSL https://raw.githubusercontent.com/rtk-ai/icm/main/install.sh | sh
 cargo install --path crates/icm-cli
 ```
 
-**MCP Config** (auto-configured via `icm init`):
+**Setup** (3 separate modes, not a single interactive command):
 
 ```bash
-icm init   # interactive setup — detects and configures your editor
+# Step 1: MCP server → auto-injects into ~/.claude.json (and 13 other editors)
+icm init --mode mcp
+
+# Step 2: PostToolUse hook → auto-extracts context every N tool calls
+icm init --mode hook
+
+# Step 3: /recall and /remember slash commands
+icm init --mode skill
 ```
+
+Restart Claude Code after running all three.
 
 **Usage**:
 
 ```bash
-# Store episodic memory (auto-decay)
-icm store -t "my-project" -c "Use PostgreSQL for main DB" -i high
+# Store episodic memory (importance = critical|high|medium|low, not a float)
+icm store --topic "my-project" --content "Use PostgreSQL for main DB" --importance high
 
 # Recall with hybrid search
-icm recall "database choice" --topic "my-project"
+icm recall "database choice"
 
 # Build permanent knowledge graph
 icm memoir create -n "system-architecture"
 icm memoir add-concept -m "system-architecture" -n "auth-service"
 icm memoir link -m "system-architecture" --from "api-gateway" --to "auth-service" -r depends-on
+
+# Session management
+icm stats      # memory count, topics, avg weight
+icm topics     # list all topics
+icm decay      # apply temporal decay manually
+icm prune      # remove low-weight entries
 ```
+
+**Onboarding prompt**: a ready-to-use session starter template is available at `examples/memory/icm-session-starter.md`.
 
 **Performance** (1000 ops, 384d embeddings — vendor-reported):
 
@@ -23402,4 +23482,4 @@ We'll evaluate and add it to this section if it meets quality criteria.
 
 **Contributions**: Issues and PRs welcome.
 
-**Last updated**: January 2026 | **Version**: 3.36.0
+**Last updated**: January 2026 | **Version**: 3.37.0
