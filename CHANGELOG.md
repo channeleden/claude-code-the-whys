@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Whitepapers v2 — Reviewer corrections** (6 relecteurs: Edouard, Mat, Nicolas, Marc, Anthony, Emmanuel): 8-phase correction plan applied across 10 whitepapers (WP00–WP10) FR+EN.
+  - **Phase 1 — Factual errors**: npm "deprecated" → "not recommended" (WP00), native installer added as primary install method (WP00 EN), context window 200K vs 1M clarified (WP00 FR+EN), Claude Max ratio corrected to range 1.5-3% FR / 1-1.6% EN (WP10), sub-agents vs agent teams difference correctly stated as P2P messaging + coordination tools, not context isolation (WP08 EN)
+  - **Phase 2 — Accents + articles + typos**: ~200+ accent corrections across WP08 FR (977 lines); anglicisms corrected in WP02 FR (on-demand, per-project, Memories, Feature opt-in); table row reformulated in WP00 FR; accents restored in WP02 FR (~10 passages)
+  - **Phase 3 — Malformed sentences**: "chez dans une fintech" fixed, meta-sentence "This is the single definition..." removed (WP08 FR+EN); "Multiple Claude instances..." rewritten as complete sentence (WP05 FR+EN); Turnkey Quickstart explained (WP05 FR+EN)
+  - **Phase 4 — Anglicisms + clarifications**: tmux noted as external tool, not built-in (WP08 FR+EN); "OUI →" residue fixed in WP05 EN; user-level/project-level translated (WP05 FR)
+  - **Phase 6 — WP08 structural corrections**: "~30K lines" clarified as "~30K lines ≈ 1M tokens"; continuous merge definition improved; note added that solo Claude Code agent is a full autonomous agent, not a chatbot
+  - **Phase 7 — WP10 restructuration**: executive summary added (5 key metrics); learning curve duplication removed; BCG 2025 source improved; pricing note "March 2026" added; "5-10 people in 2020" reformulated without unsourced claim; "Beyond engineering teams" section expanded with 3 concrete use cases; CFO/DAF and change management placeholder callouts added
+
+- **Resource Evaluation #078 + integration** (`guide/ultimate-guide.md`): HumanLayer — "Skill Issue: Harness Engineering for Coding Agents" (March 12, 2026). Score 3/5. "Harness Engineer" concept already covered in `guide/roles/ai-roles.md §10` (Martin Fowler source); ETH Zürich study already integrated. Two genuine gaps filled: (1) **Silent Success hook pattern** — asymmetric hook behavior (exit 0 = silence, exit 2 = re-engage agent) named and documented with example before §7.3; (2) **CLI vs MCP training-data argument** — familiar CLIs (git/grep/jq) are already in model weights, CLAUDE.md usage examples often beat a verbose MCP server for standard tools; added after MCP Tool Search section.
+
 ## [3.36.0] - 2026-03-17
 
 ### Documentation
