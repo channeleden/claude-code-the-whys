@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.76"
-updated: "2026-03-14"
+latest: "2.1.77"
+updated: "2026-03-17"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,18 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-March 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.77"
+    date: "2026-03-17"
+    highlights:
+      - "⭐ Opus 4.6 default max output tokens raised to 64k; upper bound for Opus 4.6 and Sonnet 4.6 raised to 128k tokens"
+      - "allowRead sandbox filesystem setting to re-allow read access within denyRead regions"
+      - "/copy N to copy Nth-latest assistant response; /branch replaces /fork (alias kept)"
+      - "Fixed PreToolUse hooks returning 'allow' could bypass enterprise deny permission rules — security fix"
+      - "Fixed auto-updater accumulating GBs of memory from overlapping binary downloads (slash-command overlay loop)"
+      - "Fixed --resume silently truncating recent history; Fixed Always Allow on compound bash commands saving dead rules"
+    breaking:
+      - "Agent tool no longer accepts resume parameter — use SendMessage({to: agentId}) to continue a previously spawned agent"
 
   - version: "2.1.76"
     date: "2026-03-14"

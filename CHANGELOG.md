@@ -6,7 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Documentation
+
+- **Claude Code Releases**: Updated tracking to v2.1.77
+  - Opus 4.6 default max output raised to 64k tokens; upper bound for Opus 4.6 and Sonnet 4.6 raised to 128k tokens
+  - Security fix: `PreToolUse` hooks returning `"allow"` could bypass enterprise `deny` permission rules
+  - `allowRead` sandbox setting; `/branch` replaces `/fork`; `/copy N` for Nth-latest response
+  - Breaking: `Agent` tool `resume` parameter removed — use `SendMessage({to: agentId})` instead
+  - Fixed auto-updater GBs memory leak; fixed `--resume` truncating recent history
+
+### Changed
+
+- **External support section — clarified positioning** (`docs/for-cto.md`, `docs/for-tech-leads.md`, `docs/for-cio-ceo.md`): Brown Bag Lunch, talks, and speaker/panelist slots (1-3h) explicitly marked as free and done for networking/challenge purposes. Training/consulting missions framed as open-but-not-actively-sought with "contact for availability and potentially pricing" wording. Contact link updated to `florian.bruniaux.com` across all three files.
+
+### Fixed
+
+- **`/release` skill — 3 correctness gaps** (`.claude/commands/release.md` Step 4): (1) Quiz count command fixed: `grep -c '  - id:'` was returning per-file counts and taking only the last file's value — replaced with `grep -r '  - id:' quiz/questions/ | wc -l` to sum across the entire directory. (2) `llms-full.txt` now documents all 4 occurrences requiring update (Metadata block, "For Learning" URL text, "Template Library" section heading, repo tree comment) — previously only Metadata fields were listed, causing silent drift. (3) Verification gate added after Step 4: bash block prints all three llms files' key fields side-by-side against expected values before the commit, making any mismatch visible immediately.
+
 ### Added
+
+- **Packmind — Engineering Standards Distribution** (`guide/ecosystem/third-party-tools.md`, `guide/ultimate-guide.md`, `guide/ecosystem/mcp-servers-ecosystem.md`): Added Packmind (score 4/5, eval #076) as a new "Engineering Standards Distribution" section in third-party-tools. Tool distributes CLAUDE.md + slash commands + skills across repos and agents (Claude Code, Cursor, Copilot, Windsurf) from a single playbook, ships an MCP server, Apache-2.0 CLI self-hostable. Added cross-reference paragraph at end of ultimate-guide.md §3.5 (Team Configuration at Scale) linking the per-project `.claude/rules/` pattern to org-scale tooling. Added Packmind MCP server entry in mcp-servers-ecosystem.md Orchestration section.
+
+- **3 new AI roles** (`guide/roles/ai-roles.md`): Added MLOps Engineer (§14), AI Developer Advocate (§15), and AI Orchestration Engineer (§16) as full role profiles. Includes responsibilities, required skills, salary benchmarks, entry paths, and key distinctions from adjacent roles. Sections 14→17 renumbered accordingly. Removed "Orchestration engineer" from "What's Not a Role Yet" — job postings at Vista Equity, Zapier, Heidi Health, and Adobe confirm it's now a real title. Career Decision Matrix and Salary Benchmarks updated with all 3 roles. Based on Perplexity market research (March 2026).
 
 - **Failure-triggered context drift pattern** (`guide/core/architecture.md` §Session Degradation Limits): New subsection documenting a distinct degradation mode from compaction drift — repeated tool failures accumulate error noise that dilutes the original intent without filling the context window. Pattern: re-inject core task instructions on every command failure via `PostToolUse` hook, not just after `/compact`. Source: Nick Tune (2026-03-01). Resource evaluation: `docs/resource-evaluations/2026-03-16-nick-tune-workflow-dsl-ddd.md` (score 3/5 — 1 of 3 patterns integrated).
 
