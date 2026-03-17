@@ -8,12 +8,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Documentation
 
+- **Resource Evaluation #076**: Addy Osmani — "Stop Using /init for AGENTS.md" (Feb 23, 2026). Score 3/5. Secondary synthesis of ETH Zürich paper (already evaluated). Verified: ETH Zürich claims confirmed. Unverified: Lulla et al. (ICSE JAWs 2026) and ACE framework (ICLR 2026) — no findable academic source. Arize AI concept verified, specific numbers uncorroborated. Integration: added discoverability filter + anchoring risk concepts to §3.1, added research note (ETH Zürich), added `/init` warning in commands table.
+
+- **Resource Evaluation #077 + integration** (`guide/roles/learning-with-ai.md`): "Comprehension Debt" article (LinkedIn, March 14, 2026). Score 3/5. Integrated: (1) "comprehension debt" as emerging term after Vibe Coding section, (2) review bottleneck inversion framing — juniors can now generate code faster than seniors can audit, (3) new "Regulatory Exposure" subsection for tech leads covering EU AI Act active dates (GPAI Aug 2025, high-risk Aug 2026) and FDA AI guidance (Jan + Jun 2025). Confirmed by Perplexity research.
+
 - **Claude Code Releases**: Updated tracking to v2.1.77
   - Opus 4.6 default max output raised to 64k tokens; upper bound for Opus 4.6 and Sonnet 4.6 raised to 128k tokens
   - Security fix: `PreToolUse` hooks returning `"allow"` could bypass enterprise `deny` permission rules
   - `allowRead` sandbox setting; `/branch` replaces `/fork`; `/copy N` for Nth-latest response
   - Breaking: `Agent` tool `resume` parameter removed — use `SendMessage({to: agentId})` instead
   - Fixed auto-updater GBs memory leak; fixed `--resume` truncating recent history
+
+- **Claude Code Releases**: Updated tracking to v2.1.76
+  - MCP elicitation support — servers request structured input mid-task via interactive dialog
+  - New hooks: `Elicitation`, `ElicitationResult`, `PostCompact`
+  - `-n`/`--name` CLI flag for session display name; `worktree.sparsePaths` for monorepo sparse checkout
+  - `/effort` slash command; fixed ToolSearch deferred tools losing schemas after compaction
+  - Auto-compact circuit breaker (stops after 3 failures); fixed `Bash(cmd:*)` rules with `#` in args
+
+- **Resource evaluation** (rejected, no file): LinkedIn post "Five Levels of Context Engineering" by Matthew Alverson (via Addy Osmani) — score 1/5, rejected. Content is a pedagogical reformulation of concepts already covered with more rigor in `guide/core/context-engineering.md`. Alverson's 5-level taxonomy is not empirically grounded and not widely cited in the literature. Evaluation surfaced 3 real gaps now addressed (see Added section). Better primary sources identified: Anthropic Engineering Blog (Sept 2025), MCP Maturity Model (Mitra, Nov 2025).
+
+- **Resource evaluation** (no file — text digest): Anthropic weekly recap March 9-15, 2026 (5 Claude Code releases, Code Review launch, 1M GA, Spring Break promo, corporate news) — score 4/5. Two gaps actioned: (1) Code Review product feature added as `guide/workflows/code-review.md`; (2) 1M context status updated from beta to GA in `guide/ultimate-guide.md` lines 2021-2070. Source reliability note: digest incorrectly attributes Claude Code changelog to `anthropics/anthropic-sdk-python` (correct repo: `anthropics/claude-code`); Code Review pricing ($15-25/PR) verified against official docs.
+
+- **Resource evaluation** (`docs/resource-evaluations/eval-claude-1m-context-window-jp-caparas.md`): JP Caparas article on 1M token context window — score 2/5, do not integrate. Central claim (flat pricing, no surcharge above 200K tokens) is factually wrong; invalidates the competitive pricing analysis. Fact-check table, comparative analysis vs guide, and independent action items (verify 1M GA status, potential update to guide lines 2028-2070 on beta/GA status).
 
 ### Changed
 
@@ -24,6 +41,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **`/release` skill — 3 correctness gaps** (`.claude/commands/release.md` Step 4): (1) Quiz count command fixed: `grep -c '  - id:'` was returning per-file counts and taking only the last file's value — replaced with `grep -r '  - id:' quiz/questions/ | wc -l` to sum across the entire directory. (2) `llms-full.txt` now documents all 4 occurrences requiring update (Metadata block, "For Learning" URL text, "Template Library" section heading, repo tree comment) — previously only Metadata fields were listed, causing silent drift. (3) Verification gate added after Step 4: bash block prints all three llms files' key fields side-by-side against expected values before the commit, making any mismatch visible immediately.
 
 ### Added
+
+- **Resource evaluation #078: claude-swarm-monitor** (`docs/resource-evaluations/078-claude-swarm-monitor.md`): TUI dashboard (Rust + Ratatui) for monitoring multi-agent Claude Code workflows across git worktrees. Score 3/5 — watch-list. Unique angles: JSONL-native session file monitoring (distinct from agent-chat's SSE approach) and Docker stack visibility per worktree. Not integrated into guide yet — 10 stars, Linux-only, sub-agent tracking claim unverified. Re-evaluate at 50+ stars or confirmed macOS production use.
 
 - **Packmind — Engineering Standards Distribution** (`guide/ecosystem/third-party-tools.md`, `guide/ultimate-guide.md`, `guide/ecosystem/mcp-servers-ecosystem.md`): Added Packmind (score 4/5, eval #076) as a new "Engineering Standards Distribution" section in third-party-tools. Tool distributes CLAUDE.md + slash commands + skills across repos and agents (Claude Code, Cursor, Copilot, Windsurf) from a single playbook, ships an MCP server, Apache-2.0 CLI self-hostable. Added cross-reference paragraph at end of ultimate-guide.md §3.5 (Team Configuration at Scale) linking the per-project `.claude/rules/` pattern to org-scale tooling. Added Packmind MCP server entry in mcp-servers-ecosystem.md Orchestration section.
 
@@ -53,21 +72,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Smart-Suggest ROI script** (`examples/scripts/smart-suggest-roi.py`): Python stdlib-only analyzer for the `smart-suggest` UserPromptSubmit hook. Correlates suggestion log (`~/.claude/logs/smart-suggest.jsonl`) with session JSONL files to estimate command acceptance rate. Detects 4 acceptance signals: slash command tags, Skill tool use, Agent tool use, and text mention in next 5 user messages. Reports: summary, tier breakdown (Enforcement/Discovery/Contextual/Custom), top suggested/followed commands, never-followed list, and daily trend chart. CLI: `--since Nd`, `--no-sessions` (fast mode), `--json`, `--log PATH`.
 - **ICM (Infinite Context Memory)**: New MCP memory server section after Kairn (~line 11365) — Rust single binary, zero deps, Homebrew install, dual architecture (episodic decay Memories + permanent knowledge graph Memoirs), 9 typed relation types, auto-extraction 3 layers, 14 editor clients. Score 3/5 — recommended as Rust-native alternative when Python dependency management is a friction point. Includes explicit license callout (Source-Available, free ≤20 people) and vendor-reported benchmark flags.
 - **Comparison matrix update**: Added ICM column to MCP memory stack matrix (Runtime + License rows added for all tools)
-
-### Documentation
-
-- **Resource evaluation** (rejected, no file): LinkedIn post "Five Levels of Context Engineering" by Matthew Alverson (via Addy Osmani) — score 1/5, rejected. Content is a pedagogical reformulation of concepts already covered with more rigor in `guide/core/context-engineering.md`. Alverson's 5-level taxonomy is not empirically grounded and not widely cited in the literature. Evaluation surfaced 3 real gaps now addressed (see Added section above). Better primary sources identified: Anthropic Engineering Blog (Sept 2025), MCP Maturity Model (Mitra, Nov 2025).
-
-- **Resource evaluation** (no file — text digest): Anthropic weekly recap March 9-15, 2026 (5 Claude Code releases, Code Review launch, 1M GA, Spring Break promo, corporate news) — score 4/5. Two gaps actioned: (1) Code Review product feature added as `guide/workflows/code-review.md`; (2) 1M context status updated from beta to GA in `guide/ultimate-guide.md` lines 2021-2070. Source reliability note: digest incorrectly attributes Claude Code changelog to `anthropics/anthropic-sdk-python` (correct repo: `anthropics/claude-code`); Code Review pricing ($15-25/PR) verified against official docs.
-
-- **Resource evaluation** (`docs/resource-evaluations/eval-claude-1m-context-window-jp-caparas.md`): JP Caparas article on 1M token context window — score 2/5, do not integrate. Central claim (flat pricing, no surcharge above 200K tokens) is factually wrong; invalidates the competitive pricing analysis. Fact-check table, comparative analysis vs guide, and independent action items (verify 1M GA status, potential update to guide lines 2028-2070 on beta/GA status).
-
-- **Claude Code Releases**: Updated tracking to v2.1.76
-  - MCP elicitation support — servers request structured input mid-task via interactive dialog
-  - New hooks: `Elicitation`, `ElicitationResult`, `PostCompact`
-  - `-n`/`--name` CLI flag for session display name; `worktree.sparsePaths` for monorepo sparse checkout
-  - `/effort` slash command; fixed ToolSearch deferred tools losing schemas after compaction
-  - Auto-compact circuit breaker (stops after 3 failures); fixed `Bash(cmd:*)` rules with `#` in args
 
 ## [3.35.0] - 2026-03-13
 

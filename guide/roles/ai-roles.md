@@ -31,10 +31,13 @@ The AI wave didn't just create new tools. It created new jobs that didn't exist 
 11. [AI Product Manager](#11-ai-product-manager)
 12. [AI Safety & Eval Engineer](#12-ai-safety--eval-engineer)
 13. [ML Engineer](#13-ml-engineer)
-14. [Career Decision Matrix](#14-career-decision-matrix)
-15. [Salary Benchmarks (2025-2026)](#15-salary-benchmarks-2025-2026)
-16. [What's Not a Role (Yet)](#16-whats-not-a-role-yet)
-17. [Job Listings](#17-job-listings)
+14. [MLOps Engineer](#14-mlops-engineer)
+15. [AI Developer Advocate](#15-ai-developer-advocate)
+16. [AI Orchestration Engineer](#16-ai-orchestration-engineer)
+17. [Career Decision Matrix](#17-career-decision-matrix)
+18. [Salary Benchmarks (2025-2026)](#18-salary-benchmarks-2025-2026)
+19. [What's Not a Role (Yet)](#19-whats-not-a-role-yet)
+20. [Job Listings](#20-job-listings)
 
 ---
 
@@ -472,7 +475,138 @@ Python (fluent), PyTorch or TensorFlow, distributed computing, data pipeline too
 
 ---
 
-## 14. Career Decision Matrix
+## 14. MLOps Engineer
+
+**Status**: Established — distinct from ML Engineer, growing in enterprises deploying models at scale.
+
+### What they do
+
+Bridge the gap between model development and production infrastructure. While ML engineers build and fine-tune models and AI engineers build applications, MLOps engineers own the operational layer: CI/CD pipelines for models, deployment infrastructure, monitoring for drift and degradation, and the systems that keep models reliable in production over time.
+
+### Responsibilities
+
+- Build and maintain CI/CD pipelines for model training, evaluation, and deployment
+- Monitor production models for performance drift, data drift, and prediction quality degradation
+- Design feature stores and model registries
+- Implement A/B testing and canary deployments for new model versions
+- Manage compute infrastructure for training and inference (cost optimization)
+- Build observability tooling: metrics, logging, alerting for model behavior in production
+- Establish model versioning and rollback procedures
+
+### Required skills
+
+| Technical | Soft |
+|-----------|------|
+| Python (fluent) | Infrastructure mindset |
+| Cloud ML platforms (SageMaker, Vertex AI, Azure ML) | Cross-team collaboration (ML + Infra) |
+| Kubernetes, Docker, infrastructure as code | Reliability engineering instinct |
+| MLflow, Weights & Biases, or similar experiment tracking | Incident response discipline |
+| Data pipeline tools (Airflow, Prefect, dbt) | |
+| Monitoring and observability (Prometheus, Grafana) | |
+
+### The distinction that matters
+
+ML engineers ask: "Does the model work?" MLOps engineers ask: "Does the model keep working?" The operational lifecycle of a model — monitoring, retraining triggers, rollback procedures, cost per inference — is entirely separate from building it. Companies that skip this role discover it when a model silently degrades in production and nobody notices until user complaints spike.
+
+### Entry paths
+
+DevOps/platform engineer adding ML knowledge, ML engineer who gravitates toward infrastructure, data engineer moving toward model operations.
+
+---
+
+## 15. AI Developer Advocate
+
+**Status**: High growth — actively hiring at all major AI companies in 2025-2026.
+
+### What they do
+
+Build the bridge between an AI platform and the developers who use it. Part engineer, part educator, part community builder. They go deep enough technically to build real things with the platform, then turn that knowledge into tutorials, documentation, sample projects, and public presence that helps other developers succeed.
+
+### Responsibilities
+
+- Build technical demos, sample projects, and integrations using the platform's APIs
+- Create developer content: tutorials, blog posts, video walkthroughs, conference talks
+- Represent developer needs and pain points to the product and engineering teams
+- Engage with developer communities (Discord, GitHub, forums, social)
+- Speak at conferences and run workshops
+- Onboard strategic partners and enterprise developers
+- Gather and synthesize developer feedback into product improvements
+
+### Required skills
+
+| Technical | Soft |
+|-----------|------|
+| Solid software engineering foundations | Clear technical writing |
+| Deep familiarity with the platform/API | Public speaking confidence |
+| Ability to build quick, illustrative prototypes | Community instinct |
+| Understanding of developer experience (DX) | Empathy for confused users |
+| Familiarity with AI concepts (prompting, RAG, agents) | Curiosity and continuous learning |
+
+### What makes this role different
+
+The audience is other developers, not end users. DevRel success measures developer activation (do developers try the product?), retention (do they keep using it?), and advocacy (do they tell others?). Credibility is the core asset — which means you have to actually build things, not just talk about them. A DevRel who hasn't shipped real production code with the platform has no credibility with the audience they're trying to reach.
+
+### Salary context
+
+$120K-$180K base (US), senior/lead roles $150K-$250K+. Total compensation includes equity at most AI companies.
+
+### Where these roles are
+
+Actively hiring: Anthropic, OpenAI, Together AI, Mistral, Cohere, Hugging Face, LangChain, and any company building developer-facing AI products. The role is expanding beyond AI labs as enterprise software companies add AI capabilities and need someone to help developers adopt them.
+
+### Entry paths
+
+Software engineer with a public presence (blog, open source, conference talks), technical writer with engineering background, early AI community member who builds in public.
+
+---
+
+## 16. AI Orchestration Engineer
+
+**Status**: Emerging — real job postings in 2025, distinct from AI Agent Engineer in scope.
+
+### What they do
+
+Design and build intelligent workflows that connect AI capabilities with existing systems, data sources, and business processes. Where AI agent engineers build autonomous reasoning systems, AI orchestration engineers focus on the integration layer: connecting AI to enterprise tools, designing multi-step automation flows, and making AI reliably operable within existing infrastructure.
+
+### Responsibilities
+
+- Design end-to-end automation architectures using orchestration tools (n8n, LangChain, Power Automate, Zapier)
+- Integrate AI capabilities with CRMs, ERPs, data warehouses, and communication platforms
+- Build retrieval and synthesis stacks (RAG + answer grounding) for enterprise knowledge systems
+- Define workflow reliability patterns: retries, fallbacks, human escalation triggers
+- Set up observability for orchestrated workflows (tracing every step, cost tracking)
+- Operationalize AI across cross-functional systems spanning engineering, product, and domain teams
+
+### Required skills
+
+| Technical | Soft |
+|-----------|------|
+| Orchestration platforms (n8n, LangChain, LlamaIndex) | Process analysis |
+| API integration (REST, GraphQL, webhooks) | Cross-functional collaboration |
+| Python or JavaScript (workflow scripting) | Systems thinking |
+| Data transformation and mapping | Business process intuition |
+| Observability and tracing (LangSmith, Langfuse) | |
+
+### Distinction from AI Agent Engineer
+
+| AI Agent Engineer | AI Orchestration Engineer |
+|-------------------|--------------------------|
+| Builds autonomous reasoning systems | Builds integration workflows connecting AI to existing systems |
+| Focus: planning, memory, multi-step reasoning | Focus: connectivity, reliability, process automation |
+| Core challenge: non-determinism | Core challenge: integration complexity |
+| Primarily product-facing | Primarily internal/enterprise-facing |
+
+### Where this role appears in job postings
+
+Title varies significantly: "AI-First Orchestration Engineer" (Vista Equity Partners), "Staff AI Engineer (Orchestration)" (Heidi Health), "Sr. Software Engineer (AI Orchestration Zone)" (Zapier), "AI Engineer, AI Orchestration" (Adobe). The function is consistent even when the title isn't.
+
+### Entry paths
+
+Integration engineer, backend engineer with workflow automation experience, DevOps engineer adding AI tooling, business process automation specialist who's moved into code.
+
+---
+
+## 17. Career Decision Matrix
 
 Which role fits your current background and goals?
 
@@ -486,6 +620,9 @@ Which role fits your current background and goals?
 | Non-technical who works with AI daily | Prompt Engineer → Context Engineer | 6-18 months |
 | PM who wants to stay PM but be more relevant | AI Product Manager | 3-6 months upskill |
 | Engineer obsessed with reliability and architecture | Harness Engineer (emerging) | Pioneers' territory |
+| DevOps/platform engineer who wants to work with models | MLOps Engineer | 3-6 months upskill |
+| Engineer with public presence and community instincts | AI Developer Advocate | 6-12 months |
+| Integration or automation engineer adding AI | AI Orchestration Engineer | 3-6 months |
 
 ### The fastest path to AI employment in 2025-2026
 
@@ -498,7 +635,7 @@ Note: 76% of candidates claiming AI expertise lack production-level deployment e
 
 ---
 
-## 15. Salary Benchmarks (2025-2026)
+## 18. Salary Benchmarks (2025-2026)
 
 > **Indicative only — large variance applies.** These figures are US market base salaries (2025-2026). Europe runs 30-50% lower, other markets 40-60% lower. Total compensation (equity, bonus, RSUs) can significantly exceed base, especially at startups and FAANG. Experience level, location within a country, company stage, and negotiation all create wide variance. Use these as orientation, not negotiation anchors.
 
@@ -516,12 +653,15 @@ Note: 76% of candidates claiming AI expertise lack production-level deployment e
 | AI Product Manager | $130K-$170K | $170K-$230K | $230K-$350K | FAANG premium significant |
 | AI Safety/Eval Engineer | $140K-$180K | $180K-$250K | $250K-$400K | Lab compensation highest |
 | ML Engineer | $100K-$140K | $140K-$200K | $200K-$280K | Lower demand outside labs |
+| MLOps Engineer | $110K-$150K | $150K-$200K | $200K-$270K | High demand in enterprises deploying at scale |
+| AI Developer Advocate | $120K-$160K | $160K-$220K | $220K-$300K | Active hiring at AI platforms |
+| AI Orchestration Engineer | $100K-$140K | $140K-$190K | $190K-$260K | Emerging — title varies across companies |
 
 > **Sources**: FinalRoundAI (2025), Alcor AI Salary Report (2025), RiseWorks AI Talent Report (2025), job postings analysis.
 
 ---
 
-## 16. What's Not a Role (Yet)
+## 19. What's Not a Role (Yet)
 
 Some terms you'll hear that describe practices or methodologies, not job titles:
 
@@ -529,13 +669,11 @@ Some terms you'll hear that describe practices or methodologies, not job titles:
 
 **AI-native engineer** — Describes a quality expected of all engineers increasingly, not a specialized role. It means: you use AI tools fluently in your daily workflow. It's the bar, not the title.
 
-**Orchestration engineer** — Sometimes used for agent systems, overlaps significantly with AI Agent Engineer. Not yet a distinct category.
-
 These terms are worth knowing (you'll encounter them in job descriptions and articles) but don't represent distinct career paths — yet.
 
 ---
 
-## 17. Job Listings
+## 20. Job Listings
 
 > **Coming soon** — Curated listings for AI roles at companies building seriously with Claude Code and agentic AI.
 
