@@ -174,7 +174,7 @@ Use this checklist to verify you understand Claude Code's full surface area. Eac
 
 - [ ] **Skill-Scoped Hooks** — Event hooks specific to skill execution context
   - Lifecycle management per skill
-  - See: [Ultimate Guide Section 5.11](./ultimate-guide.md#511-skills)
+  - See: [Ultimate Guide Section 5.11](#51-understanding-skills)
 
 - [ ] **Background Agents** — Async task execution (test suites, long operations)
   - Non-blocking agent spawning
@@ -186,7 +186,7 @@ Use this checklist to verify you understand Claude Code's full surface area. Eac
 
 - [ ] **Plan Subagent** — `/plan` for read-only planning mode
   - Safe architectural exploration
-  - See: [Ultimate Guide Section 2.3](./ultimate-guide.md#23-plan-mode)
+  - See: [Ultimate Guide Section 2.3](#23-plan-mode)
 
 - [ ] **Task Tool** — Hierarchical task delegation to specialized agents
   - Parallel task execution, depth=1 sub-agents
@@ -194,7 +194,7 @@ Use this checklist to verify you understand Claude Code's full surface area. Eac
 
 - [ ] **Agent Teams** — Multi-agent parallel coordination (experimental v2.1.32+)
   - Git-based coordination, autonomous task claiming
-  - See: [Ultimate Guide Section 9.20](./ultimate-guide.md#920-agent-teams)
+  - See: [Ultimate Guide Section 9.20](#920-agent-teams-multi-agent-coordination)
 
 - [ ] **Per-Task Model Selection** — Dynamic model switching mid-session
   - `/model opus|sonnet|haiku` on task boundaries
@@ -763,7 +763,7 @@ Hooks allow programmatic control over Claude's actions:
 
 Common fields sent to all events: `session_id`, `transcript_path`, `cwd`, `permission_mode`, `hook_event_name`. Event-specific fields (e.g., `tool_name`/`tool_input` for PreToolUse) are added on top.
 
-→ **Cross-reference**: See [Section 7 - Hooks](./ultimate-guide.md#7-hooks) in the main guide for complete examples.
+→ **Cross-reference**: See [Section 7 - Hooks](#7-hooks) in the main guide for complete examples.
 
 ---
 
@@ -841,7 +841,7 @@ MCP (Model Context Protocol) servers extend Claude Code with additional tools.
 | Modify Claude's system prompt | Tools only, no prompt injection |
 | Bypass permissions | Same security layer as native tools |
 
-→ **Cross-reference**: See [Section 8.6 - MCP Security](./ultimate-guide.md#86-mcp-security) for security considerations.
+→ **Cross-reference**: See [Section 8.6 - MCP Security](#86-mcp-security) for security considerations.
 
 ### MCP Extensions: Apps (SEP-1865)
 
@@ -918,7 +918,7 @@ MCP Apps is the **first official extension** to the Model Context Protocol, enab
 | **User consent** | Optional requirement for UI-initiated tool calls |
 | **Content blocking** | Hosts can reject suspicious resources pre-render |
 
-→ **Cross-reference**: See [Section 8.6 - MCP Security](./ultimate-guide.md#86-mcp-security) for broader MCP security considerations.
+→ **Cross-reference**: See [Section 8.6 - MCP Security](#86-mcp-security) for broader MCP security considerations.
 
 #### SDK: @modelcontextprotocol/ext-apps
 

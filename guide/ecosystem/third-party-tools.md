@@ -169,7 +169,7 @@ A CLI proxy that filters command outputs **before** they reach Claude's context.
 
 **Limitations**: Not suitable for interactive commands or very small outputs (<100 chars).
 
-> **Cross-ref**: Full docs at [ultimate-guide.md Section 9](./ultimate-guide.md#command-output-optimization-with-rtk)
+> **Cross-ref**: Full docs at [ultimate-guide.md Section 9](#command-output-optimization-with-rtk)
 
 ---
 
@@ -395,7 +395,7 @@ caliber refresh
 
 **Security note**: `caliber refresh` and `caliber watch` have write access to CLAUDE.md. Same risk class as Packmind: review generated output before accepting, particularly when using external sources (`caliber config`). Treat `.caliber/` config files with the same discipline as a secrets manager.
 
-> **Cross-ref**: For scaffolding a config from scratch, see [AIBlueprint](#aiblueprint). For distributing and enforcing standards at org scale, see [Packmind](#packmind). For manual CLAUDE.md authorship, see [ultimate-guide.md Section 3](../ultimate-guide.md#3-claudemd-the-foundation).
+> **Cross-ref**: For scaffolding a config from scratch, see [AIBlueprint](#aiblueprint). For distributing and enforcing standards at org scale, see [Packmind](#packmind). For manual CLAUDE.md authorship, see [ultimate-guide.md Section 3](#31-memory-files-claudemd).
 
 ---
 
@@ -428,7 +428,7 @@ An open-source "ContextOps" platform (Packmind's term for treating engineering c
 
 **Security note**: Centralizing CLAUDE.md distribution means a compromised Packmind repository can propagate malicious instructions to every developer's AI session simultaneously. Treat the Packmind configuration as a sensitive artifact, apply the same access controls as you would a secrets manager, and review proposed playbook updates carefully before merging.
 
-> **Cross-ref**: For CLAUDE.md authorship at project scale, see [Section 3.5 — Team Configuration at Scale](../ultimate-guide.md#35-team-configuration-at-scale). For the Packmind MCP server, see [mcp-servers-ecosystem.md — Orchestration](./mcp-servers-ecosystem.md#orchestration).
+> **Cross-ref**: For CLAUDE.md authorship at project scale, see [Section 3.5 — Team Configuration at Scale](#35-team-configuration-at-scale). For the Packmind MCP server, see [mcp-servers-ecosystem.md — Orchestration](./mcp-servers-ecosystem.md#orchestration).
 
 ---
 

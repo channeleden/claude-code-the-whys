@@ -863,8 +863,8 @@ Beyond securing Claude Code itself, Anthropic offers a dedicated vulnerability s
 - [Security Patcher Agent](../examples/agents/security-patcher.md) — Applies patches from audit findings (human approval required)
 - [Security Gate Hook](../examples/hooks/bash/security-gate.sh) — Blocks vulnerable code patterns at write time (7 patterns)
 - [MCP Registry Template](../../examples/scripts/mcp-registry-template.yaml) — YAML format for tracking approved MCPs at org level
-- [Ultimate Guide §7.4](./ultimate-guide.md#74-security-hooks) — Hook system basics
-- [Ultimate Guide §8.6](./ultimate-guide.md#86-mcp-security) — MCP security overview
+- [Ultimate Guide §7.4](#74-security-hooks) — Hook system basics
+- [Ultimate Guide §8.6](#86-mcp-security) — MCP security overview
 
 ## References
 

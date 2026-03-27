@@ -58,7 +58,7 @@ Follow the prompts to install the Claude GitHub App on your GitHub organization.
 - **Issues**: read and write
 - **Pull requests**: read and write
 
-Code Review uses read access to contents and write access to pull requests. This permission set also supports [GitHub Actions](/en/github-actions) if you enable that later.
+Code Review uses read access to contents and write access to pull requests. This permission set also supports [GitHub Actions](./github-actions.md) if you enable that later.
 
 ### 4. Select repositories
 

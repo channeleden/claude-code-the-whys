@@ -8,7 +8,7 @@ tags: [devops, guide, ci-cd, workflows]
 
 **Reading time**: 30 minutes
 **Skill level**: Intermediate (assumes DevOps basics)
-**Prerequisites**: Claude Code basics ([Sections 1-2](./ultimate-guide.md#1-getting-started) of main guide)
+**Prerequisites**: Claude Code basics ([Sections 1-2](#getting-started) of main guide)
 
 ---
 

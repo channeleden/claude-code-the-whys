@@ -2558,7 +2558,7 @@ npx add-skill anthropics/claude-plugins-official  # CLAUDE.md auditor + plugin d
 
 ### Integration with This Guide
 
-See [Section 5.5: Skills Marketplace](./ultimate-guide.md#skills-marketplace-skillssh) for:
+See [Section 5.5: Skills Marketplace](#skills-marketplace-skillssh) for:
 - Detailed installation instructions
 - Top skills by category (Frontend, Database, Auth, Testing)
 - Format compatibility details
@@ -2583,7 +2583,7 @@ Claude Code automatically reads files as needed, but external tools exist for:
 |------|---------|--------------|
 | **gitingest** | Repo → text dump | Extracts relevant files into a single text file for LLM consumption |
 | **repo2txt** | Repo → formatted context | Similar to gitingest, with formatting options |
-| **Context7 MCP** | Docs lookup | Fetches library documentation on-demand (see [MCP section](./ultimate-guide.md#mcp-servers)) |
+| **Context7 MCP** | Docs lookup | Fetches library documentation on-demand (see [MCP section](#8-mcp-servers)) |
 
 ### When to Use (and When Not)
 
@@ -2845,4 +2845,4 @@ For those who understand the risks and want to explore anyway:
 
 ---
 
-*Back to [Ultimate Guide](./ultimate-guide.md#11-ai-ecosystem-complementary-tools) | [Main README](../README.md)*
+*Back to [Ultimate Guide](#11-ai-ecosystem-complementary-tools) | [Main README](../README.md)*

@@ -283,7 +283,7 @@ For multi-session and multi-agent workflows, persistent memory systems store inf
 - **Short-term layer**: recency-weighted, decays over time (recent sessions have higher weight)
 - **Long-term layer**: importance-weighted, persists indefinitely (architectural decisions, resolved bugs)
 
-See [Third-Party Tools: ICM](./third-party-tools.md) and the memory section in the [ultimate guide](../ultimate-guide.md#memory-systems) for installation and usage details.
+See [Third-Party Tools: ICM](./third-party-tools.md) and the memory section in the [ultimate guide](.#memory-hierarchy) for installation and usage details.
 
 **The RAG-vs-Memory distinction**: RAG is the model's access to external world knowledge (documentation, codebase, web). Memory is its access to user-specific and session-specific knowledge (preferences, past decisions, conversation continuity). Both are retrieval systems, but they serve different parts of the information architecture. A well-designed agent uses both.
 
@@ -470,4 +470,4 @@ A finding that cuts across multiple research directions: token reduction in gene
 > - [Third-Party Tools](./third-party-tools.md) — RTK full reference, ccusage, ICM, and other CC-specific tools
 > - [MCP Servers Ecosystem](./mcp-servers-ecosystem.md) — MCP as dynamic context injection
 > - [Observability](../ops/observability.md) — Monitoring Claude Code in production
-> - [Ultimate Guide: Memory Systems](../ultimate-guide.md#memory-systems) — Complete memory architecture for Claude Code
+> - [Ultimate Guide: Memory Systems](.#memory-hierarchy) — Complete memory architecture for Claude Code

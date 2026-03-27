@@ -301,7 +301,7 @@ cp output/dave/CLAUDE.md .claude/CLAUDE.md
 
 | Team size | Approach |
 |-----------|----------|
-| 1-2 devs | Shared CLAUDE.md + precedence rules ([Section 3.4](../ultimate-guide.md#34-precedence-rules)) |
+| 1-2 devs | Shared CLAUDE.md + precedence rules ([Section 3.4](#34-precedence-rules)) |
 | 3-5 devs, same tools | Optional: modules only, no profiles |
 | 5+ devs or multi-tool | Profile-Based Module Assembly (this workflow) |
 | 20+ devs | Consider a CLAUDE.md config server + PR-based module changes |
@@ -324,8 +324,8 @@ From a production team (5 developers, 3 tools, 2 OS):
 
 ## Related
 
-- [Section 3.5 Team Configuration at Scale](../ultimate-guide.md#35-team-configuration-at-scale) — Concept overview and measured results
-- [Section 3.4 Precedence Rules](../ultimate-guide.md#34-precedence-rules) — How Claude reads multiple CLAUDE.md files
+- [Section 3.5 Team Configuration at Scale](#35-team-configuration-at-scale) — Concept overview and measured results
+- [Section 3.4 Precedence Rules](#34-precedence-rules) — How Claude reads multiple CLAUDE.md files
 - [profile-template.yaml](../../examples/team-config/profile-template.yaml) — Profile template
 - [claude-skeleton.md](../../examples/team-config/claude-skeleton.md) — Skeleton template
 - [sync-script.ts](../../examples/team-config/sync-script.ts) — Full assembler script

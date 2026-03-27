@@ -386,7 +386,7 @@ jobs:
 
 ## See Also
 
-- [Section 9.3 CI/CD Integration](../ultimate-guide.md#93-cicd-integration) — headless mode, Unix piping, `--output-format json`
+- [Section 9.3 CI/CD Integration](#93-cicd-integration) — headless mode, Unix piping, `--output-format json`
 - [Production Safety](../security/production-safety.md) — guardrails for automated agents
 - [Security Hardening](../security/security-hardening.md) — MCP and webhook security
 - [Official action docs](https://github.com/anthropics/claude-code-action) — solutions guide, migration, cloud providers

@@ -811,7 +811,7 @@ See full template: [examples/config/PULL_REQUEST_TEMPLATE-ai.md](../examples/con
 
 ### In This Guide
 
-- [Git Workflow](./ultimate-guide.md#git-workflow) — Claude Code's default Co-Authored-By behavior
+- [Git Workflow](#git-workflow) — Claude Code's default Co-Authored-By behavior
 - [Learning with AI](../roles/learning-with-ai.md#the-vibe-coding-trap) — Why understanding AI code matters
 - [Security Hardening](../security/security-hardening.md) — Protecting against prompt injection and other attacks
 

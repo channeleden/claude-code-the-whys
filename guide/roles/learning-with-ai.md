@@ -101,7 +101,7 @@ Term coined by [Andrej Karpathy](https://x.com/karpathy/status/18861921848081493
 
 **Antidote:** The UVAL Protocol (§5) forces understanding before acceptance.
 
-> **Related**: For context management strategies that prevent vibe coding chaos, see [Anti-Pattern: Context Overload](./ultimate-guide.md#anti-pattern-context-overload) in the main guide (§9.8).
+> **Related**: For context management strategies that prevent vibe coding chaos, see [Anti-Pattern: Context Overload](#anti-pattern-context-overload) in the main guide (§9.8).
 
 **At team scale**, vibe coding accumulates into what some practitioners call *comprehension debt* (an emerging term, 2025-2026): the growing gap between how much code exists in a system and how much any human genuinely understands. Unlike technical debt, which surfaces through slow builds and tangled dependencies, comprehension debt breeds false confidence — velocity looks fine, tests are green, and the reckoning arrives at the worst possible moment, usually during an incident or an audit.
 
@@ -1154,7 +1154,7 @@ Practitioner reports from real-world usage provide empirical validation of theor
 - [Methodologies: TDD with Claude](../core/methodologies.md#tier-5-implementation) — Write tests first, then implement
 - [Workflows: Spec-First](./workflows/spec-first.md) — Understand requirements before code
 - [Workflows: Plan-Driven](./workflows/plan-driven.md) — Use /plan mode for complex work
-- [Ultimate Guide: Mental Models](./ultimate-guide.md#mental-model) — How to think about Claude interactions
+- [Ultimate Guide: Mental Models](#26-mental-model) — How to think about Claude interactions
 
 ### Templates & Examples
 

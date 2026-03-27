@@ -829,14 +829,14 @@ Claude output:
 
 ### Related Workflows
 
-- [Working with Images](../ultimate-guide.md#24-working-with-images) — Claude Code image analysis
-- [ASCII Art & Wireframing](../ultimate-guide.md#wireframing-tools) — Low-fidelity design iteration
-- [Playwright MCP](../ultimate-guide.md#playwright-mcp) — Visual regression testing
+- [Working with Images](#working-with-images-and-screenshots) — Claude Code image analysis
+- [ASCII Art & Wireframing](#wireframing-tools-for-ai-development) — Low-fidelity design iteration
+- [Playwright MCP](#playwright-browser-automation) — Visual regression testing
 
 ---
 
 ## See Also
 
-- [../ultimate-guide.md#figma-mcp](../ultimate-guide.md) — Main guide Figma MCP section
+- [Figma MCP section](#figma-mcp-integration) — Main guide Figma MCP section
 - [examples/claude-md/product-designer.md](../../examples/claude-md/product-designer.md) — Product Designer CLAUDE.md template
 - [../cheatsheet.md](../cheatsheet.md) — Quick reference

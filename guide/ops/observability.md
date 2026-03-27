@@ -434,7 +434,7 @@ jq -r 'select(.tool == "Edit") | .file' ~/.claude/logs/activity-*.jsonl \
   | sort | uniq -c | sort -rn | head -10
 ```
 
-For each pattern you surface, ask: is there a skill, rule, or CLAUDE.md section that should cover this? See [§9.23 Configuration Lifecycle & The Update Loop](./ultimate-guide.md#923-configuration-lifecycle--the-update-loop) for the full workflow.
+For each pattern you surface, ask: is there a skill, rule, or CLAUDE.md section that should cover this? See [§9.23 Configuration Lifecycle & The Update Loop](#923-configuration-lifecycle-the-update-loop) for the full workflow.
 
 ---
 
@@ -982,4 +982,4 @@ For a full governance setup with automatic audit trail logging, see [Enterprise 
 - [Enterprise AI Governance](../security/enterprise-governance.md) - Org-level governance, audit trails, compliance
 - [Third-Party Tools](../ecosystem/third-party-tools.md) - Community GUIs, TUIs, and dashboards (ccusage, ccburn, claude-code-viewer)
 - [Data Privacy Guide](../security/data-privacy.md) - What data leaves your machine
-- [Cost Optimization](./ultimate-guide.md#cost-optimization) - Tips to reduce spend
+- [Cost Optimization](#cost-optimization-tips) - Tips to reduce spend

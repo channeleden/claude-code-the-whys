@@ -806,7 +806,7 @@ TaskList | jq '.tasks[] | select(.metadata.priority == "high" and .status == "pe
 
 ## Reference
 
-**Tool documentation**: See [Ultimate Guide Section 5.X](../ultimate-guide.md#5x-task-management-system)
+**Tool documentation**: See [Ultimate Guide Section 5.X](#task-management-system)
 
 **Sources:**
 - Official: [Claude Code CHANGELOG v2.1.16](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)

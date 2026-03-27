@@ -130,7 +130,7 @@ Document your team's plan-first triggers:
 - NEVER skip: Changes affecting >2 modules
 ```
 
-**See also**: [Plan Mode documentation](./ultimate-guide.md#23-plan-mode) for `/plan` command usage.
+**See also**: [Plan Mode documentation](#23-plan-mode) for `/plan` command usage.
 
 > **Advanced pattern**: For an iterative annotation-based approach to plan-driven development, see [Custom Markdown Plans (Boris Tane Pattern)](./workflows/plan-driven.md#advanced-custom-markdown-plans-boris-tane-pattern).
 
@@ -382,7 +382,7 @@ vim docs/adr/001-database-migration.md
 - Structured Prompts: XML tags for organization
 - Position Matters: For long docs, place question at end
 
-**Fresh Context Pattern (Ralph Loop)** — Solves context rot by spawning fresh agent instances per task. State persists in git + progress files, not chat history. Ideal for long autonomous sessions (migrations, overnight runs). See [Ultimate Guide - Fresh Context Pattern](./ultimate-guide.md#fresh-context-pattern-ralph-loop) for implementation.
+**Fresh Context Pattern (Ralph Loop)** — Solves context rot by spawning fresh agent instances per task. State persists in git + progress files, not chat history. Ideal for long autonomous sessions (migrations, overnight runs). See [Ultimate Guide - Fresh Context Pattern](#fresh-context-pattern-ralph-loop) for implementation.
 
 ---
 

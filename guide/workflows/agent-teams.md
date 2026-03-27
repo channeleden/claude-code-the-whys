@@ -13,7 +13,7 @@ tags: [workflow, agents, architecture]
 
 **When introduced**: v2.1.32 (2026-02-05) as research preview
 **Reading time**: ~30 min
-**Prerequisites**: Opus 4.6 model, understanding of [Sub-Agents](../ultimate-guide.md#sub-agents), familiarity with [Task Tool](../ultimate-guide.md#task-tool)
+**Prerequisites**: Opus 4.6 model, understanding of [Sub-Agents](#split-role-sub-agents), familiarity with Task Tool
 
 **🚀 Want to get started fast?** See **[Agent Teams Quick Start Guide](./agent-teams-quick-start.md)** (8-10 min, copy-paste patterns for your projects)
 
@@ -282,7 +282,7 @@ claude
 - ✅ Git repository (for coordination)
 
 **Recommended**:
-- ✅ Understanding of [Sub-Agents](../ultimate-guide.md#sub-agents)
+- ✅ Understanding of [Sub-Agents](#split-role-sub-agents)
 - ✅ Familiarity with git workflows
 - ✅ Budget awareness (token-intensive feature)
 
@@ -1408,9 +1408,9 @@ The overhead is real (each cycle costs tokens and latency). Apply it to tasks wh
 ### Related Documentation
 
 - [Claude Code Releases](../core/claude-code-releases.md) — v2.1.32, v2.1.33 release notes
-- [Sub-Agents](../ultimate-guide.md#sub-agents) — Single-agent task delegation
-- [Multi-Instance Workflows](../ultimate-guide.md#multi-instance-workflows) — Manual parallel coordination
-- [Dual-Instance Pattern](../ultimate-guide.md#dual-instance-pattern) — Plan-execute split
+- [Sub-Agents](#split-role-sub-agents) — Single-agent task delegation
+- [Multi-Instance Workflows](#917-scaling-patterns-multi-instance-workflows) — Manual parallel coordination
+- [Dual-Instance Pattern](#alternative-pattern-dual-instance-planning-vertical-separation) — Plan-execute split
 - [AI Ecosystem: Beads Framework](../ecosystem/ai-ecosystem.md#beads-framework) — Alternative orchestration (Gas Town)
 
 ---

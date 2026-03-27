@@ -666,8 +666,8 @@ rg "TODO" --type ts
 
 ## Further Reading
 
-- [Serena MCP Guide](../ultimate-guide.md#serena-semantic-code-analysis)
-- [grepai Documentation](../ultimate-guide.md#grepai-recommended-semantic-search)
+- [Serena MCP Guide](#serena-semantic-code-analysis)
+- [grepai Documentation](#grepai-recommended-semantic-search)
 - [ast-grep Patterns Skill](../../examples/skills/ast-grep-patterns.md)
 - [Architecture: Grep vs RAG History](../core/architecture.md#search-strategy-evolution)
 
