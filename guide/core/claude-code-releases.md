@@ -10,13 +10,13 @@ tags: [reference, release]
 > **Full details**: [github.com/anthropics/claude-code/CHANGELOG.md](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)
 > **Machine-readable**: [claude-code-releases.yaml](../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.85 | **Updated**: 2026-03-27
+**Latest**: v2.1.86 | **Updated**: 2026-03-28
 
 ---
 
 ## Quick Jump
 
-- [2.1.x Series (January-March 2026)](#21x-series-january-march-2026) — Worktree isolation, background agents, ConfigChange hook, Fast mode Opus 4.6, 1M context, claude.ai MCP connectors, remote-control, auto-memory, /copy command, HTTP hooks, worktree config sharing, ultrathink re-introduced, InstructionsLoaded hook, 4 security fixes, Agent model override restored, 12x SDK token cost reduction, /context actionable suggestions, modelOverrides setting, 1M context Opus 4.6 default for Max/Team/Enterprise, MCP elicitation, PostCompact hook, /effort command, Opus 4.6 64k/128k output tokens, allowRead sandbox setting, /branch command, StopFailure hook, streaming line-by-line, --console auth flag, SessionEnd fix, enterprise retry fix, rate_limits statusline field, effort frontmatter for skills, --channels MCP research preview, --bare flag, worktree session resume fix, MCP query collapsing, managed-settings.d/ drop-in, CwdChanged/FileChanged hooks, transcript search, credential scrubbing, PowerShell tool Windows preview, conditional hooks if field, MCP headersHelper multi-server env vars, headless AskUserQuestion hooks
+- [2.1.x Series (January-March 2026)](#21x-series-january-march-2026) — Worktree isolation, background agents, ConfigChange hook, Fast mode Opus 4.6, 1M context, claude.ai MCP connectors, remote-control, auto-memory, /copy command, HTTP hooks, worktree config sharing, ultrathink re-introduced, InstructionsLoaded hook, 4 security fixes, Agent model override restored, 12x SDK token cost reduction, /context actionable suggestions, modelOverrides setting, 1M context Opus 4.6 default for Max/Team/Enterprise, MCP elicitation, PostCompact hook, /effort command, Opus 4.6 64k/128k output tokens, allowRead sandbox setting, /branch command, StopFailure hook, streaming line-by-line, --console auth flag, SessionEnd fix, enterprise retry fix, rate_limits statusline field, effort frontmatter for skills, --channels MCP research preview, --bare flag, worktree session resume fix, MCP query collapsing, managed-settings.d/ drop-in, CwdChanged/FileChanged hooks, transcript search, credential scrubbing, PowerShell tool Windows preview, conditional hooks if field, MCP headersHelper multi-server env vars, headless AskUserQuestion hooks, X-Claude-Code-Session-Id header, Jujutsu/Sapling VCS exclusions, @ mention token reduction, Read tool compact format
 - [2.0.x Series (Nov 2025 - Jan 2026)](#20x-series-november-2025---january-2026) — Opus 4.5, Claude in Chrome, Background agents
 - [Breaking Changes Summary](#breaking-changes-summary)
 - [Milestone Features](#milestone-features)
@@ -24,6 +24,32 @@ tags: [reference, release]
 ---
 
 ## 2.1.x Series (January-March 2026)
+
+### v2.1.86 (2026-03-28)
+
+- **New**: `X-Claude-Code-Session-Id` header added to API requests — proxies can aggregate requests by session without parsing the body
+- **New**: `.jj` and `.sl` added to VCS directory exclusion lists so Grep and file autocomplete don't descend into Jujutsu or Sapling metadata
+- **Improved**: Reduced token overhead when mentioning files with `@` — raw string content no longer JSON-escaped
+- **Improved**: Better prompt cache hit rate for Bedrock, Vertex, and Foundry users by removing dynamic content from tool descriptions
+- **Improved**: Read tool now uses compact line-number format and deduplicates unchanged re-reads, reducing token usage
+- **Improved**: Skill descriptions in `/skills` listing capped at 250 characters to reduce context usage; `/skills` menu now sorted alphabetically
+- **Improved**: Reduced startup event-loop stalls when many claude.ai MCP connectors are configured (macOS keychain cache extended from 5s to 30s)
+- **Fixed**: Official marketplace plugin scripts failing with "Permission denied" on macOS/Linux since v2.1.83
+- **Fixed**: `--resume` failing with "tool_use ids were found without tool_result blocks" on sessions created before v2.1.85
+- **Fixed**: Write/Edit/Read failing on files outside the project root (e.g., `~/.claude/CLAUDE.md`) when conditional skills or rules are configured
+- **Fixed**: Unnecessary config disk writes on every skill invocation — could cause performance issues and config corruption on Windows
+- **Fixed**: Potential out-of-memory crash when using `/feedback` on very long sessions with large transcript files
+- **Fixed**: `--bare` mode dropping MCP tools in interactive sessions and silently discarding messages enqueued mid-turn
+- **Fixed**: `c` shortcut copying only ~20 characters of the OAuth login URL instead of the full URL
+- **Fixed**: Masked input (e.g., OAuth code paste) leaking the start of the token when wrapping across multiple lines on narrow terminals
+- **Fixed**: Statusline showing another session's model when running multiple Claude Code instances and using `/model`
+- **Fixed**: Scroll not following new messages after wheel scroll or click-to-select at bottom of a long conversation
+- **Fixed**: `/plugin` uninstall dialog: pressing `n` now correctly uninstalls while preserving the plugin's data directory
+- **Fixed**: Regression where pressing Enter after clicking could leave the transcript blank until the response arrived
+- **Fixed**: `ultrathink` hint lingering after deleting the keyword
+- **Fixed**: Memory growth in long sessions from markdown/highlight render caches retaining full content strings
+- **Fixed (VSCode)**: Extension incorrectly showing "Not responding" during long-running operations
+- **Fixed (VSCode)**: Extension defaulting Max plan users to Sonnet after OAuth token refresh (8 hours after login)
 
 ### v2.1.85 (2026-03-27)
 

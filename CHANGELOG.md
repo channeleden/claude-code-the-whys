@@ -6,7 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Documentation
+
+- **Claude Code Releases**: Updated tracking to v2.1.86
+  - X-Claude-Code-Session-Id header for API proxies
+  - Jujutsu (.jj) and Sapling (.sl) added to VCS exclusion lists
+  - Reduced @ mention token overhead (no more JSON-escaping)
+  - Improved prompt cache hit rate for Bedrock/Vertex/Foundry
+  - Read tool compact line-number format with deduplication
+  - Fixed marketplace plugin scripts failing on macOS/Linux since v2.1.83
+
 ### Added
+- `docs/resource-evaluations/community-signals-benchmark-march-2026.md`: evaluation of two synthesized FR-language reports on Claude Code community signals and competitor benchmark for March 2026 (score 3/5). Fact-check confirmed all identified documentation gaps were already covered in the guide. Two factual errors detected: "Auto Mode" as a permission mode (does not exist; bypassPermissions is the closest equivalent) and Channels (Discord/Telegram/iMessage) attributed to Claude Code (they belong to ClawdBot). No guide content changes required.
+
 - `guide/workflows/agent-teams.md` §8 Best Practices: added AGENTS.md for Compound Learning section covering what to document, the empirical case for human-curated vs LLM-generated files (Gloaguen et al., 2026: -3% success / +20% cost for LLM-generated, +4% for developer-written), and maintenance rules. Added Loop Guardrails section (MAX_ITERATIONS=8, mandatory reflection prompt, kill/reassign criteria). Added Dedicated Reviewer Teammate section (Opus 4.6, read-only, auto-trigger on TaskCompleted, 1:4 ratio). Added token budgeting per agent to Cost Optimization (hard limits, 85% pause threshold). Credit: Addy Osmani — O'Reilly AI CodeCon, March 2026.
 - `guide/ultimate-guide.md` §11 CLAUDE.md size guidelines: extended Gloaguen et al. citation to include task success rate data (-3% for LLM-generated, +4% for developer-written) previously missing from the cost-only note at line 16924.
 - `guide/ultimate-guide.md` §Fresh Context Pattern (Ralph Loop): added disambiguation note clarifying two distinct community usages — Geoffrey Huntley's original context rotation pattern vs the multi-agent atomic task iteration variant popularized in 2026.

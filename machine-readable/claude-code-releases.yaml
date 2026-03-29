@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.85"
-updated: "2026-03-27"
+latest: "2.1.86"
+updated: "2026-03-28"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,16 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-March 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.86"
+    date: "2026-03-28"
+    highlights:
+      - "X-Claude-Code-Session-Id header on API requests — proxies can aggregate requests by session without parsing the body"
+      - ".jj and .sl added to VCS exclusion lists — Grep and file autocomplete no longer descend into Jujutsu or Sapling metadata"
+      - "Reduced token overhead for @ file mentions — raw string content no longer JSON-escaped"
+      - "Improved prompt cache hit rate for Bedrock, Vertex, Foundry by removing dynamic content from tool descriptions"
+      - "Read tool uses compact line-number format and deduplicates unchanged re-reads to reduce token usage"
+      - "Fixed official marketplace plugin scripts failing with 'Permission denied' on macOS/Linux (regression since v2.1.83)"
 
   - version: "2.1.85"
     date: "2026-03-27"
