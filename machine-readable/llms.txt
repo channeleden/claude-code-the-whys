@@ -9,8 +9,8 @@
 - Version: 3.38.1
 - Last Updated: March 30, 2026
 - License: CC BY-SA 4.0 (free, open source)
-- Lines of Documentation: 24,200+
-- Production Templates: 217
+- Lines of Documentation: 24,600+
+- Production Templates: 226
 - Quiz Questions: 271
 
 ## What This Guide Covers

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Meta
+
+- **Stats sync**: Updated guide stats across all LLM-indexing files — 24,600+ lines (was 24,200+), 226 templates (was 217); `reference.yaml` date updated to 2026-03-30
+
 ### Documentation
 
 - **CC releases v2.1.83–v2.1.87**: Integrated 9 guide updates from the weekly watch covering hooks, enterprise settings, MCP, and Windows

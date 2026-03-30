@@ -9,8 +9,8 @@
 - Version: 3.38.1
 - Last Updated: March 30, 2026
 - License: CC BY-SA 4.0 (free, open source)
-- Lines of Documentation: 24,200+
-- Production Templates: 217
+- Lines of Documentation: 24,600+
+- Production Templates: 226
 - Quiz Questions: 271
 
 ## What This Guide Covers
@@ -39,7 +39,7 @@
 - Landing site: https://cc.bruniaux.com
 
 ### For Templates
-- 217 Production Templates: https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples
+- 226 Production Templates: https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples
 - Agents: backend-architect, security-guardian, code-reviewer, debugger, devops-sre, adr-writer
 - Commands: /pr, /commit, /release-notes, /diagnose, /generate-tests, /optimize, /git-worktree
 - Hooks: dangerous-actions-blocker, prompt-injection-detector, secrets-scanner (bash + PowerShell)

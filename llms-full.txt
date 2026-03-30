@@ -15,8 +15,8 @@
 - License: CC BY-SA 4.0
 - Repository: https://github.com/FlorianBruniaux/claude-code-ultimate-guide
 - Landing: https://cc.bruniaux.com
-- Lines of Documentation: 24,200+
-- Production Templates: 217
+- Lines of Documentation: 24,600+
+- Production Templates: 226
 - Quiz Questions: 271
 - Whitepapers: 9 titles (FR + EN)
 
@@ -314,7 +314,7 @@ Deep analysis     → Use Opus (thinking on by default)
 
 ---
 
-## Template Library (225 templates)
+## Template Library (226 templates)
 
 ### Agents (16 files + sub-projects)
 - `adr-writer.md` — Architecture Decision Records
@@ -425,7 +425,7 @@ Deep analysis     → Use Opus (thinking on by default)
 ## FAQ
 
 **Q: What is the Claude Code Ultimate Guide?**
-A: The most comprehensive community guide for Claude Code (Anthropic's CLI). 24,200+ lines of documentation, 225 production-ready templates, 271-question quiz, and security threat database. Free and open-source (CC BY-SA 4.0).
+A: The most comprehensive community guide for Claude Code (Anthropic's CLI). 24,600+ lines of documentation, 226 production-ready templates, 271-question quiz, and security threat database. Free and open-source (CC BY-SA 4.0).
 
 **Q: Is this guide free?**
 A: Yes, completely free. The guide is CC BY-SA 4.0 (share and adapt with attribution). Templates are CC0 (copy-paste freely, no attribution needed). No paywall, no login required.
