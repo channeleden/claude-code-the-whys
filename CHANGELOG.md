@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Documentation
 
+- **Claude Code Releases**: Updated tracking to v2.1.87
+  - Fixed messages in Cowork Dispatch not getting delivered
+
 - **Claude Code Releases**: Updated tracking to v2.1.86
   - X-Claude-Code-Session-Id header for API proxies
   - Jujutsu (.jj) and Sapling (.sl) added to VCS exclusion lists

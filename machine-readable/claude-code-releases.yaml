@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.86"
-updated: "2026-03-28"
+latest: "2.1.87"
+updated: "2026-03-30"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,11 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-March 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.87"
+    date: "2026-03-30"
+    highlights:
+      - "Fixed messages in Cowork Dispatch not getting delivered"
 
   - version: "2.1.86"
     date: "2026-03-28"
