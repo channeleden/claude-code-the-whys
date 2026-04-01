@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.88"
-updated: "2026-03-31"
+latest: "2.1.89"
+updated: "2026-04-01"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -12,16 +12,17 @@ updated: "2026-03-31"
 releases:
 
   # ─────────────────────────────────────────────────────────────
-  # 2.1.x Series (January-March 2026)
+  # 2.1.x Series (January-April 2026)
   # ─────────────────────────────────────────────────────────────
 
-  - version: "2.1.88"
-    date: "2026-03-31"
+  - version: "2.1.89"
+    date: "2026-04-01"
     highlights:
+      - "⭐ 'defer' permission decision for PreToolUse hooks — headless sessions can pause at a tool call and resume with -p --resume to re-evaluate"
       - "PermissionDenied hook — fires after auto mode classifier denials; return {retry: true} to let the model retry"
-      - "Named subagents now appear in @ mention typeahead suggestions"
-      - "Auto mode denied commands show a notification and appear in /permissions Recent tab"
-      - "Massive bugfix batch: CRLF doubling on Windows, StructuredOutput cache bug (50% failure rate), memory leaks, crashes on large files, voice mode fixes, hooks if condition filtering for compound commands"
+      - "CLAUDE_CODE_NO_FLICKER=1 env var for flicker-free alt-screen rendering with virtualized scrollback"
+      - "Named subagents in @ mention typeahead; MCP_CONNECTION_NONBLOCKING=true for -p mode (5s cap)"
+      - "Massive bugfix batch: CRLF doubling on Windows, StructuredOutput cache bug (50% failure rate), memory leaks, crashes on large files, voice mode fixes, autocompact thrash loop circuit breaker"
     breaking:
       - "Thinking summaries disabled by default in interactive sessions — add showThinkingSummaries: true to settings.json to restore"
 
