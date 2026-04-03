@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.90"
-updated: "2026-04-02"
+latest: "2.1.91"
+updated: "2026-04-03"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,15 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-April 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.91"
+    date: "2026-04-03"
+    highlights:
+      - "MCP tool result size override via _meta[anthropic/maxResultSizeChars] (up to 500K) — large DB schemas and payloads pass through without truncation"
+      - "disableSkillShellExecution setting — disable inline shell execution in skills, slash commands, and plugin commands"
+      - "Plugins can ship bin/ executables for direct Bash tool invocation"
+      - "Edit tool uses shorter old_string anchors — reduces output tokens"
+      - "Fixed --resume losing conversation history from async transcript write failures"
 
   - version: "2.1.90"
     date: "2026-04-02"

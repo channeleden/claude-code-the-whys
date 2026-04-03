@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Documentation
+
+- **Claude Code Releases**: Updated tracking to v2.1.91
+  - MCP tool result size override via `_meta` annotation (up to 500K) for large payloads
+  - `disableSkillShellExecution` setting for inline shell execution control
+  - Plugin `bin/` executable support for direct Bash tool invocation
+  - Edit tool shorter `old_string` anchors for reduced output tokens
+
+- **New page `guide/ops/team-metrics.md`** (~400 lines): Complete framework for measuring and piloting AI-augmented tech teams. Covers DORA (4 metrics with 2024 benchmarks + 2025 archetype shift), SPACE framework, DX Core 4, AI-specific metrics (contribution metrics, AI PR review quality), product metrics (time-to-value, feature adoption, Bug Escape Rate), recommendations by team size (5-person vs 25-person), vanity metrics to drop, the 4-question decision test, and tooling guide (LinearB, Faros.ai, GitHub Analytics, Axify).
+- **`guide/roles/learning-with-ai.md` extended**: Added "Team-Level Steering Metrics" subsection in the "For Tech Leads & Engineering Managers" section. Covers Level 1 (DORA-derived delivery health) and Level 2 (AI adoption quality metrics), the Velocity Trap warning specific to AI teams, and a practical Monday ritual (3 numbers, 5 minutes).
+
+- **`guide/core/context-engineering.md` expanded with 8 new sections** (+198 lines): Added "Context Engineering vs. Context Optimization" (synthesis/reasoning separation, engineering vs. optimization distinction); "Why Context Rot is Structural, Not Accidental" (n² attention architecture, JIT retrieval vs. RAG pre-loading, Memory tool beta, CoT caveat for long agentic tasks); "The Goldilocks problem: altitude" in Project Configuration (productive altitude between too vague and too granular, with worked examples); "Community skill libraries" in Skills vs. Rules (anthropics/claude-code-skills, ibelick/ui-skills); MCP tool count limits in Progressive Disclosure (<10 servers, <80 total tools); "Context Chaining" pattern in Context Lifecycle (curated session-to-session summaries, distinct from Ralph Loop); "Context Drift Detection" in Quality Measurement (cosine distance, share of drifted features, MMD, thresholds table, when to use); PRP methodology cross-reference added to Cross-References.
+
+- **`argument-hint` frontmatter field documented**: Added `argument-hint` to the skill frontmatter table (`guide/ultimate-guide.md` line ~7336), the Variable Interpolation section (new tip + example showing the picker UX), and the Command Template 6.3 (frontmatter block). Also updated `guide/cheatsheet.md` (command minimal example), `whitepapers/recap-cards/fr/m09-slash-commands.qmd` (`$ARGUMENTS` section), `whitepapers/recap-cards/fr/m10-skills.qmd` (frontmatter table), and Appendix A.2/A.3 templates. The field shows placeholder text in the slash command menu when a command/skill accepts `$ARGUMENTS`.
+
+### Examples
+
+- **`argument-hint` added to 29 command templates**: All `examples/commands/` files that use `$ARGUMENTS` but were missing `argument-hint` have been patched (28 root commands + 3 learn/ commands). Hints reflect the actual argument signatures documented in each command body. Only `audit-agents-skills.md` already had the field.
+
 ## [3.38.2] - 2026-04-02
 
 ### Documentation
