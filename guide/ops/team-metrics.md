@@ -70,8 +70,8 @@ The four core metrics:
 
 | Tier | Lead Time |
 |------|-----------|
-| Elite | Less than 1 day |
-| High | 1 day to 1 week |
+| Elite | Less than 1 hour |
+| High | 1 hour to 1 week |
 | Medium | 1 week to 1 month |
 | Low | More than 6 months |
 

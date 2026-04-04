@@ -41,6 +41,11 @@ claudedocs/
 # Book (work in progress, not public yet)
 book/
 
+# Guide export artifacts (generated files, not committed)
+dist/
+.build-exports/
+*.epub
+
 # Multi-provider (will be moved to dedicated repo)
 examples/multi-provider/
 

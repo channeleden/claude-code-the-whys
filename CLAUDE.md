@@ -131,6 +131,35 @@ cd whitepapers/recap-cards && ./render-recap-cards.sh all
 
 **25 fiches planifiées** — 5 prototypes Phase 1-2 livrés : 01, 03, 04, 06, 25.
 
+### Guide Export (EPUB + PDF)
+
+Generates the full `guide/ultimate-guide.md` (~25K lines) as EPUB and/or PDF. Output goes to `dist/`.
+
+```bash
+# Generate both EPUB and PDF (default)
+./scripts/generate-guide-exports.sh
+
+# EPUB only
+./scripts/generate-guide-exports.sh --epub
+
+# PDF only
+./scripts/generate-guide-exports.sh --pdf
+
+# Custom output directory
+./scripts/generate-guide-exports.sh -o /tmp/exports
+
+# Verbose
+./scripts/generate-guide-exports.sh -v
+```
+
+**Stack**: pandoc → EPUB3 (488K) and pandoc + Typst → PDF (2.9 MB).
+
+**Dependency**: `brew install pandoc` (macOS). Typst is auto-detected from Quarto's bundled binary if not installed standalone.
+
+**PDF note**: Internal anchor links are stripped before PDF rendering (Typst label compatibility). The PDF is purely sequential — no clickable cross-refs, but fully readable with TOC.
+
+**Note**: Different from whitepaper EPUBs — this generates the full guide, not individual focused documents. `dist/` is gitignored.
+
 ### Before Committing
 ```bash
 # Verify versions are synchronized
