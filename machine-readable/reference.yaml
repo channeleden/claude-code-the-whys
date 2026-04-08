@@ -3,7 +3,7 @@
 # Source: guide/ultimate-guide.md
 # Purpose: Condensed index for LLMs to quickly answer user questions about Claude Code
 
-version: "3.38.6"
+version: "3.38.7"
 updated: "2026-04-02"
 
 # ════════════════════════════════════════════════════════════════
@@ -1632,7 +1632,7 @@ ecosystem:
       - "Cross-links modified → Update all 4 repos"
     history:
       - date: "2026-01-20"
-        event: "Code Landing sync v3.38.6, 66 templates, cross-links"
+        event: "Code Landing sync v3.38.7, 66 templates, cross-links"
         commit: "5b5ce62"
       - date: "2026-01-20"
         event: "Cowork Landing fix (paths, README, UI badges)"
@@ -1644,7 +1644,7 @@ ecosystem:
 onboarding_matrix_meta:
   version: "2.1.0"
   last_updated: "2026-03-09"
-  aligned_with_guide: "3.38.6"
+  aligned_with_guide: "3.38.7"
   changelog:
     - version: "2.1.0"
       date: "2026-03-09"
@@ -1675,7 +1675,7 @@ onboarding_matrix:
       core: [rules, sandbox_native_guide, commands]
       time_budget: "5 min"
       topics_max: 3
-      note: "SECURITY FIRST - sandbox before commands (v3.38.6 critical fix)"
+      note: "SECURITY FIRST - sandbox before commands (v3.38.7 critical fix)"
 
     beginner_15min:
       core: [rules, sandbox_native_guide, workflow, essential_commands]
@@ -1764,7 +1764,7 @@ onboarding_matrix:
         - default: agent_validation_checklist
       time_budget: "60 min"
       topics_max: 6
-      note: "Dual-instance pattern for quality workflows (v3.38.6)"
+      note: "Dual-instance pattern for quality workflows (v3.38.7)"
 
   learn_security:
     intermediate_30min:
@@ -1775,7 +1775,7 @@ onboarding_matrix:
         - default: permission_modes
       time_budget: "30 min"
       topics_max: 4
-      note: "NEW goal (v3.38.6) - Security-focused learning path"
+      note: "NEW goal (v3.38.7) - Security-focused learning path"
 
     power_60min:
       core: [sandbox_native_guide, mcp_secrets_management, security_hardening]
@@ -1800,7 +1800,7 @@ onboarding_matrix:
       core: [rules, sandbox_native_guide, workflow, essential_commands, context_management, plan_mode]
       time_budget: "60 min"
       topics_max: 6
-      note: "Security foundation + core workflow (v3.38.6 sandbox added)"
+      note: "Security foundation + core workflow (v3.38.7 sandbox added)"
 
     intermediate_120min:
       core: [plan_mode, agents, skills, config_hierarchy, git_mcp_guide, hooks, mcp_servers]

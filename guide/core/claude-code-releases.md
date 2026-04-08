@@ -10,13 +10,13 @@ tags: [reference, release]
 > **Full details**: [github.com/anthropics/claude-code/CHANGELOG.md](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)
 > **Machine-readable**: [claude-code-releases.yaml](../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.92 | **Updated**: 2026-04-04
+**Latest**: v2.1.96 | **Updated**: 2026-04-08
 
 ---
 
 ## Quick Jump
 
-- [2.1.x Series (January-April 2026)](#21x-series-january-april-2026) — Worktree isolation, background agents, ConfigChange hook, Fast mode Opus 4.6, 1M context, claude.ai MCP connectors, remote-control, auto-memory, /copy command, HTTP hooks, worktree config sharing, ultrathink re-introduced, InstructionsLoaded hook, 4 security fixes, Agent model override restored, 12x SDK token cost reduction, /context actionable suggestions, modelOverrides setting, 1M context Opus 4.6 default for Max/Team/Enterprise, MCP elicitation, PostCompact hook, /effort command, Opus 4.6 64k/128k output tokens, allowRead sandbox setting, /branch command, StopFailure hook, streaming line-by-line, --console auth flag, SessionEnd fix, enterprise retry fix, rate_limits statusline field, effort frontmatter for skills, --channels MCP research preview, --bare flag, worktree session resume fix, MCP query collapsing, managed-settings.d/ drop-in, CwdChanged/FileChanged hooks, transcript search, credential scrubbing, PowerShell tool Windows preview, conditional hooks if field, MCP headersHelper multi-server env vars, headless AskUserQuestion hooks, X-Claude-Code-Session-Id header, Jujutsu/Sapling VCS exclusions, @ mention token reduction, Read tool compact format, Cowork Dispatch fix, PermissionDenied hook, thinking summaries off by default, "defer" PreToolUse permission, CLAUDE_CODE_NO_FLICKER, /powerup interactive lessons, PowerShell hardened permissions, SSE linear-time performance, MCP 500K result override, disableSkillShellExecution, plugin bin/ executables, Edit tool shorter anchors, interactive Bedrock wizard, forceRemoteSettingsRefresh, /cost per-model breakdown, interactive /release-notes, Linux sandbox apply-seccomp fix
+- [2.1.x Series (January-April 2026)](#21x-series-january-april-2026) — Worktree isolation, background agents, ConfigChange hook, Fast mode Opus 4.6, 1M context, claude.ai MCP connectors, remote-control, auto-memory, /copy command, HTTP hooks, worktree config sharing, ultrathink re-introduced, InstructionsLoaded hook, 4 security fixes, Agent model override restored, 12x SDK token cost reduction, /context actionable suggestions, modelOverrides setting, 1M context Opus 4.6 default for Max/Team/Enterprise, MCP elicitation, PostCompact hook, /effort command, Opus 4.6 64k/128k output tokens, allowRead sandbox setting, /branch command, StopFailure hook, streaming line-by-line, --console auth flag, SessionEnd fix, enterprise retry fix, rate_limits statusline field, effort frontmatter for skills, --channels MCP research preview, --bare flag, worktree session resume fix, MCP query collapsing, managed-settings.d/ drop-in, CwdChanged/FileChanged hooks, transcript search, credential scrubbing, PowerShell tool Windows preview, conditional hooks if field, MCP headersHelper multi-server env vars, headless AskUserQuestion hooks, X-Claude-Code-Session-Id header, Jujutsu/Sapling VCS exclusions, @ mention token reduction, Read tool compact format, Cowork Dispatch fix, PermissionDenied hook, thinking summaries off by default, "defer" PreToolUse permission, CLAUDE_CODE_NO_FLICKER, /powerup interactive lessons, PowerShell hardened permissions, SSE linear-time performance, MCP 500K result override, disableSkillShellExecution, plugin bin/ executables, Edit tool shorter anchors, interactive Bedrock wizard, forceRemoteSettingsRefresh, /cost per-model breakdown, interactive /release-notes, Linux sandbox apply-seccomp fix, Bedrock Mantle support, high effort default for API/enterprise users, Bedrock auth fix
 - [2.0.x Series (Nov 2025 - Jan 2026)](#20x-series-november-2025---january-2026) — Opus 4.5, Claude in Chrome, Background agents
 - [Breaking Changes Summary](#breaking-changes-summary)
 - [Milestone Features](#milestone-features)
@@ -24,6 +24,31 @@ tags: [reference, release]
 ---
 
 ## 2.1.x Series (January-April 2026)
+
+### v2.1.96 (2026-04-08)
+
+> Hotfix release addressing a Bedrock authentication regression introduced in v2.1.94.
+
+- **Fixed**: Bedrock requests failing with `403 "Authorization header is missing"` when using `AWS_BEARER_TOKEN_BEDROCK` or `CLAUDE_CODE_SKIP_BEDROCK_AUTH` (regression from v2.1.94)
+
+---
+
+### v2.1.94 (2026-04-07)
+
+> Feature release adding Amazon Bedrock Mantle support, raising the default effort level for professional users, and improving plugin skill naming.
+
+- **New**: Amazon Bedrock powered by Mantle support — set `CLAUDE_CODE_USE_MANTLE=1`
+- **New**: Default effort level changed from medium to **high** for API-key, Bedrock/Vertex/Foundry, Team, and Enterprise users (control with `/effort`)
+- **New**: Plugin skills declared via `"skills": ["./"]` now use frontmatter `name` instead of directory basename — stable naming across install methods
+- **New**: Compact `Slacked #channel` header with clickable link for Slack MCP send-message tool calls
+- **New**: `keep-coding-instructions` frontmatter field support for plugin output styles
+- **New**: `hookSpecificOutput.sessionTitle` on `UserPromptSubmit` hooks for setting session title programmatically
+- **Fixed**: Agents stuck after 429 rate-limit with long Retry-After — error surfaces immediately instead of silently waiting
+- **Fixed**: Console login on macOS silently failing with "Not logged in" when login keychain is locked — error now surfaced with `claude doctor` fix guidance
+- **Fixed**: Plugin skill hooks defined in YAML frontmatter being silently ignored
+- **Fixed**: Scrollback showing duplicate diffs and blank pages in long-running sessions
+
+---
 
 ### v2.1.92 (2026-04-04)
 

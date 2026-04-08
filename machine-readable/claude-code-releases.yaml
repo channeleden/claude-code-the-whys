@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.92"
-updated: "2026-04-04"
+latest: "2.1.96"
+updated: "2026-04-08"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,19 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-April 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.96"
+    date: "2026-04-08"
+    highlights:
+      - "Fixed Bedrock requests failing with 403 'Authorization header is missing' when using AWS_BEARER_TOKEN_BEDROCK or CLAUDE_CODE_SKIP_BEDROCK_AUTH (regression in 2.1.94)"
+
+  - version: "2.1.94"
+    date: "2026-04-07"
+    highlights:
+      - "⭐ Amazon Bedrock powered by Mantle support — set CLAUDE_CODE_USE_MANTLE=1"
+      - "Default effort level changed from medium to high for API-key, Bedrock/Vertex/Foundry, Team, and Enterprise users (control with /effort)"
+      - "Plugin skills declared via skills: ['./'] now use frontmatter name instead of directory basename — stable naming across install methods"
+      - "Compact 'Slacked #channel' header with clickable link for Slack MCP tool calls"
 
   - version: "2.1.92"
     date: "2026-04-04"

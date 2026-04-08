@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - **`git-ai-archaeology` skill** (`examples/skills/git-ai-archaeology/`): New skill that analyzes AI config evolution in any git repository. Reconstructs the chronology of AI adoption by reading git history — first commits per `.claude/` path, monthly commit distribution with ASCII charts, major PRs by category (MCP integrations, skills/hooks/agents, code review automation), optional CHANGELOG AI mentions, and maturity phases synthesis. Read-only, produces a single markdown report. Ported from `boldguy` repo.
 
+## [3.38.7] - 2026-04-08
+
+### Documentation
+
+- **Claude Code releases tracking updated to v2.1.96** (`machine-readable/claude-code-releases.yaml`, `guide/core/claude-code-releases.md`): Added v2.1.94 (Bedrock Mantle support, high effort default for API/enterprise users, plugin skill stable naming, Slack MCP compact header) and v2.1.96 (hotfix for Bedrock auth regression with AWS_BEARER_TOKEN_BEDROCK).
+
 ## [3.38.6] - 2026-04-06
 
 ### Documentation
